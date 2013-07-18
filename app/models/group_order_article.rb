@@ -2,7 +2,7 @@
 # The chronologically order of the Ordergroup - activity are stored in GroupOrderArticleQuantity
 #
 class GroupOrderArticle < ActiveRecord::Base
-  extend ActiveSupport::Memoizable    # Ability to cache method results. Use memoize :expensive_method
+  extend Memoist    # Ability to cache method results. Use memoize :expensive_method
 
   belongs_to :group_order
   belongs_to :order_article
@@ -14,7 +14,7 @@ class GroupOrderArticle < ActiveRecord::Base
   validates_inclusion_of :tolerance, :in => 0..99
   validates_uniqueness_of :order_article_id, :scope => :group_order_id    # just once an article per group order
 
-  scope :ordered, :conditions => 'result > 0'
+  scope :ordered, -> { where('result > 0') }
 
   localize_input_of :result
 

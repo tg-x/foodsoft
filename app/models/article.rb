@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Article < ActiveRecord::Base
-  extend ActiveSupport::Memoizable    # Ability to cache method results. Use memoize :expensive_method
+  extend Memoist    # Ability to cache method results. Use memoize :expensive_method
 
   # Replace numeric seperator with database format
   localize_input_of :price, :tax, :deposit
@@ -8,11 +8,11 @@ class Article < ActiveRecord::Base
   # Associations
   belongs_to :supplier
   belongs_to :article_category
-  has_many :article_prices, :order => "created_at DESC"
+  has_many :article_prices, -> { order("created_at DESC") }
 
   scope :undeleted, -> { where(deleted_at: nil) }
   scope :available, -> { undeleted.where(availability: true) }
-  scope :not_in_stock, :conditions => {:type => nil}
+  scope :not_in_stock, -> { where(type: nil) }
 
   # Validations
   validates_presence_of :name, :unit, :price, :tax, :deposit, :unit_quantity, :supplier_id, :article_category

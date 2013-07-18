@@ -1,14 +1,13 @@
 # encoding: utf-8
 class Supplier < ActiveRecord::Base
-
-  has_many :articles, :conditions => {:type => nil},
-    :include => [:article_category], :order => 'article_categories.name, articles.name'
-  has_many :stock_articles, :include => [:article_category], :order => 'article_categories.name, articles.name'
+  has_many :articles, -> { where(:type => nil).includes(:article_category).order('article_categories.name', 'articles.name') }
+  has_many :stock_articles, -> { includes(:article_category).order('article_categories.name', 'articles.name') }
   has_many :orders
   has_many :deliveries
   has_many :invoices
   belongs_to :shared_supplier  # for the sharedLists-App
 
+  include ActiveModel::MassAssignmentSecurity
   attr_accessible :name, :address, :phone, :phone2, :fax, :email, :url, :contact_person, :customer_number,
                   :delivery_days, :order_howto, :note, :shared_supplier_id, :min_order_quantity
 

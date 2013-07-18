@@ -6,7 +6,7 @@ Foodsoft::Application.routes.draw do
 
   get "sessions/new"
 
-  root :to => redirect("/#{FoodsoftConfig.scope}")
+  root :to => redirect("/#{FoodsoftConfig.scope}"), as: nil
 
 
   scope '/:foodcoop' do
@@ -16,18 +16,19 @@ Foodsoft::Application.routes.draw do
 
     ########### Sessions
 
-    match '/login' => 'sessions#new', :as => 'login'
-    match '/logout' => 'sessions#destroy', :as => 'logout'
+    get '/login' => 'sessions#new', :as => 'login'
+    get '/logout' => 'sessions#destroy', :as => 'logout'
     get '/login/forgot_password' => 'login#forgot_password', as: :forgot_password
     get '/login/new_password' => 'login#new_password', as: :new_password
-    match '/login/accept_invitation/:token' => 'login#accept_invitation', as: :accept_invitation
+    match '/login/accept_invitation/:token' => 'login#accept_invitation', as: :accept_invitation, via: [:get, :post]
     resources :sessions, :only => [:new, :create, :destroy]
 
     ########### User specific
 
-    match '/home/profile' => 'home#profile', :as => 'my_profile'
-    match '/home/ordergroup' => 'home#ordergroup', :as => 'my_ordergroup'
-    match '/home/cancel_membership' => 'home#cancel_membership', :as => 'cancel_membership'
+    get '/home/profile', :as => 'my_profile'
+    patch '/home/update_profile', :as => 'update_profile'
+    get '/home/ordergroup' => 'home#ordergroup', :as => 'my_ordergroup'
+    post '/home/cancel_membership' => 'home#cancel_membership', :as => 'cancel_membership'
 
     ############ Wiki
 
@@ -36,8 +37,8 @@ Foodsoft::Application.routes.draw do
       get :version, :on => :member
       get :revert, :on => :member
     end
-    match '/wiki/:permalink' => 'pages#show', :as => 'wiki_page' # , :constraints => {:permalink => /[^\s]+/}
-    match '/wiki' => 'pages#show', :defaults => {:permalink => 'Home'}, :as => 'wiki'
+    get '/wiki/:permalink' => 'pages#show', :as => 'wiki_page' # , :constraints => {:permalink => /[^\s]+/}
+    get '/wiki' => 'pages#show', :defaults => {:permalink => 'Home'}, :as => 'wiki'
 
     ############ Orders, ordering
 
@@ -194,7 +195,7 @@ Foodsoft::Application.routes.draw do
     resources :users, :only => [:index]
 
     # TODO: This is very error prone. Better deactivate this catch all route
-    match ':controller(/:action(/:id))(.:format)'
+    match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
 
   end # End of /:foodcoop scope
 end

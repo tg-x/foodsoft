@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
   has_many :group_orders, :dependent => :destroy
   has_many :ordergroups, :through => :group_orders
   has_one :invoice
-  has_many :comments, :class_name => "OrderComment", :order => "created_at"
+  has_many :comments, -> { order('created_at') }, :class_name => "OrderComment"
   has_many :stock_changes
   belongs_to :supplier
   belongs_to :updated_by, :class_name => 'User', :foreign_key => 'updated_by_user_id'
@@ -22,11 +22,11 @@ class Order < ActiveRecord::Base
   after_save :save_order_articles, :update_price_of_group_orders
 
   # Finders
-  scope :open, where(state: 'open').order('ends DESC')
-  scope :finished, where("orders.state = 'finished' OR orders.state = 'closed'").order('ends DESC')
-  scope :finished_not_closed, where(state: 'finished').order('ends DESC')
-  scope :closed, where(state: 'closed').order('ends DESC')
-  scope :stockit, where(supplier_id: 0).order('ends DESC')
+  scope :open, -> { where(state: 'open').order('ends DESC') }
+  scope :finished, -> { where("orders.state = 'finished' OR orders.state = 'closed'").order('ends DESC') }
+  scope :finished_not_closed, -> { where(state: 'finished').order('ends DESC') }
+  scope :closed, -> { where(state: 'closed').order('ends DESC') }
+  scope :stockit, -> { where(supplier_id: 0).order('ends DESC') }
 
   def stockit?
     supplier_id == 0
