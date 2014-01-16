@@ -232,6 +232,9 @@ $.fn.extend({
     return $(this).select2(_options);
   }
 });
+// select2 fix for allowing it to receive focus in modal dialogs
+// http://stackoverflow.com/a/19574076/2866660
+$.fn.modal.Constructor.prototype.enforceFocus = function() {};
 
 // retrigger last local table sorting
 function updateSort(table) {
