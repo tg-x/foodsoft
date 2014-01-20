@@ -1,4 +1,29 @@
 nl:
+  documents:
+    order_by_groups:
+      multiple:
+        title: Verschillende bestellingen gesorteerd naar huishouden
+        filename: Verschillende bestellingen - naar huishouden
+  finance:
+    balancing:
+      orders:
+        invoice_show: rekening tonen
+        invoice_new: rekening toevoegen
+    financial_transactions:
+      account_info:
+        available_funds: Beschikbaar tegoed
+        balance: Balans van huishouden
+        finished_orders: Gesloten bestellingen
+        last_updated_at: (laatst bijgewerkt op %{when})
+        open_orders: Open bestellingen
+      new:
+        type: Type
+        type_pin: PIN delivery day
+        type_cash: cash delivery day
+        type_other: other (add note)
+    ordergroups:
+      ordergroups:
+        available_funds: Beschikbaar tegoed
   group_orders:
     archive:
       title: Vorige bestellingen van %{group}
@@ -21,3 +46,6 @@ nl:
     index:
       to_archive: Bekijk je %{archive_link}.
       to_archive_link: vorige bestellingen
+  navigation:
+    suppliers: Producten
+    member_payments: Ledenbetalingen

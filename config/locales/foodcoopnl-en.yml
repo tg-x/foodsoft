@@ -5,6 +5,10 @@ en:
         title: Multiple orders sorted by group
         filename: Multiple orders - by group
   finance:
+    balancing:
+      orders:
+        invoice_show: show invoice
+        invoice_new: enter invoice
     financial_transactions:
       account_info:
         available_funds: Available funds
@@ -21,6 +25,9 @@ en:
       ordergroups:
         available_funds: Available funds
   group_orders:
+    archive:
+      title: Previous orders of %{group}
+      title_open: closed
     min_quantity_notice:
       status_enough_others: The order is large enough to be delivered.
       status_enough_affected: After saving your order, the order will be large enough for delivery. Thank you!
@@ -39,3 +46,6 @@ en:
     index:
       to_archive: See your %{archive_link}.
       to_archive_link: previous orders
+  navigation:
+    suppliers: Products
+    member_payments: Member payments

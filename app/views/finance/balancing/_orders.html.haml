@@ -20,9 +20,9 @@
           %td
             - unless order.closed?
               - if order.invoice
-                = link_to 'show invoice', finance_invoice_path(order.invoice), class: 'btn btn-mini'
+                = link_to t('.invoice_show'), finance_invoice_path(order.invoice), class: 'btn btn-mini'
               - else
-                = link_to 'enter invoice', new_finance_invoice_path(:order_id => order, :supplier_id => order.supplier), class: 'btn btn-mini'
+                = link_to t('.invoice_new'), new_finance_invoice_path(:order_id => order, :supplier_id => order.supplier), class: 'btn btn-mini'
               - if current_user.role_orders?
                 - unless order.stockit?
                   = link_to t('orders.index.action_receive'), receive_order_path(order), class: 'btn btn-mini'

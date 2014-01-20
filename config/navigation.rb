@@ -16,9 +16,9 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :orders, I18n.t('navigation.orders.title'), orders_path, if: Proc.new { current_user.role_orders? }, id: nil
     # I18n.t('navigation.orders.manage')
 
-    primary.item :suppliers, 'Products', suppliers_path, id: nil
-    primary.item :balancing, 'Receive', finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
-    primary.item :accounts, 'Member payments', finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? }
+    primary.item :suppliers, I18n.t('navigation.suppliers'), suppliers_path, id: nil
+    primary.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? }
+    primary.item :balancing, I18n.t('navigation.finances.title'), finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
 
     #primary.item :finance, I18n.t('navigation.finances.title'), '#', id: nil, if: Proc.new { current_user.role_finance? } do |subnav|
       #subnav.item :finance_home, I18n.t('navigation.finances.home'), finance_root_path
