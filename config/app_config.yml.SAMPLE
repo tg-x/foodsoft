@@ -50,7 +50,7 @@ default: &defaults
 
   # ordergroups can only order when their balance is higher than or equal to this
   # not fully enforced right now, since the check is only client-side
-  # minimum_balance: 0
+  minimum_balance: -2000
 
   # When use_nick is enabled, there will be a nickname field in the user form,
   # and the option to show a nickname instead of full name to foodcoop members.
