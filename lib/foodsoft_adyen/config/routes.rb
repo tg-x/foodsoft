@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
         resource :pin, :controller => 'AdyenPin', :only => [:new, :create] do
           get :index
+          get :detect
           get :created
         end
       end

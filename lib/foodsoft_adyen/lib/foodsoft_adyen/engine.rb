@@ -11,7 +11,7 @@ module FoodsoftAdyen
     def navigation(primary, context)
       return if primary[:finance].nil?
       primary[:finance].sub_navigation.items <<
-        SimpleNavigation::Item.new(primary, :pin_terminal, I18n.t('payments.navigation.pin'), context.payments_adyen_pin_path)
+        SimpleNavigation::Item.new(primary, :pin_terminal, I18n.t('payments.navigation.pin'), context.detect_payments_adyen_pin_path)
     end
   end
 end

@@ -2,12 +2,38 @@ require 'base64'
 
 class Payments::AdyenPinController < ApplicationController
   before_filter :find_ordergroup
+  before_filter :find_ordergroups, only: [:index, :created]
   layout 'adyen_mobile'
+
+  skip_before_filter :authenticate
+  before_filter do
+    authenticate_or_token(['foodsoft_adyen', 'pin'])
+  end
 
   # show list of ordergroups
   def index
-    @ordergroups = Ordergroup.undeleted
-    @ordergroups = @ordergroups.where('name LIKE ?', "%#{params[:query]}%") unless params[:query].nil?
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
+  end
+
+  # open mobile app or index, depending on platform
+  def detect
+    mode = params[:mode]
+    mode = 'mobile' if mode.nil? and get_mobile
+    if mode == 'mobile'
+      # redirect to mobile app to set this foodsoft website as its home
+      opts = {
+        base: root_url,
+        path: 'payments/adyen/pin',
+        # TODO put user in token, so that we can check he still has access
+        token: TokenVerifier.new(['foodsoft_adyen', 'pin']).generate
+      }
+      redirect_to "foodsoft://set-default?#{opts.to_query}"
+    else
+      redirect_to payments_adyen_pin_path
+    end
   end
 
   # show form for initiating a new payment
@@ -23,7 +49,6 @@ class Payments::AdyenPinController < ApplicationController
 
   # callback url after payment
   def created
-    index
     render :index
   end
 
@@ -31,24 +56,33 @@ class Payments::AdyenPinController < ApplicationController
   protected
 
   def find_ordergroup
-    @ordergroup = Ordergroup.find(params[:ordergroup_id]) rescue nil
+    @ordergroup = (Ordergroup.find(params[:ordergroup_id]) rescue nil)
   end
-  
+
+  def find_ordergroups
+    @ordergroups = Ordergroup.undeleted
+    @ordergroups = @ordergroups.where('name LIKE ?', "%#{params[:query]}%") unless params[:query].nil?
+  end
 
   private
 
   def adyen_pin_url(ordergroup, amount)
+    callback = created_payments_adyen_pin_url(:ordergroup_id => ordergroup.id)
+    # mobile app wants return path to itself, where it can do the request
+    if (params[:mobile_app] or session[:mobile_app]).to_i != 0
+      callback = "foodsoft://payment-return/#{ERB::Util.url_encode callback}"
+    end
     opts = {
       currency: Rails.configuration.foodsoft_adyen.currency,
       amount: (amount * 100).to_i,
       description: encode_notification_data({g: ordergroup.id}, ordergroup.name),
-      callback: created_payments_adyen_pin_url(:ordergroup_id => ordergroup.id), # or use opt sessionId
+      callback: callback,
       callbackAutomatic: 0,
       #start_immediately: 1  # enable this to skip the enter amount screen in the Adyen app
     }
-    if request.user_agent.match '\bAndroid\b'
+    if get_mobile == 'Android'
       return "http://www.adyen.com/android-app/payment?#{opts.to_query}"
-    else #elsif request.user_agent.match '\b(iPod|iPhone|iPad)\b'
+    else
       return "adyen://payment?#{opts.to_query}"
     end
   end
@@ -58,4 +92,13 @@ class Payments::AdyenPinController < ApplicationController
     return [title, "(#{d})"].compact.join(' ')
   end
 
+  def get_mobile
+    if request.user_agent.match /\bAndroid\b/
+      'Android'
+    elsif request.user_agent.match /\b(iPod|iPhone|iPad)\b/
+      'iOS'
+    else
+      nil
+    end
+  end
 end

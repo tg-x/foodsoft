@@ -38,7 +38,7 @@ SimpleNavigation::Configuration.run do |navigation|
       subnav.item :categories, I18n.t('navigation.articles.categories'), article_categories_path, id: nil, if: Proc.new { current_user.role_admin? }
       subnav.item :finance_home, 'Financial overview', finance_root_path, if: Proc.new { current_user.role_finance? }
       subnav.item :invoices, I18n.t('navigation.finances.invoices'), finance_invoices_path, id: nil, if: Proc.new { current_user.role_finance? }
-      subnav.item :adyen_pin, I18n.t('payments.navigation.pin'), payments_adyen_pin_path if defined? FoodsoftAdyen
+      subnav.item :adyen_pin, I18n.t('payments.navigation.pin'), detect_payments_adyen_pin_path if defined? FoodsoftAdyen
     end
 
     engines.each { |e| e.navigation(primary, self) }

@@ -5,7 +5,7 @@
   = javascript_include_tag "payments/adyen_mobile"
 
 = render layout: 'layouts/header' do
-  %div{:data => {:role => :page}}
+  %div#foodsoft_adyen_pin{:data => {:role => :page}}
 
     - if show_title?
       %div{:data => {:role => :header, :position => :fixed}}

@@ -6,7 +6,10 @@ module FoodsoftSignup
   module SignupWarning
     def self.included(base) # :nodoc:
       base.class_eval do
-        before_filter Proc.new { FoodsoftSignup.signup_warning self, @current_user }
+        before_filter Proc.new {
+          authenticate # in case `skip_before_filter :authenticate` is used
+          FoodsoftSignup.signup_warning self, @current_user
+        }
       end
     end
   end
@@ -26,7 +29,10 @@ module FoodsoftSignup
   module RequireApproval
     def self.included(base) # :nodoc:
       base.class_eval do
-        before_filter Proc.new { FoodsoftSignup.check_approval self, @current_user }
+        before_filter Proc.new {
+          authenticate
+          FoodsoftSignup.check_approval self, @current_user
+        }
       end
     end
   end
