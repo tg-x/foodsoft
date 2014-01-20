@@ -29,6 +29,7 @@ class Payments::AdyenPinController < ApplicationController
       opts = {
         base: root_url,
         path: 'payments/adyen/pin',
+        name: FoodsoftConfig[:name],
         # TODO put user in token, so that we can check he still has access
         token: TokenVerifier.new(['foodsoft_adyen', 'pin']).generate
       }
