@@ -122,6 +122,11 @@ $(function() {
         return false;
     });
 
+    // Disable action of disabled buttons
+    $(document).on('click', 'a.disabled', function() {
+        return false;
+    });
+
     // Show and hide loader on ajax callbacks
     //   and run newElementsReady() afterwards for new dom elements
     $(document).on('ajax:beforeSend', '[data-remote]', function(evt, xhr, settings) {
