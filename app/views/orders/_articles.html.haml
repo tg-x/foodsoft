@@ -10,9 +10,9 @@
         %th= 'Members'
         %th= t '.units_full'
     - total_net, total_gross, counter = 0, 0, 0
-  %tbody
+  %tbody.list
     - order.articles_grouped_by_category.each do |category_name, order_articles|
-      %tr.article-category
+      %tr.list-heading.article-category
         %td
           = category_name
           %i.icon-tag

@@ -32,16 +32,17 @@ class OrdersController < ApplicationController
     # start of multiple-order support
     @order_ids = params[:id].split('+').map(&:to_i)
     @order = Order.find(@order_ids.first)
+    @view = (params[:view] or 'default').gsub(/[^-_a-zA-Z0-9]/, '')
 
     respond_to do |format|
+      @partial = case @view
+                   when 'default' then "articles"
+                   when 'groups'then 'shared/articles_by_groups'
+                   when 'articles'then 'shared/articles_by_articles'
+                   else 'articles'
+                 end
       format.html
       format.js do
-        @partial = case params[:view]
-                     when 'default' then "articles"
-                     when 'groups'then 'shared/articles_by_groups'
-                     when 'articles'then 'shared/articles_by_articles'
-                     else 'articles'
-                   end
         render :layout => false
       end
       format.pdf do
