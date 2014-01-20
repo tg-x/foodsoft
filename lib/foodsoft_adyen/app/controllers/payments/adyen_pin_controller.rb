@@ -1,9 +1,11 @@
 require 'base64'
 
 class Payments::AdyenPinController < ApplicationController
+
+  layout 'adyen_mobile'
+
   before_filter :find_ordergroup
   before_filter :find_ordergroups, only: [:index, :created]
-  layout 'adyen_mobile'
 
   skip_before_filter :authenticate
   before_filter do

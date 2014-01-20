@@ -1,10 +1,4 @@
-- content_for :head do
-  = stylesheet_link_tag "payments/adyen_mobile", :media => "all"
-
-- content_for :javascript do
-  = javascript_include_tag "payments/adyen_mobile"
-
-= render layout: 'layouts/header' do
+= render layout: 'layouts/adyen_mobile_header' do
   %div#foodsoft_adyen_pin{:data => {:role => :page}}
 
     - if show_title?
