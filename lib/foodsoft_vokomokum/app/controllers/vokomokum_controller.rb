@@ -5,19 +5,28 @@ class VokomokumController < ApplicationController
   before_filter :authenticate_finance, :only => :export_amounts
 
   def login
-    request.post? or raise FoodsoftVokomokum::AuthnException.new('Vokomokum login needs POST')
-
-    userinfo = FoodsoftVokomokum.check_user(params[:Mem])
+    userinfo = FoodsoftVokomokum.check_user(cookies)
+    userinfo.nil? and raise FoodsoftVokomokum::AuthnException.new('User not logged in')
     user = update_or_create_user(userinfo[:id],
                                  userinfo[:email],
                                  userinfo[:first_name],
                                  userinfo[:last_name])
     super user
-    redirect_to root_url
+
+    # XXX redirection code copied from SessionController#create
+    if session[:return_to].present?
+      redirect_to_url = session[:return_to]
+      session[:return_to] = nil
+    else
+      redirect_to_url = root_url
+    end
+    redirect_to redirect_url
 
   rescue FoodsoftVokomokum::AuthnException => e
     Rails.logger.warn "Vokomokum authentication failed: #{e.message}"
-    redirect_to FoodsoftConfig[:vokomokum_members_url]
+    returl = Addressable::URI.parse(FoodsoftConfig[:vokomokum_members_url])
+    returl.query_values = (returl.query_values or {}).merge({redirect_uri: request.original_url})
+    redirect_to returl.to_s
   end
 
   def export_amounts
