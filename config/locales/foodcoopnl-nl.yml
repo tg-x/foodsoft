@@ -49,3 +49,6 @@ nl:
   navigation:
     suppliers: Producten
     member_payments: Ledenbetalingen
+  orders:
+    index:
+      last_order_week: Recente bestellingen

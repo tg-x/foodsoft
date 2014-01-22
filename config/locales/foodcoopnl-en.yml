@@ -49,3 +49,6 @@ en:
   navigation:
     suppliers: Products
     member_payments: Member payments
+  orders:
+    index:
+      last_order_week: Recent orders
