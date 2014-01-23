@@ -3,7 +3,7 @@
     $(function() {
       // Subscribe to database changes.
       // See publish/subscribe design pattern in /doc.
-      $(document).on('OrderArticle#update', function(e) {
+      $(document).on('OrderArticle#update, GroupOrderArticle#update', function(e) {
         $.ajax({
           url: '#{new_on_order_article_update_finance_order_path(@order)}',
           type: 'get',

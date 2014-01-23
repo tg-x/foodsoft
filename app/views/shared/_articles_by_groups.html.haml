@@ -5,9 +5,11 @@
       %th= heading_helper Article, :unit
       %th.center
         %acronym{:title => t('shared.articles.ordered_desc')}= t 'shared.articles.ordered'
-      %th.center{colspan: 2}
+      %th.center
         %acronym{:title => t('shared.articles.received_desc')}= t 'shared.articles.received'
-      %th{colspan: 2}= heading_helper Article, :fc_price, short: true
+      %th.symbol
+      %th= heading_helper Article, :fc_price, short: true
+      %th.symbol
       %th= t '.price'
       %th= #heading_helper Article, :unit_quantity, short: true
 
@@ -25,8 +27,7 @@
           %td.name{:style => "width:40%"}=h goa.order_article.article.name
           %td= goa.order_article.article.unit
           %td.center= "#{goa.quantity} + #{goa.tolerance}"
-          %td.center
-            %b= goa.result
+          %td.center.input-delta= group_order_article_edit_result(goa)
           %td.symbol &times;
           %td= number_to_currency(fc_price)
           %td.symbol =
@@ -36,6 +37,6 @@
         %th{:colspan => "7"}= t '.price_sum'
         %th= number_to_currency(total)
         %th
+      - reset_cycle("articles")
       %tr
         %th(colspan="9")
-      - reset_cycle("articles")
