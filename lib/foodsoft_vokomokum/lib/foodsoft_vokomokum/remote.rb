@@ -8,16 +8,14 @@ module FoodsoftVokomokum
   # Validate user at Vokomokum member system from existing cookies, return user info
   #   When an unexpected condition occurs, raises FoodsoftVokomokum::AuthnException.
   #   When the user was not logged in, returns `nil`.
-  def self.check_user(cookies=cookies)
-    id = cookies[:Mem] or return
-    res = members_req('/check_user', cookies)
+  def self.check_user(cookies)
+    res = members_req('userinfo', cookies)
     Rails.logger.debug 'Vokomokum check_user returned: ' + res.body
-    json = ActiveSupport::JSON.decode(res)
+    json = ActiveSupport::JSON.decode(res.body)
     json['error'] and raise AuthnException.new('Vokomokum login failed: ' + json['error'])
-    json['id'].blank? and return
-    json['id'] == id or raise AuthnException.new('Vokomokum login failed: different user id');
+    json['user_id'].blank? and return
     {
-      id: id,
+      id: json['user_id'],
       first_name: json['given_name'],
       last_name: [json['middle_name'], json['family_name']].compact.join(' '),
       email: json['email']
@@ -28,12 +26,13 @@ module FoodsoftVokomokum
 
   # upload ordergroup totals to vokomokum system
   #   type can be one of 'Groente', 'Kaas', 'Misc.'
-  def self.upload_amounts(amounts, type, cookies=cookies)
+  def self.upload_amounts(amounts, type, cookies)
     # submit fresh page
-    #res = order_req('/cgi-bin/vers_upload.cgi', {
-    #                  'submit': type,
-    #                  'paste': export_amounts(data)
-    #}, cookies);
+    res = order_req('/cgi-bin/vers_upload.cgi', {
+                      submit: type,
+                      paste: export_amounts(data)
+    }, cookies);
+    # TODO check response
   end
 
 
@@ -43,21 +42,22 @@ module FoodsoftVokomokum
     self.remote_req(FoodsoftConfig[:vokomokum_members_url], path, nil, cookies)
   end
 
-  def self.order_req(path, data=nil, cookies=nil)
+  def self.order_req(path, data, cookies)
     self.remote_req(FoodsoftConfig[:vokomokum_order_url], path, data, cookies)
   end
 
-  def self.remote_req(url, path, data=nil, cookies=nil)
+  def self.remote_req(url, path, data=nil, cookies={})
     # only keep relevant cookies
-    cookies = cookies.select {|k,v| k=='Mem' or k=='Key'}
-    uri = URI.parse(url+path)
+    cookies = cookies.select {|k,v| k=='Mem' || k=='Key'}
+    uri = URI.join(url, path)
     if data.nil?
       req = Net::HTTP::Get.new(uri.request_uri)
     else
       req = Net::HTTP::Post.new(uri.request_uri)
       req.body = data
     end
-    req['Cookie'] = cookies.each {|k,v| ERB::Util.url_encode "#{k}=#{v}"}.join('; ')
+    # TODO cookie-encode the key and value
+    req['Cookie'] = cookies.to_a.map {|v| "#{v[0]}=#{v[1]}"}.join('; ') #
     res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
     res.code.to_i == 200 or raise AuthnException.new("Could not access Vokomokum, status #{res.code}")
     res
