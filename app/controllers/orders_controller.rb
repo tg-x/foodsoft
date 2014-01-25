@@ -37,8 +37,8 @@ class OrdersController < ApplicationController
     respond_to do |format|
       @partial = case @view
                    when 'default' then "articles"
-                   when 'groups'then 'shared/articles_by_groups'
-                   when 'articles'then 'shared/articles_by_articles'
+                   when 'groups'then 'orders/articles_by/groups'
+                   when 'articles'then 'orders/articles_by/articles'
                    else 'articles'
                  end
       format.html
@@ -124,13 +124,11 @@ class OrdersController < ApplicationController
   
   def receive_on_order_article_create # See publish/subscribe design pattern in /doc.
     @order_article = OrderArticle.find(params[:order_article_id])
-    
     render :layout => false
   end
   
   def receive_on_order_article_update # See publish/subscribe design pattern in /doc.
     @order_article = OrderArticle.find(params[:order_article_id])
-    
     render :layout => false
   end
 

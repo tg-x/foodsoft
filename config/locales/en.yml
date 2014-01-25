@@ -600,10 +600,6 @@ en:
       ordergroup:
         remove: Remove
         remove_group: Remove group
-    group_order_articles:
-      form:
-        amount_change_for: Change amount for %{article}
-        result_hint: ! 'Unit: %{unit}'
     index:
       amount_fc: Amount(FC)
       end: End
@@ -739,6 +735,10 @@ en:
       error_general: The order couldn’t be updated due to a bug.
       error_stale: Someone else has ordered in the meantime, couldn't update the order.
       notice: The order was saved.
+  group_order_articles:
+    form:
+      amount_change_for: Change amount for %{article}
+      result_hint: ! 'Unit: %{unit}'
   helpers:
     application:
       edit_user: Edit user
@@ -1112,6 +1112,9 @@ en:
       prices_sum: ! 'Sum (net/gross price):'
       units_full: Full units
       units_ordered: Units ordered
+    articles_by:
+      price: Total price
+      price_sum: Sum
     create:
       notice: The order was created.
     edit:
@@ -1296,14 +1299,6 @@ en:
       ordered_desc: Number of articles as ordered by member (amount + tolerance)
       received: Received
       received_desc: Number of articles that (will be) received by member
-    articles_by_articles:
-      ordergroup: Ordergroup
-      price: Total price
-    articles_by_groups:
-      price: Total price
-      price_sum: Sum
-      unit_quantity: Lot quantity
-      unit_quantity_desc: How many units per lot.
     group:
       access: Access to
       activated: activated
