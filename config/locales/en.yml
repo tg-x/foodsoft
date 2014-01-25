@@ -1107,6 +1107,9 @@ en:
       prices_sum: ! 'Sum (net/gross price):'
       units_full: Full units
       units_ordered: Units ordered
+    articles_by:
+      price: Total price
+      price_sum: Sum
     create:
       notice: The order was created.
     edit:
@@ -1291,11 +1294,6 @@ en:
       ordered_desc: Number of articles as ordered by member (amount + tolerance)
       received: Received
       received_desc: Number of articles that (will be) received by member
-    articles_by_articles:
-      price: Total price
-    articles_by_groups:
-      price: Total price
-      price_sum: Sum
     group:
       access: Access to
       activated: activated

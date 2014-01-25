@@ -1,0 +1,12 @@
+%table.table.table-hover.list#articles_by_articles
+  %thead.list-heading
+    %tr
+      %th{:style => 'width:70%'}= Ordergroup.model_name.human
+      %th.center
+        %acronym{:title => t('shared.articles.ordered_desc')}= t 'shared.articles.ordered'
+      %th.center
+        %acronym{:title => t('shared.articles.received_desc')}= t 'shared.articles.received'
+      %th= t 'orders.articles_by.price'
+
+  - for order_article in order.order_articles.ordered.all(:include => [:article, :article_price])
+    = render 'orders/articles_by/article_single', order_article: order_article

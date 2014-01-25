@@ -1,0 +1,26 @@
+%tbody{id: "group_order_#{group_order.id}"}
+  %tr.list-heading
+    %th{:colspan => "9"}
+      %h4.name= group_order.ordergroup.name
+  - total = 0
+  - for goa in group_order.group_order_articles.ordered.all(:include => :order_article)
+    - fc_price = goa.order_article.price.fc_price
+    - subTotal = fc_price * goa.result
+    - total += subTotal
+    %tr{:class => [cycle('even', 'odd', :name => 'articles'), if goa.result == 0 then 'unavailable' end], id: "goa_#{goa.id}"}
+      %td.name{:style => "width:40%"}=h goa.order_article.article.name
+      %td= goa.order_article.article.unit
+      %td.center= "#{goa.quantity} + #{goa.tolerance}"
+      %td.center.input-delta= group_order_article_edit_result(goa)
+      %td.symbol &times;
+      %td= number_to_currency(fc_price)
+      %td.symbol =
+      %td.price= number_to_currency(subTotal)
+      %td= pkg_helper goa.order_article.price
+  %tr{:class => cycle('even', 'odd', :name => 'articles')}
+    %th{:colspan => "7"}= t 'orders.articles_by.price_sum'
+    %th.price_sum= number_to_currency(total)
+    %th
+  %tr
+    %th(colspan="9")
+  - reset_cycle("articles")

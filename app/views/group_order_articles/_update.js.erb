@@ -6,5 +6,7 @@ $('.delta-input input#r_<%= @group_order_article.id %>').val(<%= @group_order_ar
 $(document).trigger({
   type: 'GroupOrderArticle#update',
   order_article_id: <%= @group_order_article.order_article_id %>,
-  group_order_article_id: <%= @group_order_article.id %>
+  group_order_id: <%= @group_order_article.group_order_id %>,
+  group_order_article_id: <%= @group_order_article.id %>,
+  group_order_article_price: <%= @group_order_article.total_price %>
 });

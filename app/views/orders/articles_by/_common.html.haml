@@ -1,0 +1,21 @@
+-# common javascript for updating articles_by views
+-# include this in all pages that use articles_by views (directly or via ajax)
+= content_for :javascript do
+  :javascript
+    $(document).on('GroupOrderArticle#update', function(e) {
+
+      // update total price of group_order_article
+      var el_price = $('#goa_'+e.group_order_article_id+' .price');
+      if (el_price.length) {
+        var old_price = el_price.text().replace(/[^-+,.0-9]/g, '');
+        el_price.text(I18n.l('currency', e.group_order_article_price));
+      }
+
+      // update total price of group_order, when present
+      var el_sum = $('#group_order_'+e.group_order_id+' .price_sum');
+      if (el_sum.length) {
+        var old_sum = el_sum.text().replace(/[^-+,.0-9]/g, '');
+        el_sum.text(I18n.l('currency', old_sum - old_price + e.group_order_article_price));
+      }
+
+    });
