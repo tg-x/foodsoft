@@ -4,12 +4,17 @@
   :javascript
     $(document).on('GroupOrderArticle#update', function(e) {
 
+      var el_goa = $('#goa_'+e.group_order_article_id);
+
       // update total price of group_order_article
-      var el_price = $('#goa_'+e.group_order_article_id+' .price');
+      var el_price = $('.price', el_goa);
       if (el_price.length) {
         var old_price = el_price.text().replace(/[^-+,.0-9]/g, '');
         el_price.text(I18n.l('currency', e.group_order_article_price));
       }
+
+      // group_order_article is greyed when result==0
+      el_goa.toggleClass('unavailable', $('input#r_'+e.group_order_article_id, el_goa).val()==0);
 
       // update total price of group_order, when present
       var el_sum = $('#group_order_'+e.group_order_id+' .price_sum');
