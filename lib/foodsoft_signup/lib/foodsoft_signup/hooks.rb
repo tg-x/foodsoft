@@ -30,7 +30,7 @@ module FoodsoftSignup
         alias_method :foodsoft_signup_orig_authenticate, :authenticate
         def authenticate(*args)
           foodsoft_signup_orig_authenticate(*args)
-          FoodsoftSignup.check_approval self, current_user
+          FoodsoftSignup.check_approval(self, current_user) if current_user
         end
       end
     end
