@@ -11,6 +11,8 @@ class GroupOrderArticlesController < ApplicationController
   end
 
   def create
+    # XXX when ordergroup_id appears before order_article_id in the parameters, you
+    #     can get `NoMethodError - undefined method 'order_id' for nil:NilClass`
     @group_order_article = GroupOrderArticle.new(params[:group_order_article])
     @order_article = @group_order_article.order_article
 
