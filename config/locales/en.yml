@@ -458,7 +458,7 @@ en:
       - Ordered
       - Received
       - Price
-      - Unit Q.
+      - Unit quantity
       - Unit
       - Sum
       sum: Sum

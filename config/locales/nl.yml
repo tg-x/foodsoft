@@ -450,7 +450,7 @@ nl:
       rows:
       - Artikel
       - Besteld
-      - Gekregen
+      - Hoeveelheid
       - Prijs
       - Gr.Eenh.
       - Eenheid
