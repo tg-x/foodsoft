@@ -21,17 +21,12 @@ class OrdersController < ApplicationController
     end
 
     @orders = Order.closed.page(params[:page]).per(@per_page).includes(:supplier).order(sort)
-
-    last_finished = Order.finished.maximum(:ends)
-    @orders_last_order_day = (Order.finished.where(ends: last_finished.weeks_ago(1)..last_finished) rescue []) # TODO Rails 4: rescue Order.none
   end
 
   # Gives a view for the results to a specific order
   # Renders also the pdf
   def show
-    # start of multiple-order support
-    @order_ids = params[:id].split('+').map(&:to_i)
-    @order = Order.find(@order_ids.first)
+    @order= Order.find(params[:id])
     @view = (params[:view] or 'default').gsub(/[^-_a-zA-Z0-9]/, '')
 
     respond_to do |format|
@@ -47,7 +42,7 @@ class OrdersController < ApplicationController
       end
       format.pdf do
         pdf = case params[:document]
-                when 'groups' then @order_ids.length == 1 ? OrderByGroups.new(@order) : MultipleOrdersByGroups.new(@order_ids)
+                when 'groups' then OrderByGroups.new(@order)
                 when 'articles' then OrderByArticles.new(@order)
                 when 'fax' then OrderFax.new(@order)
                 when 'matrix' then OrderMatrix.new(@order)

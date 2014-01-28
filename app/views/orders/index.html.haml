@@ -63,15 +63,6 @@
                 = link_to t('ui.delete'), order, confirm: t('.confirm_delete'), method: :delete,
                   class: 'btn btn-small btn-danger'
 
-
-.btn-toolbar.pull-right
-  .btn-group
-    = link_to '#', data: {toggle: 'dropdown'}, class: 'btn dropdown-toggle' do
-      = t '.last_order_week'
-      %span.caret
-    %ul.dropdown-menu
-      %li= order_pdf(@orders_last_order_day.map(&:id).join('+'), :groups, t('orders.show.download.group_pdf'))
-
 %h2= t '.orders_settled'
 #orders_table
   = render partial: 'orders'
