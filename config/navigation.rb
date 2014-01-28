@@ -13,12 +13,16 @@ SimpleNavigation::Configuration.run do |navigation|
 
     #primary.item :dashboard_nav_item, I18n.t('navigation.dashboard'), root_path(anchor: '')
 
-    primary.item :orders, I18n.t('navigation.orders.title'), orders_path, if: Proc.new { current_user.role_orders? }, id: nil
-    # I18n.t('navigation.orders.manage')
-
     primary.item :suppliers, I18n.t('navigation.suppliers'), suppliers_path, id: nil
-    primary.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? }
-    primary.item :balancing, I18n.t('navigation.finances.title'), finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
+    primary.item :orders, I18n.t('navigation.orders.title'), orders_path, if: Proc.new { current_user.role_orders? }, id: nil
+    primary.item :member_orders, 'Member orders', current_orders_ordergroups_path, if: Proc.new { current_user.role_orders? }, id: nil
+
+    primary.item :finance, 'Payments', '#', id: nil,
+                 if: Proc.new { defined? FoodsoftAdyen or current_user.role_finance? } do |subnav|
+      subnav.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? }
+    end
+
+    primary.item :balancing, 'Post admin', finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
 
     #primary.item :finance, I18n.t('navigation.finances.title'), '#', id: nil, if: Proc.new { current_user.role_finance? } do |subnav|
       #subnav.item :finance_home, I18n.t('navigation.finances.home'), finance_root_path
@@ -38,7 +42,6 @@ SimpleNavigation::Configuration.run do |navigation|
       subnav.item :categories, I18n.t('navigation.articles.categories'), article_categories_path, id: nil, if: Proc.new { current_user.role_admin? }
       subnav.item :finance_home, 'Financial overview', finance_root_path, if: Proc.new { current_user.role_finance? }
       subnav.item :invoices, I18n.t('navigation.finances.invoices'), finance_invoices_path, id: nil, if: Proc.new { current_user.role_finance? }
-      subnav.item :adyen_pin, I18n.t('payments.navigation.pin'), detect_payments_adyen_pin_path if defined? FoodsoftAdyen
     end
 
     engines.each { |e| e.navigation(primary, self) }
