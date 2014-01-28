@@ -16,8 +16,8 @@
       // group_order_article is greyed when result==0
       el_goa.toggleClass('unavailable', $('input#r_'+e.group_order_article_id, el_goa).val()==0);
 
-      // update total price of group_order, when present
-      var el_sum = $('#group_order_'+e.group_order_id+' .price_sum');
+      // update total price of group_order and/or ordergroup, when present
+      var el_sum = $('#group_order_'+e.group_order_id+' .price_sum, #single_ordergroup_total .price_sum');
       if (el_sum.length) {
         var old_sum = el_sum.text().replace(/[^-+,.0-9]/g, '');
         el_sum.text(I18n.l('currency', old_sum - old_price + e.group_order_article_price));
