@@ -17,7 +17,7 @@
     %thead
       %tr
         %th{style: 'width: 35%'}= heading_helper Article, :name
-        %th= heading_helper Order, :name
+        %th= Order.model_name.human
         %th= heading_helper Article, :unit
         %th.center
           %acronym{:title => t('shared.articles.ordered_desc')}= t 'shared.articles.ordered'
