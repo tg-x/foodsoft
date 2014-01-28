@@ -28,6 +28,13 @@ PATH
       rails (~> 3.2.13)
 
 PATH
+  remote: lib/foodsoft_current_orders
+  specs:
+    foodsoft_current_orders (0.0.1)
+      deface (~> 1.0.0)
+      rails (~> 3.2.16)
+
+PATH
   remote: lib/foodsoft_mollie
   specs:
     foodsoft_mollie (0.0.1)
@@ -412,6 +419,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker
   foodsoft_adyen!
+  foodsoft_current_orders!
   foodsoft_mollie!
   foodsoft_signup!
   haml-rails

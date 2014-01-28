@@ -1,0 +1,8 @@
+/ insert_before 'h2:contains(".orders_finished")'
+.btn-toolbar.pull-right
+  .btn-group
+    = link_to '#', data: {toggle: 'dropdown'}, class: 'btn dropdown-toggle' do
+      Combined PDF
+      %span.caret
+    %ul.dropdown-menu
+      %li= link_to t('orders.show.download.group_pdf'), current_orders_orders_path(order, document: :groups, format: :pdf)
