@@ -23,7 +23,7 @@ class Payments::AdyenPinController < ApplicationController
   # open mobile app or index, depending on platform
   def detect
     mode = params[:mode]
-    mode = 'mobile' if mode.nil? and get_mobile
+    mode = 'mobile' if mode.nil? and FoodsoftAdyen.detect_pin(request)
     if mode == 'mobile'
       # redirect to mobile app to set this foodsoft website as its home
       opts = {
@@ -83,7 +83,7 @@ class Payments::AdyenPinController < ApplicationController
       callbackAutomatic: 0,
       #start_immediately: 1  # enable this to skip the enter amount screen in the Adyen app
     }
-    if get_mobile == 'Android'
+    if FoodsoftAdyen.get_mobile(request) == 'Android'
       return "http://www.adyen.com/android-app/payment?#{opts.to_query}"
     else
       return "adyen://payment?#{opts.to_query}"
@@ -93,15 +93,5 @@ class Payments::AdyenPinController < ApplicationController
   def encode_notification_data(data, title=nil)
     d = Base64.urlsafe_encode64 data.to_json
     return [title, "(#{d})"].compact.join(' ')
-  end
-
-  def get_mobile
-    if request.user_agent.match /\bAndroid\b/
-      'Android'
-    elsif request.user_agent.match /\b(iPod|iPhone|iPad)\b/
-      'iOS'
-    else
-      nil
-    end
   end
 end

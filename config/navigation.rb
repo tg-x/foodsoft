@@ -8,6 +8,8 @@ SimpleNavigation::Configuration.run do |navigation|
   # to include an engine but keep it from modifying the menu:
   #engines.reject! { |e| e.instance_of? FoodsoftMyplugin::Engine }
 
+  detect_pin = Proc.new { FoodsoftAdyen.detect_pin(request) if defined? FoodsoftAdyen }
+
   navigation.items do |primary|
     primary.dom_class = 'nav'
 
@@ -17,10 +19,9 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :orders, I18n.t('navigation.orders.title'), orders_path, if: Proc.new { current_user.role_orders? }, id: nil
     primary.item :member_orders, 'Member orders', current_orders_ordergroups_path, if: Proc.new { current_user.role_orders? }, id: nil
 
-    primary.item :finance, 'Payments', '#', id: nil,
-                 if: Proc.new { defined? FoodsoftAdyen or current_user.role_finance? } do |subnav|
-      subnav.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? }
-    end
+    # PIN on mobile, member payments otherwise
+    primary.item :pin_terminal, 'PIN', detect_payments_adyen_pin_path, id: nil, if: Proc.new { detect_pin.call }
+    primary.item :accounts, 'Member payments', finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and not detect_pin.call }
 
     primary.item :balancing, 'Post admin', finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
 
@@ -38,10 +39,12 @@ SimpleNavigation::Configuration.run do |navigation|
       subnav.item :workgroups, I18n.t('navigation.admin.workgroups'), admin_workgroups_path, id: nil
    end
 
-    primary.item :others, 'Other', '#', id: nil  do |subnav|
-      subnav.item :categories, I18n.t('navigation.articles.categories'), article_categories_path, id: nil, if: Proc.new { current_user.role_admin? }
+   primary.item :others, 'Other', '#', id: nil  do |subnav|
+      subnav.item :accounts, 'Member payments', finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and detect_pin.call }
       subnav.item :finance_home, 'Financial overview', finance_root_path, if: Proc.new { current_user.role_finance? }
       subnav.item :invoices, I18n.t('navigation.finances.invoices'), finance_invoices_path, id: nil, if: Proc.new { current_user.role_finance? }
+      subnav.item :categories, I18n.t('navigation.articles.categories'), article_categories_path, id: nil, if: Proc.new { current_user.role_admin? }
+      subnav.item :pin_terminal, I18n.t('payments.navigation.pin'), detect_payments_adyen_pin_path, id: nil, unless: Proc.new { detect_pin.call }
     end
 
     engines.each { |e| e.navigation(primary, self) }
