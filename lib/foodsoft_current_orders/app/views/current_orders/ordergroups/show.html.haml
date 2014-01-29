@@ -1,4 +1,3 @@
--# title t('.title'), false
-- title "Articles for #{@ordergroup.name}"
+- title t('.title', name: @ordergroup.name)
 
 = render 'form'

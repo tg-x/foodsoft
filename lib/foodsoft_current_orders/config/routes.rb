@@ -8,6 +8,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :articles, :only => [:index, :show] do
+        collection do
+          get :show_on_group_order_article_create
+        end
+      end
+
       resource :orders, :only => [:show]
     end
   end
