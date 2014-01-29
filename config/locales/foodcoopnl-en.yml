@@ -47,8 +47,15 @@ en:
       to_archive: See your %{archive_link}.
       to_archive_link: previous orders
   navigation:
+    current_orders:
+      articles: Distribution
+      ordergroups: Member orders
+    financial_overview: Financial overview
     suppliers: Products
+    membership: Membership
     member_payments: Member payments
+    other: Other
+    post_admin: Post-admin
   orders:
     index:
       last_order_week: Recent orders

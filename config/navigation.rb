@@ -17,13 +17,14 @@ SimpleNavigation::Configuration.run do |navigation|
 
     primary.item :suppliers, I18n.t('navigation.suppliers'), suppliers_path, id: nil
     primary.item :orders, I18n.t('navigation.orders.title'), orders_path, if: Proc.new { current_user.role_orders? }, id: nil
-    primary.item :member_orders, 'Member orders', current_orders_ordergroups_path, if: Proc.new { current_user.role_orders? }, id: nil
+    primary.item :order_articles, I18n.t('navigation.current_orders.articles'), current_orders_articles_path, if: Proc.new { current_user.role_orders? }, id: nil
+    primary.item :member_orders, I18n.t('navigation.current_orders.ordergroups'), current_orders_ordergroups_path, if: Proc.new { current_user.role_orders? }, id: nil
 
     # PIN on mobile, member payments otherwise
     primary.item :pin_terminal, 'PIN', detect_payments_adyen_pin_path, id: nil, if: Proc.new { detect_pin.call }
-    primary.item :accounts, 'Member payments', finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and not detect_pin.call }
+    primary.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and not detect_pin.call }
 
-    primary.item :balancing, 'Post admin', finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
+    primary.item :balancing, I18n.t('navigation.post_admin'), finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
 
     #primary.item :finance, I18n.t('navigation.finances.title'), '#', id: nil, if: Proc.new { current_user.role_finance? } do |subnav|
       #subnav.item :finance_home, I18n.t('navigation.finances.home'), finance_root_path
@@ -32,16 +33,16 @@ SimpleNavigation::Configuration.run do |navigation|
       #subnav.item :invoices, I18n.t('navigation.finances.invoices'), finance_invoices_path, id: nil
     #end
 
-    primary.item :admin, 'Membership', '#', id: nil, if: Proc.new { current_user.role_admin? } do |subnav|
+    primary.item :admin, I18n.t('navigation.membership'), '#', id: nil, if: Proc.new { current_user.role_admin? } do |subnav|
       subnav.item :admin_home, I18n.t('navigation.admin.home'), admin_root_path
       subnav.item :users, I18n.t('navigation.admin.users'), admin_users_path, id: nil
       subnav.item :ordergroups, I18n.t('navigation.admin.ordergroups'), admin_ordergroups_path, id: nil
       subnav.item :workgroups, I18n.t('navigation.admin.workgroups'), admin_workgroups_path, id: nil
    end
 
-   primary.item :others, 'Other', '#', id: nil  do |subnav|
-      subnav.item :accounts, 'Member payments', finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and detect_pin.call }
-      subnav.item :finance_home, 'Financial overview', finance_root_path, if: Proc.new { current_user.role_finance? }
+   primary.item :others, I18n.t('navigation.other'), '#', id: nil  do |subnav|
+      subnav.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and detect_pin.call }
+      subnav.item :finance_home, I18n.t('navigation.financial_overview'), finance_root_path, if: Proc.new { current_user.role_finance? }
       subnav.item :invoices, I18n.t('navigation.finances.invoices'), finance_invoices_path, id: nil, if: Proc.new { current_user.role_finance? }
       subnav.item :categories, I18n.t('navigation.articles.categories'), article_categories_path, id: nil, if: Proc.new { current_user.role_admin? }
       subnav.item :pin_terminal, I18n.t('payments.navigation.pin'), detect_payments_adyen_pin_path, id: nil, unless: Proc.new { detect_pin.call }

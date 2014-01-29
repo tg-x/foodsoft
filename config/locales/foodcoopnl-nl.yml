@@ -47,8 +47,15 @@ nl:
       to_archive: Bekijk je %{archive_link}.
       to_archive_link: vorige bestellingen
   navigation:
-    suppliers: Producten
+    current_orders:
+      articles: Verdeling
+      ordergroups: Ledenbestellingen
+    financial_overview: Financiëel overzicht
+    suppliers: Artikelen
+    membership: Lidmaatschap
     member_payments: Ledenbetalingen
+    other: Overig
+    post_admin: Na-admin
   orders:
     index:
       last_order_week: Recente bestellingen
