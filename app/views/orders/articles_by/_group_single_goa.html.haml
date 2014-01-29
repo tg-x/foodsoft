@@ -6,6 +6,6 @@
   %td.symbol &times;
   %td= number_to_currency(goa.order_article.price.fc_price)
   %td.symbol =
-  %td.price= number_to_currency(goa.total_price)
+  %td.price{data: {value: goa.total_price}}= number_to_currency(goa.total_price)
   %td= pkg_helper goa.order_article.price
 

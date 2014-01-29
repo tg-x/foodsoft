@@ -2,4 +2,4 @@
   %td{:style => "width:70%"}= goa.group_order.ordergroup.name
   %td.center= "#{goa.quantity} + #{goa.tolerance}"
   %td.center.input-delta= group_order_article_edit_result(goa)
-  %td.price= number_to_currency(goa.total_price)
+  %td.price{data: {value: goa.total_price}}= number_to_currency(goa.total_price)
