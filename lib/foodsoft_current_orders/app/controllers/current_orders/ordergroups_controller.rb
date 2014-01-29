@@ -15,6 +15,12 @@ class CurrentOrders::OrdergroupsController < ApplicationController
     @goa = GroupOrderArticle.find(params[:group_order_article_id])
   end
 
+  def show_on_group_order_article_update
+    #@goa = GroupOrderArticle.find(params[:group_order_article_id])
+    @group_order = GroupOrder.find(params[:group_order_id])
+    @ordergroup = @group_order.ordergroup
+  end
+
   protected
 
   def find_group_orders

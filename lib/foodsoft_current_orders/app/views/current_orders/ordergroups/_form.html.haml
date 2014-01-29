@@ -51,7 +51,6 @@
         placeholder: '#{j t('orders.receive.add_article')}',
         formatNoMatches: function(term) { return '#{j t('.no_articles_available')}';}
       });
-      // XXX implement #create
       $(document).on('GroupOrderArticle#create', function(e) {
         // reset selection
         $('#group_order_article_order_article_id').select2('data', null);
@@ -59,7 +58,15 @@
         $.ajax({
           url: '#{show_on_group_order_article_create_current_orders_ordergroups_path}',
           type: 'get',
-          data: {group_order_article_id: e.group_order_article_id},
+          data: {group_order_article_id: e.group_order_article_id}
+        });
+      });
+
+      $(document).on('GroupOrderArticle#update', function(e) {
+        $.ajax({
+          url: '#{show_on_group_order_article_update_current_orders_ordergroups_path}',
+          type: 'get',
+          data: {group_order_id: e.group_order_id, group_order_article_id: e.group_order_article_id}
         });
       });
 

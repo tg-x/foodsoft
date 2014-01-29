@@ -13,9 +13,5 @@
     Account balance
   of #{ordergroup.name}: #{number_to_currency ordergroup.account_balance}
 
-%p{style: 'text-align: center; font-weight: bold;'}
-  - if ordergroup.get_available_funds >= 0
-    %span{style: 'color: green'} Fully paid
-  - else
-    To pay #{number_to_currency -ordergroup.get_available_funds}
+%p#to_pay_message{style: 'text-align: center'}= to_pay_message(ordergroup)
 

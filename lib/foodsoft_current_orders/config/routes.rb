@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :ordergroups, :only => [:index, :show] do
         collection do
           get :show_on_group_order_article_create
+          get :show_on_group_order_article_update
         end
       end
 
