@@ -26,5 +26,5 @@
         %td.center #{order_article.quantity} + #{order_article.tolerance}
         - sum = order_article.group_orders_sum
         %th.center.count_sum= sum[:quantity]
-        %th.price_sum= number_to_currency sum[:price]
+        %th.price_sum{data: {value: sum[:price]}}= number_to_currency sum[:price]
 

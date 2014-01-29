@@ -21,5 +21,5 @@
 
   %tr#single_ordergroup_total{:class => cycle('even', 'odd', :name => 'articles')}
     %th{colspan: 7}= t 'orders.articles_by.price_sum'
-    %th.price_sum{colspan: 2}= number_to_currency(total)
+    %th.price_sum{colspan: 2, data: {value: total}}= number_to_currency(total)
 
