@@ -10,3 +10,5 @@
 
   - for order_article in order.order_articles.ordered.all(:include => [:article, :article_price])
     = render 'orders/articles_by/article_single', order_article: order_article
+    %tr
+      %td{colspan: 4}
