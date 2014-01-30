@@ -4,6 +4,8 @@ en:
       form:
         amount_pay: Amount to pay
         submit: Pay at your bank
+      new:
+        title: Credit your account
       result:
         cancelled: Payment cancelled.
         error: An error occured while processing the payment.
