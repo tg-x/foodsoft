@@ -76,9 +76,9 @@ class Payments::AdyenPinController < ApplicationController
       callback = "foodsoft://payment-return/#{ERB::Util.url_encode callback}"
     end
     opts = {
-      currency: Rails.configuration.foodsoft_adyen.currency,
+      currency: FoodsoftConfig[:adyen][:currency],
       amount: (amount * 100).to_i,
-      description: encode_notification_data({g: ordergroup.id}, ordergroup.name),
+      description: FoodsoftAdyen.encode_notification_data({g: ordergroup.id}, ordergroup.name),
       callback: callback,
       callbackAutomatic: 0,
       #start_immediately: 1  # enable this to skip the enter amount screen in the Adyen app
@@ -90,8 +90,4 @@ class Payments::AdyenPinController < ApplicationController
     end
   end
 
-  def encode_notification_data(data, title=nil)
-    d = Base64.urlsafe_encode64 data.to_json
-    return [title, "(#{d})"].compact.join(' ')
-  end
 end

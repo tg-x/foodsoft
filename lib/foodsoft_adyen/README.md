@@ -3,11 +3,37 @@
 This project adds support for Adyen payments to Foodsoft.
 
 * Make sure the gem is uncommented in foodsoft's `Gemfile`
-* Enter your Adyen account details in `config/environments/production.rb` (or `development.rb`)
-* When using the signup plugin, add `payments/adyen_notifications` to `unapproved_allow_access` in `config/app_config.yml`
+* When using the signup plugin
+  * add `payments/adyen_notifications` to `unapproved_allow_access` in `config/app_config.yml`
+  * add `payments/adyen_hpp` to the same list
+  * set `ordergroup_approval_payment` to `new_payments_adyen_hpp_path` in the foodcoop config if you want to approve membership with an online payment
+
+
+== Foodsoft configuration
+
+This plugin is configured in the foodcoop configuration in foodsoft's
+"config/app\_config.yml":
+```
+  adyen:
+    # ISO currency code - http://www.currency-iso.org/en/home/tables/table-a1.html
+    currency: EUR
+
+    # Merchant account
+    merchant_account: OtterlabsPOS
+    # HMAC Key for test or production (it takes time to propagate if you change this)
+    hmac_key: 1234567890abcdefghijklmnopqrstuvwxyz
+    # Payment skin to use
+    skin_code: 1z2Y2x3W
+
+    # Notification authentication. Anyone who knows this can credit foodsoft accounts.
+    notify_username: somewhat_s3cret_identifier
+    notify_password: tRuLySeCrEtpAssWoRdth@1No0ne2hoULdKn0wR3@Lly
+```
 
 
 == Adyen configuration
+
+=== Notifications
 
 The Adyen notifications API is used to credit accounts. That means that you
 need to enable notifications the Adyen customer area:
@@ -16,7 +42,7 @@ need to enable notifications the Adyen customer area:
 * Choose your merchant account
 * Go to `Settings` then `Notifications`
 * Enter the following settings:
-  * URL: `https://your.foodsoft.host/path/f/payments/adyen/notify`
+  * URL: `https://your.foodsoft.host/:foodcoop/payments/adyen/notify`
   * Active: `yes`
   * Method: `HTTP POST (parameters)`
   * Populate SOAP header: `no`
@@ -29,6 +55,16 @@ need to enable notifications the Adyen customer area:
 
 Now use the option to test a notification (below in the same Adyen CA screen).
 Check your rails log file to see if the notification was received properly.
+
+=== Skin
+
+To use hosted payment pages (online payments), you need to create a skin in the
+Adyen customer area. The following fields are relevant for foodsoft:
+
+* `Result URL for Test`: `https://your.foodsoft.host/:foodcoop/payments/adyen/hpp/result`
+* `HMAC Key for Test`: same as foodcoop config `adyen.hmac_key`. This is a random
+  string of characters. Note that when you change this, it may take a while to propagate
+  in the Adyen systems.
 
 
 == PIN payment flow

@@ -16,7 +16,7 @@ class Payments::AdyenNotificationsController < ApplicationController
       data = decode_notification_data(notification.merchant_reference)
       logger.debug "foodsoft_adyen: new notification with data #{data.inspect}"
       (ordergroup = Ordergroup.find(data[:g])) rescue raise OrdergroupNotFoundException
-      notification.currency == Rails.configuration.foodsoft_adyen.currency or raise WrongCurrencyException
+      notification.currency == FoodsoftConfig[:adyen]['currency'] or raise WrongCurrencyException
       notice = "#{notification.payment_method} payment (Adyen #{notification.psp_reference})"
       amount = notification.value/100.0
       (user = User.new).id = 0 # 0 is system user, may not exist in database
@@ -31,7 +31,7 @@ class Payments::AdyenNotificationsController < ApplicationController
   rescue OrdergroupNotFoundException
     ws_return :rejected, 'merchant_reference does not contain a valid user'
   rescue WrongCurrencyException
-    ws_return :rejected, "foodsoft_adyen configuration only accepts currency #{Rails.configuration.foodsoft_adyen.currency}"
+    ws_return :rejected, "foodsoft_adyen configuration only accepts currency #{FoodsoftConfig[:adyen]['currency']}"
   rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid => e
     # Validation failed, because of the duplicate check.
     # So ignore this notification, it is already stored and handled.
@@ -44,7 +44,7 @@ class Payments::AdyenNotificationsController < ApplicationController
   protected
   def authenticate_adyen
     authenticate_or_request_with_http_basic do |username, password|
-      username == Rails.configuration.foodsoft_adyen.notify_username && password == Rails.configuration.foodsoft_adyen.notify_password
+      username == FoodsoftConfig[:adyen]['notify_username'] && password == FoodsoftConfig[:adyen]['notify_password']
     end
   end
 

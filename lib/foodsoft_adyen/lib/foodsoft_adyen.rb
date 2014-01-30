@@ -4,13 +4,15 @@ require 'foodsoft_adyen/configuration'
 require 'foodsoft_adyen/railtie'
 
 module FoodsoftAdyen
-  def self.configuration
-    @configuration ||= FoodsoftAdyen::Configuration.new
-  end
 
   # return whether the current request is likely to support the mobile PIN app
   def self.detect_pin(request)
     true if self.get_mobile(request)
+  end
+
+  def self.encode_notification_data(data, title=nil)
+    d = Base64.urlsafe_encode64 data.to_json
+    return [title, "(#{d})"].compact.join(' ')
   end
 
   protected
@@ -25,4 +27,5 @@ module FoodsoftAdyen
       nil
     end
   end
+
 end
