@@ -23,17 +23,16 @@ module OrdersHelper
     if order_article.order.open?
       nil
     else
-      units_info = []
+      units_info = ''
       [:units_to_order, :units_billed, :units_received].map do |unit|
         if n = order_article.send(unit)
-          i18nkey = if units_info.empty? and options[:plain] then unit else "#{unit}_short" end
-          line = n.to_s + ' '
-          line += pkg_helper(order_article.price) + ' ' unless options[:plain] or n == 0
-          line += OrderArticle.human_attribute_name(i18nkey, count: n)
-          units_info << line
+          i18nkey = if units_info.blank? and options[:plain] then unit else "#{unit}_short" end
+          units_info += n.to_s + ' '
+          units_info += pkg_helper(order_article.price) + ' ' unless options[:plain] or n == 0
+          units_info += OrderArticle.human_attribute_name(i18nkey, count: n)
         end
       end
-      units_info.join(', ').html_safe
+      units_info.html_safe
     end
   end
 
