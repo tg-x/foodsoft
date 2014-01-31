@@ -6,11 +6,15 @@
     - article_data = articles_for_select2(@order_articles) {|a| "#{a.article.name} (#{a.article.unit})"}
     = select_tag 'id',
         options_for_select(article_data.map {|a| [a[:text], a[:id]]}, (@order_article.id rescue '')),
-        id: 'order_article_select', style: 'min-width: 350px', 'data-submit-on-change' => :true
+        id: 'order_article_select', style: 'min-width: 350px', 'data-submit-on-change' => :true,
+        'data-placeholder' => t('.article_placeholder')
 
     = render 'article_info', order_article: @order_article
 
-= render 'ordergroups', order_article: @order_article
+- if @order_article
+  = render 'ordergroups', order_article: @order_article
+- else
+  %i#articles_by_articles= t '.no_selection'
 
 = render 'orders/articles_by/common'
 

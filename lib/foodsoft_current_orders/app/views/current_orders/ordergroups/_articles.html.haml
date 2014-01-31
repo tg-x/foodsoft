@@ -16,7 +16,9 @@
       - new_articles = OrderArticle.includes(:article).where(order_id: @order_ids)
       - new_article_data = articles_for_select2(new_articles) {|a| "#{a.article.name} (#{a.article.unit}, #{number_to_currency a.price.fc_price})"}
       = form_for GroupOrderArticle.new, remote: true, html: {'data-submit-onchange' => true, style: 'margin: 0'} do |f|
-        = f.select :order_article_id, options_for_select(new_article_data.map {|a| [a[:text], a[:id]]}), {}, {style: 'width: 500px'}
+        = f.select :order_article_id,
+            options_for_select(new_article_data.map {|a| [a[:text], a[:id]]}),
+            {}, {style: 'width: 500px', 'data-placeholder' => t('.add_new') }
         = f.hidden_field :ordergroup_id, value: @ordergroup.id
 
   %tr#single_ordergroup_total{:class => cycle('even', 'odd', :name => 'articles')}
