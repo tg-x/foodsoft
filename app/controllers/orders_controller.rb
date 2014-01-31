@@ -30,8 +30,8 @@ class OrdersController < ApplicationController
     @view = (params[:view] or 'default').gsub(/[^-_a-zA-Z0-9]/, '')
     @partial = case @view
                  when 'default' then 'articles'
-                 when 'groups'then 'shared/articles_by_groups'
-                 when 'articles'then 'shared/articles_by_articles'
+                 when 'groups'then 'orders/articles_by/groups'
+                 when 'articles'then 'orders/articles_by/articles'
                  else 'articles'
                end
 
