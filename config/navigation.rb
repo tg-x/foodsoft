@@ -21,7 +21,7 @@ SimpleNavigation::Configuration.run do |navigation|
     primary.item :member_orders, I18n.t('navigation.current_orders.ordergroups'), current_orders_ordergroups_path, if: Proc.new { current_user.role_orders? }, id: nil
 
     # PIN on mobile, member payments otherwise
-    primary.item :pin_terminal, 'PIN', detect_payments_adyen_pin_path, id: nil, if: Proc.new { detect_pin.call }
+    primary.item :pin_terminal, 'PIN', detect_payments_adyen_pin_path, id: nil, if: Proc.new { detect_pin.call } if defined? FoodsoftAdyen
     primary.item :accounts, I18n.t('navigation.member_payments'), finance_ordergroups_path, id: nil, if: Proc.new { current_user.role_finance? and not detect_pin.call }
 
     primary.item :balancing, I18n.t('navigation.post_admin'), finance_order_index_path, id: nil, if: Proc.new { current_user.role_finance? }
@@ -45,7 +45,7 @@ SimpleNavigation::Configuration.run do |navigation|
       subnav.item :finance_home, I18n.t('navigation.financial_overview'), finance_root_path, if: Proc.new { current_user.role_finance? }
       subnav.item :invoices, I18n.t('navigation.finances.invoices'), finance_invoices_path, id: nil, if: Proc.new { current_user.role_finance? }
       subnav.item :categories, I18n.t('navigation.articles.categories'), article_categories_path, id: nil, if: Proc.new { current_user.role_admin? }
-      subnav.item :pin_terminal, I18n.t('payments.navigation.pin'), detect_payments_adyen_pin_path, id: nil, unless: Proc.new { detect_pin.call }
+      subnav.item :pin_terminal, I18n.t('payments.navigation.pin'), detect_payments_adyen_pin_path, id: nil, unless: Proc.new { detect_pin.call } if defined? FoodsoftAdyen
     end
 
     engines.each { |e| e.navigation(primary, self) }
