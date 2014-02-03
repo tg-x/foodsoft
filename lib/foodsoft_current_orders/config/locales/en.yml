@@ -26,6 +26,15 @@ en:
         payment: ! 'Payment:'
       show:
         title: Articles for %{name}
+    orders:
+      combined_pdf: Combined PDF
+  documents:
+    multiple_orders_by_articles:
+      filename: Current orders sorted by article
+      title: Current orders - by article
+    multiple_orders_by_groups:
+      filename: Current orders sorted by group
+      title: Current orders - by group
   helpers:
     current_orders:
       pay_done: Fully paid

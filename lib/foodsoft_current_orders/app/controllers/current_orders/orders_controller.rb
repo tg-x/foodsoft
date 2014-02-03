@@ -14,6 +14,7 @@ class CurrentOrders::OrdersController < ApplicationController
       format.pdf do
         pdf = case params[:document]
                   when 'groups' then MultipleOrdersByGroups.new(@order_ids)
+                  when 'articles' then MultipleOrdersByArticles.new(@order_ids)
               end
         send_data pdf.to_pdf, filename: pdf.filename, type: 'application/pdf'
       end
