@@ -123,14 +123,8 @@ default: &defaults
     sender_address: "\"Foodsoft Error\" <admin@foodcoop.nl>"
     email_prefix: "[Foodsoft]"
 
-  # Access to sharedLists, the external article-database
-  shared_lists:
-    adapter: mysql2
-    database: sharedlists
-    #host: localhost
-    #username:
-    #password:
-    encoding: utf8
+  # Access to sharedLists, the external article-database; references entry in `config/database.yml`
+  shared_lists: sharedlists
 
   # auto-units-conversion
   # this is used for automatic article-synchronization to handle different units

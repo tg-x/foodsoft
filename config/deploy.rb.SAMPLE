@@ -44,5 +44,26 @@ namespace :deploy do
   # see lib/capistrano/tasks/plugins.cap
   #before 'bundler:install', 'enable_plugins:auto'
 
+
+  # also grant access to sharedlists when creating a database
+  after 'initial:db:create', 'initial:db:grant_sharedlists' do
+    on roles(:app), in: :sequence do
+      config = capture :cat, shared_path.join("config/database.yml")
+      config = YAML.load(config)[fetch(:rails_env).to_s]
+      execute :mysql, "--execute='GRANT SELECT ON `#{fetch :sharedlists_db}`.`articles` TO \"#{config['username']}\";'"
+      execute :mysql, "--execute='GRANT SELECT ON `#{fetch :sharedlists_db}`.`suppliers` TO \"#{config['username']}\";'"
+    end
+  end
+
+  # include sharedlists in database.yml
+  after 'deploy:initial:db:config', 'initial:db:config:sharedlists' do
+    on roles(:app), in: :sequence do
+      config = capture :cat, shared_path.join("config/database.yml")
+      config.gsub /^(\s*#{fetch :rails_env}:)/, "\\1 &#{fetch :rails_env}"
+      config += "\nsharedlists:\n  <<: *#{fetch :rails_env}\n  database: sharedlists\n"
+      upload! StringIO.new(config), shared_path.join("config/database.yml")
+    end
+  end
+
 end
 
