@@ -51,6 +51,7 @@ gem 'foodsoft_signup', path: 'lib/foodsoft_signup'
 gem 'foodsoft_current_orders', path: 'lib/foodsoft_current_orders'
 #gem 'foodsoft_vokomokum', path: 'lib/foodsoft_vokomokum'
 #gem 'foodsoft_protect_shared', path: 'lib/foodsoft_protect_shared'
+#gem 'foodsoft_userinfo', path: 'lib/foodsoft_userinfo'
 
 group :production do
   gem 'exception_notification'
