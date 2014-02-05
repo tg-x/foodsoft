@@ -76,7 +76,7 @@ class Payments::AdyenPinController < ApplicationController
       callback = "foodsoft://payment-return/#{ERB::Util.url_encode callback}"
     end
     opts = {
-      currency: FoodsoftConfig[:adyen][:currency],
+      currency: FoodsoftConfig[:adyen]['currency'],
       amount: (amount * 100).to_i,
       description: FoodsoftAdyen.encode_notification_data({g: ordergroup.id}, ordergroup.name),
       callback: callback,
