@@ -48,14 +48,20 @@ nl:
       to_archive_link: vorige bestellingen
   navigation:
     current_orders:
-      articles: Verdeling
+      articles: Bestelde artikelen
       ordergroups: Ledenbestellingen
+    balancing: Bestellingen afrekenen
     financial_overview: Financiëel overzicht
-    suppliers: Artikelen
+    receive: Ontvangen
+    stage:
+      prepare: Voorbereiden
+      distribute: Verdelen
+      pickup: Ophalen
+      post_admin: Na-admin
+    suppliers: Leveranciers & artikelen
     membership: Lidmaatschap
     member_payments: Ledenbetalingen
     other: Overig
-    post_admin: Na-admin
   orders:
     index:
       last_order_week: Recente bestellingen

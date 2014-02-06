@@ -48,14 +48,20 @@ en:
       to_archive_link: previous orders
   navigation:
     current_orders:
-      articles: Distribution
+      articles: Order articles
       ordergroups: Member orders
+    balancing: Settle orders
     financial_overview: Financial overview
-    suppliers: Products
+    receive: Receive
+    stage:
+      prepare: Prepare
+      distribute: Distribute
+      pickup: Pick-up
+      post_admin: Post-admin
+    suppliers: Suppliers & articles
     membership: Membership
     member_payments: Member payments
     other: Other
-    post_admin: Post-admin
   orders:
     index:
       last_order_week: Recent orders
