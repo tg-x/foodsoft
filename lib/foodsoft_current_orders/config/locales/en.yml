@@ -28,6 +28,9 @@ en:
         title: Articles for %{name}
     orders:
       combined_pdf: Combined PDF
+      receive:
+        title: Receive orders
+        no_finished_orders: There are currently no orders to receive.
   documents:
     multiple_orders_by_articles:
       filename: Current orders sorted by article

@@ -14,7 +14,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :orders, :only => [:show]
+      resource :orders, :only => [:show] do
+        collection do
+          get :receive
+        end
+      end
     end
   end
 end

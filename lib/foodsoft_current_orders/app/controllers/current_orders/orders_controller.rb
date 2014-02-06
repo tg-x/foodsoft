@@ -21,4 +21,8 @@ class CurrentOrders::OrdersController < ApplicationController
     end
   end
 
+  def receive
+    @orders = Order.finished_not_closed.includes(:supplier)
+  end
+
 end
