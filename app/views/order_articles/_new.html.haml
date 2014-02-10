@@ -8,9 +8,9 @@
     = link_to t('ui.close'), '#', class: 'btn', data: {dismiss: 'modal'}
     = form.submit class: 'btn btn-primary'
 
-:javascript
+-#:javascript
   $(function() {
     $('#order_article_article_id').select2_remote({
-      remote_url: '#{finance_order_order_articles_path(:format => :json)}'
+      remote_url: '#{order_order_articles_path(:format => :json)}'
     });
   });
