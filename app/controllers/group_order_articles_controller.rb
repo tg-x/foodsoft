@@ -1,6 +1,6 @@
 class GroupOrderArticlesController < ApplicationController
 
-  before_filter :authenticate_finance_or_orders
+  before_filter :authenticate_finance
   before_filter :find_group_order_article, except: [:new, :create]
 
   layout false  # We only use this controller to server js snippets, no need for layout rendering

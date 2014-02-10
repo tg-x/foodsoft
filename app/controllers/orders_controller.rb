@@ -13,10 +13,10 @@ class OrdersController < ApplicationController
     @per_page = 15
     if params['sort']
       sort = case params['sort']
-               when "supplier"  then "suppliers.name, ends DESC"
-               when "ends"   then "ends DESC, suppliers.name"
-               when "supplier_reverse"  then "suppliers.name DESC"
-               when "ends_reverse"   then "ends, suppliers.name"
+               when "supplier"         then "suppliers.name, ends DESC"
+               when "ends"             then "ends DESC"
+               when "supplier_reverse" then "suppliers.name DESC"
+               when "ends_reverse"     then "ends"
                end
     end
 
@@ -29,9 +29,9 @@ class OrdersController < ApplicationController
     @order= Order.find(params[:id])
     @view = (params[:view] or 'default').gsub(/[^-_a-zA-Z0-9]/, '')
     @partial = case @view
-                 when 'default' then 'articles'
-                 when 'groups'then 'orders/articles_by/groups'
-                 when 'articles'then 'orders/articles_by/articles'
+                 when 'default'  then 'articles'
+                 when 'groups'   then 'shared/articles_by/groups'
+                 when 'articles' then 'shared/articles_by/articles'
                  else 'articles'
                end
 
@@ -42,10 +42,10 @@ class OrdersController < ApplicationController
       end
       format.pdf do
         pdf = case params[:document]
-                when 'groups' then OrderByGroups.new(@order)
+                when 'groups'   then OrderByGroups.new(@order)
                 when 'articles' then OrderByArticles.new(@order)
-                when 'fax' then OrderFax.new(@order)
-                when 'matrix' then OrderMatrix.new(@order)
+                when 'fax'      then OrderFax.new(@order)
+                when 'matrix'   then OrderMatrix.new(@order)
               end
         send_data pdf.to_pdf, filename: pdf.filename, type: 'application/pdf'
       end
