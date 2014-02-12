@@ -22,6 +22,11 @@ This plugin is configured in the foodcoop configuration in foodsoft's
    # Vokomokum order website url
    vokomokum_order_url: http://order.vokomokum.nl/
 
+   # To access the Vokomokum system with a session from a different ip address,
+   # authentication is needed. Make sure they match Vokomokum configuration.
+   vokomokum_client_id: external_app
+   vokomokum_client_secret: ze_zekrit_123
+
    # Vokomokum login for submitting fresh amounts
    vokomokum_order_user: 123
    vokomokum_order_password: secret password
@@ -33,9 +38,12 @@ There are no default values, so you need to set them. This is intentional.
 Login with session cookie
 -------------------------
 
-To login to foodsoft with an existing Vokomokum members session cookie, all
-that's needed is a web form that POSTs to the `login/vokomokum` path, setting
-the `Mem` parameter to the session cookie. E.g.:
+When running foodsoft on the same domain, the session cookie can be shared.
+Foodsoft will pick that up and validate it with the Vokomokum member system.
+
+To use Foodsoft on a different domain, a form is needed to pass on the session
+cookie. All that's needed is a web form that POSTs to the `login/vokomokum`
+path, setting the `Mem` parameter to the session cookie. E.g.:
 
    ```html
    <form action='https://order.foodsoft.test/f/login/vokomokum' method='post'>
