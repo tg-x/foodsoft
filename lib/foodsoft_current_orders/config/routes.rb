@@ -19,6 +19,8 @@ Rails.application.routes.draw do
           get :receive
         end
       end
+
+      resources :group_orders, :only => [:index]
     end
   end
 end

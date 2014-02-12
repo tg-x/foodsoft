@@ -4,25 +4,26 @@
 // Article box
 %section
   .column_content#result
-    - if @group_order and @articles_grouped_by_category.count > 0
+    - if @articles_grouped_by_category.count > 0
       %table.table.table-hover
         %thead
           %tr
             %th{style: "width:40%"}= heading_helper Article, :name
-            %th= heading_helper Article, :units
+            %th= heading_helper Article, :unit
             %th= t '.articles.unit_price'
             %th
               %abbr{title: t('.articles.ordered_title')}= t '.articles.ordered'
             %th
               %abbr{title: t('.articles.order_nopen_title')}
-                - if @order.open?
+                - if (@order.open? rescue true)
                   = t '.articles.order_open'
                 - else
                   = t '.articles.order_not_open'
             %th= heading_helper GroupOrderArticle, :total_price
         %tbody
+          - group_order_sum = 0
           - for category_name, goas in @articles_grouped_by_category
-            %tr.article-category
+            %tr.article-category.list-heading
               %td
                 = category_name
                 %i.icon-tag
@@ -31,11 +32,14 @@
               - # get the order-results for the ordergroup
               - oa = goa.order_article
               - r = {quantity: goa.quantity, tolerance: goa.tolerance, result: goa.result, sub_total: goa.total_price(oa)}
+              - group_order_sum += r[:sub_total]
               %tr{class: cycle('even', 'odd', name: 'articles') + " order-article " + order_article_class_name(r[:quantity], r[:tolerance], r[:result])}
                 %td.name{style: "width:40%", title: article_info_title(oa.article)}
                   = article_info_icon oa.article
                   = oa.article.name
-                %td #{oa.price.unit_quantity} &times; #{oa.article.unit}
+                %td
+                  = oa.article.unit
+                  %span{style: 'opacity: 0.4; margin-left: 1em;'}= pkg_helper(oa.price, soft_uq: true)
                 %td= number_to_currency(oa.price.fc_price)
                 %td
                   = r[:quantity]
@@ -47,7 +51,7 @@
                   %td{colspan: "6"}=h oa.article.note
           %tr{class: cycle('even', 'odd', name: 'articles')}
             %th{colspan: "5"}= heading_helper GroupOrder, :price
-            %th= number_to_currency(@group_order.price)
+            %th= number_to_currency(group_order_sum)
     - elsif @articles_grouped_by_category.count == 0
       = t '.articles.no_articles'
     - else

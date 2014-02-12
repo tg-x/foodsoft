@@ -11,6 +11,9 @@ en:
         add_new: Add an ordergroup...
       show:
         title: ! 'Article: %{name}'
+    group_orders:
+      index:
+        title: Your current orders
     ordergroups:
       articles:
         add_new: Add an article...
@@ -43,3 +46,5 @@ en:
       pay_done: Fully paid
       pay_none: Nothing to pay
       pay_amount: To pay %{amount}
+  ui:
+    back: Back
