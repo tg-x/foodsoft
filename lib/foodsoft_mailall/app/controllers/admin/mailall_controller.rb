@@ -47,7 +47,7 @@ class Admin::MailallController < Admin::BaseController
   def select_users(type)
     case type
     when :all        then User
-    when :current    then Ordergroup.joins(:orders).where(orders: {state: 'finished'}).joins(:users)
+    when :current    then Ordergroup.joins(:orders).where(orders: {state: 'finished'}).joins(:users).select(:email).uniq
     when :approved   then User.joins(:groups).where(groups: {type: 'Ordergroup', approved: true}) if defined? FoodsoftSignup
     when :unapproved then User.joins(:groups).where(groups: {type: 'Ordergroup', approved: false}) if defined? FoodsoftSignup
     end
