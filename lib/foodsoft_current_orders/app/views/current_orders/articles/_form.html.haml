@@ -9,7 +9,7 @@
 
   = form_tag current_orders_articles_path, method: :get, remote: true, 'data-submit-onchange' => true, style: 'display: inline-block; margin: 0;' do
     = select_tag 'order_id',
-        options_for_select([[t('.current_orders'), '']] + @current_orders.order(:name).all.map { |g| [ g.name, g.id ] }, (@order.id rescue '')),
+        options_for_select([[t('.current_orders'), '']] + @current_orders.includes(:supplier).reorder('suppliers.name').all.map { |g| [ g.name, g.id ] }, (@order.id rescue '')),
         id: 'supplier_select', style: 'min-width: 250px', 'data-submit-on-change' => :true
     - article_data = articles_for_select2(@order_articles) {|a| "#{a.article.name} (#{a.article.unit})"}
     = select_tag 'id',
@@ -24,7 +24,7 @@
 - else
   %i#articles_by_articles= t '.no_selection'
 
-= render 'orders/articles_by/common'
+= render 'shared/articles_by/common'
 
 - content_for :javascript do
   :javascript

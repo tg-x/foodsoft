@@ -11,10 +11,10 @@ Gem::Specification.new do |s|
   s.email       = ["dev-foodsoft@willem.engen.nl"]
   s.homepage    = "https://github.com/foodcoop-adam/foodsoft"
   s.summary     = "Mollie iDEAL payment plugin for foodsoft."
-  s.description = "TODO: Description of FoodsoftMollie."
+  s.description = "Integration with Mollie iDEAL payments."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", "~> 3.2.13"
+  s.add_dependency "rails"
   s.add_dependency "ideal-mollie"
 end

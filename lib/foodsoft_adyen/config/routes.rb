@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
   scope '/:foodcoop' do
     namespace :payments do
-      scope '/adyen', :as => :adyen do
+      scope '/adyen', as: :adyen do
 
-        post :notify, :controller => 'AdyenNotifications', :action => 'notify'
+        post :notify, controller: 'adyen_notifications', action: :notify
 
-        resource :pin, :controller => 'AdyenPin', :only => [:new, :create] do
+        resource :pin, controller: 'adyen_pin', only: [:new, :create] do
           get :index
           get :detect
           get :created
         end
 
-        resource :hpp, :controller => 'AdyenHpp', :only => [:new, :create] do
-          get :index, to: 'AdyenHpp#new'
+        resource :hpp, controller: 'adyen_hpp', only: [:new, :create] do
+          get :index, to: :new
           get :result
         end
 

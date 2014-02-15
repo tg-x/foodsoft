@@ -29,8 +29,9 @@
           - r = {quantity: goa.quantity, tolerance: goa.tolerance, result: goa.result, sub_total: goa.total_price(oa)}
           - group_order_sum += r[:sub_total]
           %tr{class: cycle('even', 'odd', name: 'articles') + " order-article " + order_article_class_name(r[:quantity], r[:tolerance], r[:result])}
-            %td.name{style: "width:40%", title: article_info_title(oa.article)}
-              = article_info_icon oa.article
+            -# article_info is present in foodcoop-adam only
+            %td.name{style: "width:40%", title: (article_info_title(oa.article) rescue nil)}
+              = article_info_icon oa.article rescue nil
               = oa.article.name
             %td
               = oa.article.unit

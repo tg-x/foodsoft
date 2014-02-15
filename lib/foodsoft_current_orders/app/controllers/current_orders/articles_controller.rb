@@ -30,10 +30,11 @@ class CurrentOrders::ArticlesController < ApplicationController
     @current_orders = Order.finished_not_closed
     unless params[:order_id].blank?
       @order = Order.find(params[:order_id])
-      @order_articles = @order.order_articles.includes(:article)
+      @order_articles = @order.order_articles
     else
-      @order_articles = OrderArticle.where(order_id: @current_orders.all.map(&:id)).includes(:article)
+      @order_articles = OrderArticle.where(order_id: @current_orders.all.map(&:id))
     end
+    @order_articles = @order_articles.includes(:article, :article_price)
     @order_article = @order_articles.where(id: params[:id]).first
   end
 

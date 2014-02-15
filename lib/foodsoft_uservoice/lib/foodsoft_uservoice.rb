@@ -1,4 +1,3 @@
-require "uservoice-widget"
 require "content_for_in_controllers"
 require "foodsoft_uservoice/engine"
 

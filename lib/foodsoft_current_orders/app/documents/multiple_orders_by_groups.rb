@@ -11,13 +11,13 @@ class MultipleOrdersByGroups < OrderPdf
 
   def body
     # Start rendering
-    Ordergroup.joins(:orders).where(:orders => {:id => @order}).select('distinct(groups.id) AS id, groups.name AS name').order('name').each do |ordergroup|
+    Ordergroup.joins(:orders).where(:orders => {:id => @order}).select('distinct(groups.id) AS id, groups.name AS name').reorder(:name).each do |ordergroup|
 
       total = 0
       rows = []
       dimrows = []
 
-      GroupOrderArticle.ordered.joins(:group_order => :order).where(:group_orders =>{:ordergroup_id => ordergroup.id}).where(:orders => {id: @order}).includes(:order_article).order(:order => :id).each do |goa|
+      GroupOrderArticle.ordered.joins(:group_order => :order).where(:group_orders =>{:ordergroup_id => ordergroup.id}).where(:orders => {id: @order}).includes(:order_article).reorder('orders.id').each do |goa|
         price = goa.order_article.price.fc_price
         sub_total = price * goa.result
         total += sub_total
