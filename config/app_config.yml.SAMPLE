@@ -112,6 +112,25 @@ default: &defaults
     notify_username:
     notify_password:
 
+  # Uservoice configuration - PLEASE MODIFY THE API_KEY (unless you're us)
+  uservoice:
+    api_key: DR2ihjoOYKhKACi6xfcSVg # foodcoop.uservoice.com
+    set:
+      accent_color: rgb(0, 136, 204)
+      trigger_color: white
+      trigger_background_color: rgba(46, 49, 51, 0.6)
+    addTrigger:
+      mode: contact
+      trigger_position: bottom-left
+    # Tell uservoice about the current user; only keys listed will be sent.
+    # id, email, name or created_at will be set to actual values.
+    identify:
+      id:
+      #email:
+      #name:
+      created_at:
+      #type:
+
   # email address to be used as sender
   email_sender: info@foodcoop.nl
 

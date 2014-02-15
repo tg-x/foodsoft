@@ -54,6 +54,7 @@ gem 'foodsoft_current_orders', path: 'lib/foodsoft_current_orders'
 #gem 'foodsoft_userinfo', path: 'lib/foodsoft_userinfo'
 #gem 'foodsoft_mailall', path: 'lib/foodsoft_mailall'
 #gem 'foodsoft_payorder', path: 'lib/foodsoft_payorder'
+gem 'foodsoft_uservoice', path: 'lib/foodsoft_uservoice'
 
 group :production do
   gem 'exception_notification'
