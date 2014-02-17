@@ -3,7 +3,7 @@
     = label_tag 'amount', ((params[:label] or t('.amount_pay')))
     .input-prepend
       %span.add-on= t 'number.currency.format.unit'
-      = number_field_tag 'amount', @amount, min: 0, readonly: (params[:fixed]=='true'), class: 'input-mini'
+      = text_field_tag 'amount', @amount, readonly: (params[:fixed]=='true'), class: 'input-mini'
   = submit_tag t('.submit')
 
   -# pass through options to allow reusing on error
