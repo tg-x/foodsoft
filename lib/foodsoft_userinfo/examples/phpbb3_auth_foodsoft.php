@@ -144,7 +144,10 @@ function autologin_foodsoft()
 
   if ($row)
   {
-    return ($row['user_type'] == USER_INACTIVE || $row['user_type'] == USER_IGNORE) ? array() : $row;
+    if ($row['user_type'] == USER_INACTIVE || $row['user_type'] == USER_IGNORE)
+      return array();
+    update_user_foodsoft($foodsoftUser);
+    return $row;
   }
 
   if (!function_exists('user_add'))
@@ -214,6 +217,23 @@ function user_row_foodsoft($foodsoftUser)
     'user_type'     => USER_NORMAL,
     'user_ip'       => $user->ip,
   );
+}
+
+/**
+ * Updates user info in database
+ */
+function update_user_foodsoft(&$foodsoftUser)
+{
+  global $db, $config, $user;
+
+  $sql = 'UPDATE ' . USERS_TABLE . "
+    SET user_email = '" . $db->sql_escape($foodsoftUser->email) . "'
+    WHERE user_id = '" . $db->sql_escape(get_userid_foodsoft($foodsoftUser)) . "'";
+  $result = $db->sql_query($sql);
+  $row = $db->sql_fetchrow($result);
+  $db->sql_freeresult($result);
+
+  return true;
 }
 
 /**
