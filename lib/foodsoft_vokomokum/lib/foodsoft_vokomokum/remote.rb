@@ -39,7 +39,7 @@ module FoodsoftVokomokum
   protected
 
   def self.members_req(path, cookies)
-    data = {client_id: FoodsoftConfig['vokomokum_client_id'], client_secret: FoodsoftConfig['vokomokum_client_secret']}
+    data = {client_id: FoodsoftConfig[:vokomokum_client_id], client_secret: FoodsoftConfig[:vokomokum_client_secret]}
     self.remote_req(FoodsoftConfig[:vokomokum_members_url], path, data, cookies)
   end
 
@@ -55,7 +55,7 @@ module FoodsoftVokomokum
       req = Net::HTTP::Get.new(uri.request_uri)
     else
       req = Net::HTTP::Post.new(uri.request_uri)
-      req.body = data
+      req.set_form_data data
     end
     # TODO cookie-encode the key and value
     req['Cookie'] = cookies.to_a.map {|v| "#{v[0]}=#{v[1]}"}.join('; ') #
