@@ -7,6 +7,7 @@ nl:
         availability_short: leverb.
         deposit: Statiegeld
         fc_price: Foodcoop prijs
+        fc_price_desc: Prijs inclusief belasting, statiegeld en foodcoop marge.
         fc_price_short: FC prijs
         fc_share: Foodcoop marge
         fc_share_short: FC marge
@@ -86,7 +87,7 @@ nl:
         quantity_short: Gewenst
         units_received: Ontvangen eenheden
         units_received_short: Ontvangen
-        units_to_order: Aantal eenheden
+        units_to_order: Bestelde eenheden
         units_to_order_short: Besteld
         update_global_price: Huidige prijs overal bijwerken
       order_comment:
@@ -375,6 +376,9 @@ nl:
       outlist:
         alert_used: Opgelet, %{article} wordt gebruikt in een lopende bestelling. Haal het eerst uit de bestelling.
         body: ! 'De volgende artikelen zijn uit de lijst gehaald en worden <b>verwijderd</b>:'
+        body_ignored:
+          one: Er is een artikel zonder ondernummer overslagen.
+          other: ! '%{count} artikelen zonder odernummer zijn overgeslagen.'
         body_skip: Er zijn geen artikelen om te verwijderen.
         title: Uit de lijst halen ...
       price_short: prijs
@@ -594,10 +598,6 @@ nl:
       ordergroup:
         remove: Verwijderen
         remove_group: Huishouden verwijderen
-    group_order_articles:
-      form:
-        amount_change_for: Hoeveelheid %{article}
-        result_hint: ! 'Eenheid: %{unit}'
     index:
       amount_fc: Bedrag(FC)
       end: Einde
@@ -659,6 +659,10 @@ nl:
       workgroup:
         edit: Groep bewerken
         show_tasks: Alle taken weergeven
+  group_order_articles:
+    form:
+      amount_change_for: Hoeveelheid %{article}
+      result_hint: ! 'Eenheid: %{unit}'
   group_orders:
     archive:
       desc: Bekijk hier alle %{link}.
@@ -1091,8 +1095,8 @@ nl:
     edit:
       title: Bestelling aanpassen
     edit_amount:
-      field_locked_title: 
-      field_unlocked_title: 
+      field_locked_title: De verdeling van dit artikel over de huishoudens is handmatig aangepast, daarom is dit veld beschermd. Om dit artikel toch te herverdelen en de handmatige wijzigingen teniet te doen kun je op de knop met het slot drukken.
+      field_unlocked_title: De verdeling van dit artikel over de huishoudens is handmatig aangepast. Als je de hoeveelheid hier verandert, worden deze handmatige aanpassingen overschreven.
     fax:
       amount: Aantal
       articles: Artikelen
@@ -1137,7 +1141,7 @@ nl:
       notice_none: Geen nieuwe artikelen te ontvangen
       rest_to_stock: naar voorraad
       submit: Bestelling ontvangen
-      surplus_options: ! 'Overschot verdelen over:'
+      surplus_options: ! 'Overschot:'
       title: ! 'Ontvangen: %{order}'
     show:
       action_end: Sluiten!
@@ -1151,6 +1155,8 @@ nl:
       confirm_end: ! 'Wil je de bestelling %{order} echt sluiten?
 
         Hierna kan zij niet opnieuw geopend worden.'
+      description1: ! '%{state} bestelling van %{supplier}, geopend door %{who}, open van %{starts} tot %{ends}.'
+      description2: ! '%{ordergroups} hebben %{article_count} artikelen besteld met een totale waarden van %{net_sum} / %{gross_sum} (netto / bruto).'
       download:
         article_pdf: Artikelen PDF
         download_file: Bestand downloaden
@@ -1160,6 +1166,11 @@ nl:
         matrix_pdf: Matrix PDF
         title: Downloaden
       group_orders: ! 'Ledenbestellingen:'
+      search_placeholder:
+        articles: Artikelen zoeken...
+        default: Artikelen zoeken...
+        groups: Huishoudens zoeken...
+      search_reset: 
       sort_article: Gesorteerd naar artikel
       sort_group: Gesorteerd naar huishouden
       title: ! 'Bestelling: %{name}'
@@ -1171,11 +1182,10 @@ nl:
     update:
       notice: De bestelling is bijgewerkt.
     update_order_amounts:
-      msg1: 
-      msg2: 
+      msg1: ! '%{count} artikelen (%{units} eenheden) bijgewerkt'
+      msg2: ! '%{count} (%{units}) naar tolerantie'
       msg3: 
-      msg4: 
-      update_order_amounts: 
+      msg4: ! '%{count} (%{units}) overgebleven'
   pages:
     all:
       new_page: Nieuwe pagina maken
@@ -1263,15 +1273,9 @@ nl:
       ordered_desc: Hoeveel artikelen het lid besteld heeft (aantal + tolerantie)
       received: Ontvangen
       received_desc: Hoeveel artikelen het lid is toegewezen danwel heeft gekregen
-    articles_by_articles:
-      ordergroup: Huishouden
+    articles_by:
       price: Totaalprijs
-    articles_by_groups:
-      fc_price: FC-Prijs
-      fc_price_desc: Prijs inclusief belasting, statiegeld en foodcoop marge
-      price: Totaalprijs
-      unit_quantity: Gr.Eenh.
-      unit_quantity_desc: Hoeveel eenheden per groothandelsverpakking
+      price_sum: Som
     group:
       access: Toegang tot
       activated: actief

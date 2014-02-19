@@ -4,12 +4,13 @@ fr:
       article:
         article_category: Catégorie
         availability: l'article est-il disponible?
-        availability_short: 
+        availability_short: disp.
         deposit: Consigne
         fc_price: Prix final
-        fc_price_short: 
-        fc_share: Supplément boufcoop
-        fc_share_short: 
+        fc_price_desc: Prix avec TVA, consigne et part de la coop inclus.
+        fc_price_short: Prix pour les membres
+        fc_share: Marge de la coop
+        fc_share_short: Marge de la coop
         gross_price: Prix brut
         manufacturer: ProductRICE_eur
         name: Nom
@@ -18,11 +19,11 @@ fr:
         order_number_short: Numéro
         origin: Lieu de production
         price: Prix net
-        supplier: 
+        supplier: Fournisseu-r-se
         tax: TVA
-        unit: Unité
+        unit: Taille des lots proposés
         unit_quantity: Unités par lot
-        unit_quantity_short: 
+        unit_quantity_short: U.
         units: Lots
       article_category:
         description: Description
@@ -34,14 +35,14 @@ fr:
         unit_quantity: Unités par lot
       delivery:
         delivered_on: Date de réapprovisionnement
-        note: 
+        note: Note
         supplier: Fournisseuse_r
       financial_transaction:
         amount: Montant
         created_on: Date
         note: Note
         ordergroup: Cellule
-        user: 
+        user: Créateur-trice
       group_order:
         price: Total de la commande
         updated_by: Dernière commande
@@ -49,7 +50,7 @@ fr:
         ordergroup_id: Cellul
         quantity: Quantité
         result: Quantité
-        tolerance: 
+        tolerance: Tolérance
         total_price: Total
       invoice:
         amount: Montant
@@ -74,20 +75,20 @@ fr:
         created_by: Établi par
         ends: Clôture le
         name: FournisseurE
-        note: 
+        note: Note
         starts: Ouverture le
-        status: 
-        supplier: 
+        status: Statut
+        supplier: Fournisseu-r-se
       order_article:
         article: Article
         missing_units: Unités manquantes
-        missing_units_short: 
-        quantity: 
-        quantity_short: 
-        units_received: 
-        units_received_short: 
+        missing_units_short: Manquant
+        quantity: Quantité demandée
+        quantity_short: Demandé
+        units_received: Unités recues
+        units_received_short: Recu
         units_to_order: Quantité
-        units_to_order_short: 
+        units_to_order_short: Commandé
         update_global_price: Mettre à jour le prix global
       order_comment:
         text: Commenter cette commande...
@@ -111,11 +112,11 @@ fr:
         available: Disponible
         price: Prix net
         quantity: en Stock
-        quantity_available: 
-        quantity_available_short: 
+        quantity_available: Quantité disponible
+        quantity_available_short: Disp.
         quantity_ordered: Commandés
       stock_taking:
-        date: 
+        date: Date
         note: 
       supplier:
         address: Adresse
@@ -126,7 +127,7 @@ fr:
         email: Email
         fax: Fa
         is_subscribed: abonné?
-        min_order_quantity: Quantité minimale à commander
+        min_order_quantity: Prix minimum d'une commande
         min_order_quantity_short: 
         name: Nom
         note: Note
@@ -263,7 +264,7 @@ fr:
         first_paragraph: De nouveaux membres peuvent être invités %{url}.
         here: ici
       index:
-        first_paragraph: Sur cette page, tu peux ajouter, modifier et supprimer %{url}.
+        first_paragraph: Sur cette page, tu peux ajouter, modifier et supprimer des %{url}.
         new_workgroup: Définir une nouvelle équipe
         new_workgroups: nouvelles équipes
         ordergroup: cellule
@@ -377,6 +378,7 @@ fr:
       outlist:
         alert_used: 
         body: ! 'Les articles suivants ne sont plus dans la liste et seront donc <b>supprimés</b>:'
+        body_ignored: 
         body_skip: Aucun article à supprimer.
         title: Exclure de la liste...
       price_short: Prix
@@ -558,7 +560,7 @@ fr:
       orders:
         clear: décompter
         cleared: déjà décompté (%{amount})
-        close: fermer maintenant
+        close: finaliser maintenant
         confirm: Veux-tu vraiment terminer la commande?
         end: Fin
         ended: closes
@@ -604,10 +606,6 @@ fr:
       ordergroup:
         remove: Supprimer
         remove_group: Supprimer cette cellule
-    group_order_articles:
-      form:
-        amount_change_for: Modification de la quantité de %{article}
-        result_hint: 
     index:
       amount_fc: Montant(boufcoop)
       end: Fin
@@ -673,6 +671,10 @@ fr:
       workgroup:
         edit: Modifier la cellule
         show_tasks: Afficher tous les boulots
+  group_order_articles:
+    form:
+      amount_change_for: Modification de la quantité de %{article}
+      result_hint: 
   group_orders:
     archive:
       desc: Accéder à toutes les %{link}.
@@ -723,7 +725,7 @@ fr:
       articles:
         edit_order: Modifier ta commande
         not_ordered_msg: Tu n'as pas encore commandé
-        order_closed_msg: Désolé, cette commande a déjà été fermée. Il faudra te réveiller plus tôt la prochaine fois
+        order_closed_msg: Désolé, cette commande a déjà été finalisée. Il faudra te réveiller plus tôt la prochaine fois
         order_nopen_title: En tenant compte des commandes en cours de toutes les cellules
         order_not_open: Déjà reçu
         order_now: Voilà ta chance!
@@ -820,7 +822,7 @@ fr:
     ordergroup_cancelled: Tu ne fais plus partie de la cellule %{group}.
     profile:
       groups:
-        cancel: Quitter la coop
+        cancel: Quitter cette équipe
         cancel_confirm: T'es sûrE de vouloir partir?
         invite: Engrainer de nouveaux membres
         title: Tu fais partie des équipes suivantes
@@ -976,7 +978,7 @@ fr:
       text0: ! 'CherEs %{ordergroup},
 
 
-        La commande pour "%{order}" a été fermée le %{when} par %{user}.
+        La commande pour "%{order}" a été finalisée le %{when} par %{user}.
 
         Voilà la liste des articles qui ont été commandés pour vous:'
       text1: ! 'Prix total: %{sum}
@@ -1172,6 +1174,8 @@ fr:
       comments_link: Commenaire
       confirm_delete: Veux-tu vraiment supprimer la commande?
       confirm_end: Veux tu vraiment terminer la commande %{order}? Pas d'annulation possible.
+      description1: 
+      description2: 
       download:
         article_pdf: Liste des articles en PDF
         download_file: Télécharger
@@ -1181,6 +1185,11 @@ fr:
         matrix_pdf: Matrice de distribution en PDF
         title: Télécharger
       group_orders: ! 'Commandes des cellules:'
+      search_placeholder:
+        articles: 
+        default: 
+        groups: 
+      search_reset: 
       sort_article: Trié par article
       sort_group: Trié par cellules
       title: ! 'Commande: %{name}'
@@ -1196,7 +1205,6 @@ fr:
       msg2: 
       msg3: 
       msg4: 
-      update_order_amounts: 
   pages:
     all:
       new_page: Créer une nouvelle page
@@ -1284,15 +1292,9 @@ fr:
       ordered_desc: 
       received: Reçu
       received_desc: 
-    articles_by_articles:
-      ordergroup: Cellul
+    articles_by:
       price: Prix total
-    articles_by_groups:
-      fc_price: Prix coop
-      fc_price_desc: Prix avec TVA, consigne et part de la coop inclus.
-      price: Prix total
-      unit_quantity: U/L
-      unit_quantity_desc: Unités par lot
+      price_sum: 
     group:
       access: Accès à
       activated: activé
@@ -1330,7 +1332,7 @@ fr:
         edit_stock_article:
           price: <ul><li>Modification du prix enregistrée. </li><li>Si nécessaire %{stock_article_copy_link}.</li></ul>
       supplier:
-        min_order_quantity: La quantité minimum à commander est affichée pendant la commande et doit motiver
+        min_order_quantity: Ce prix minimum sera affiché avec la liste de commande et permet de motiver les membres
       task:
         duration: Combien de temps dure le boulot, 1 à 3 heures
         required_users: De combien de personnes avons-nous besoin au total?
@@ -1338,16 +1340,16 @@ fr:
     labels:
       settings:
         messages:
-          send_as_email: Transmettre les messages de la boufcoop par email
+          send_as_email: Te transmettre les messages de la boufcoop par email
         notify:
-          negative_balance: Envoyer un avertissement si la cellule est dans le rouge.
-          order_finished: Envoyer un résumé de la commande finale (après la fermeture)
-          upcoming_tasks: Envoyer un rappel des prochains boulots
+          negative_balance: T'envoyer un avertissement si le compte de ta cellule vire au rouge.
+          order_finished: T'envoyer un résumé de tes commandes après leur finalisation
+          upcoming_tasks: T'envoyer un rappel de tes prochains boulots
         profile:
-          email_is_public: Permettre aux autres membres de voir l'adresse email.
+          email_is_public: Permettre aux autres membres de voir ton adresse email.
           language: Langue
-          name_is_public: Permettre aux autres membres de voir le nom.
-          phone_is_public: Permettre aux autres membres de voir le numéro de téléphone.
+          name_is_public: Permettre aux autres membres de voir ton vrai nom.
+          phone_is_public: Permettre aux autres membres de voir ton numéro de téléphone.
         settings_group:
           messages: Messages
           privacy: Confidentialité

@@ -7,7 +7,7 @@ en:
         availability_short: avail.
         deposit: Deposit
         fc_price: FoodCoop price
-        fc_price_desc: Price including taxes, deposit and Foodcoop-charge
+        fc_price_desc: Price including taxes, deposit and Foodcoop-charge.
         fc_price_short: FC price
         fc_share: FoodCoop margin
         fc_share_short: FC margin
@@ -661,6 +661,10 @@ en:
       workgroup:
         edit: Edit group
         show_tasks: Show all tasks
+  group_order_articles:
+    form:
+      amount_change_for: Change amount for %{article}
+      result_hint: ! 'Unit: %{unit}'
   group_orders:
     archive:
       desc: View all %{link} here.
@@ -735,10 +739,6 @@ en:
       error_general: The order couldn’t be updated due to a bug.
       error_stale: Someone else has ordered in the meantime, couldn't update the order.
       notice: The order was saved.
-  group_order_articles:
-    form:
-      amount_change_for: Change amount for %{article}
-      result_hint: ! 'Unit: %{unit}'
   helpers:
     application:
       edit_user: Edit user
@@ -1189,9 +1189,9 @@ en:
         title: Download
       group_orders: ! 'Group orders:'
       search_placeholder:
+        articles: Search for articles...
         default: Search for articles...
         groups: Search for ordergroups...
-        articles: Search for articles...
       search_reset: Reset search
       sort_article: Sorted in articles
       sort_group: Sorted in groups
@@ -1208,7 +1208,6 @@ en:
       msg2: ! '%{count} (%{units}) using tolerance'
       msg3: ! '%{count} (%{units}) go to stock if foodsoft would support that [don''t translate]'
       msg4: ! '%{count} (%{units}) left over'
-      update_order_amounts: 
   pages:
     all:
       new_page: Create new page

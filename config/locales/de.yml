@@ -7,7 +7,7 @@ de:
         availability_short: verf.
         deposit: Pfand
         fc_price: Endpreis
-        fc_price_desc: Preis incl. MwSt, Pfand und Foodcoop-Aufschlag
+        fc_price_desc: Preis incl. MwSt, Pfand und Foodcoop-Aufschlag.
         fc_price_short: FC-Preis
         fc_share: FoodCoop-Aufschlag
         fc_share_short: FC-Aufschlag
@@ -376,6 +376,9 @@ de:
       outlist:
         alert_used: Achtung, %{article} wird gerade in einer laufenden Bestellung verwendet. Bitte erst Bestellung anpassen.
         body: ! 'Folgende Artikel wurden ausgelistet und werden <b>gelöscht</b>:'
+        body_ignored:
+          one: Ein Artikel ohne Bestellnummer wurde übersprungen.
+          other: ! '%{count} Artikel ohne Bestellnummer wurden übersprungen.'
         body_skip: Es müssen keine Artikel gelöscht werden.
         title: Auslisten ...
       price_short: Preis
@@ -596,10 +599,6 @@ de:
       ordergroup:
         remove: Entfernen
         remove_group: Gruppe enfernen
-    group_order_articles:
-      form:
-        amount_change_for: Mengenänderung für %{article}
-        result_hint: ! 'Einheit: %{unit}'
     index:
       amount_fc: Betrag(FC)
       end: Ende
@@ -661,6 +660,10 @@ de:
       workgroup:
         edit: Gruppe bearbeiten
         show_tasks: Alle Aufgaben zeigen
+  group_order_articles:
+    form:
+      amount_change_for: Mengenänderung für %{article}
+      result_hint: ! 'Einheit: %{unit}'
   group_orders:
     archive:
       desc: Siehe hier alle %{link}.
@@ -1168,6 +1171,8 @@ de:
       confirm_end: ! 'Willst Du wirklich die Bestellung %{order} beenden?
 
         Es gibt kein zurück.'
+      description1: ! '%{state} Bestellung von %{supplier} angelegt von %{who}, läuft von %{starts} bis %{ends}.'
+      description2: ! '%{ordergroups} haben %{article_count} Artikel mit einem Gesamtwert von %{net_sum} / %{gross_sum} (netto / brutto) bestellt.'
       download:
         article_pdf: Artikel PDF
         download_file: Download file
@@ -1177,6 +1182,11 @@ de:
         matrix_pdf: Matrix PDF
         title: Download
       group_orders: ! 'Gruppenbestellungen:'
+      search_placeholder:
+        articles: Suche nach Artikeln ...
+        default: Suche nach Artikeln ...
+        groups: Suche nach Bestellgruppen ...
+      search_reset: Suche zurücksetzen
       sort_article: Sortiert nach Artikeln
       sort_group: Sortiert nach Gruppen
       title: ! 'Bestellung: %{name}'
@@ -1192,7 +1202,6 @@ de:
       msg2: ! '%{count} (%{units}) Toleranzmenge'
       msg3: 
       msg4: ! '%{count} (%{units}) übrig'
-      update_order_amounts: 
   pages:
     all:
       new_page: Neue Seite anlegen
@@ -1280,14 +1289,9 @@ de:
       ordered_desc: Anzahl der Artikel die durch das Mitglied bestellt wurden (Menge + Toleranz)
       received: Bekommen
       received_desc: Anzahl der Artikel die ein Mitglied erhält
-    articles_by_articles:
-      ordergroup: Bestellgruppe
-      price: Gesamtpreis
-    articles_by_groups:
+    articles_by:
       price: Gesamtpreis
       price_sum: Summe
-      unit_quantity: GebGr
-      unit_quantity_desc: Gebindegröße
     group:
       access: Zugriff auf
       activated: aktiviert
@@ -1429,7 +1433,7 @@ de:
       reason: Ereignis
       stock_changes: Verlauf des Lagerbestands
     stock_article:
-      confirm_delete: 
+      confirm_delete: Möchtest Du den Lagerartikel %{name} wirklich löschen?
     update:
       notice: Lagerartikel »%{name}« aktualisiert.
   suppliers:
