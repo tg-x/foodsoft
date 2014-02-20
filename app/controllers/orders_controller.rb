@@ -57,7 +57,7 @@ class OrdersController < ApplicationController
 
   # Page to create a new order.
   def new
-    @order = Order.new :ends => 4.days.from_now, :supplier_id => params[:supplier_id]
+    @order = Order.new starts: Time.now, ends: 4.days.from_now, supplier_id: params[:supplier_id]
   end
 
   # Save a new order.
@@ -67,7 +67,7 @@ class OrdersController < ApplicationController
     @order.created_by = current_user
     if @order.save
       flash[:notice] = I18n.t('orders.create.notice')
-      redirect_to @order
+      redirect_to orders_path
     else
       logger.debug "[debug] order errors: #{@order.errors.messages}"
       render :action => 'new'
