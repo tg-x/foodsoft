@@ -4,6 +4,25 @@
 #
 #   http://www.capistranorb.com/
 #   https://semaphoreapp.com/blog/2013/11/26/capistrano-3-upgrade-guide.html
+#
+#
+# This is the general configuration file for deployments. In addition
+# to those defaults, each deployment location has its own file in
+# config/deploy/<stage>.rb. These variables are loaded after this file.
+#
+# Example:
+#
+#     set :suburi,     'test'
+#     set :stage,      'production'
+#     server fetch(:domain), user: fetch(:user), roles: [:web, :app, :resque, :db]
+#     after 'deploy:updated', 'deploy:enable_plain_http'
+#
+# With this saves as `config/deploy/test.rb`, you can run the following
+# to update the test environment:
+#
+#     capistrano test deploy deploy:restart
+#
+
 
 # defaults that can be updated from the environment
 set :branch,              ENV["REVISION"] || ENV["BRANCH_NAME"] || "master"
@@ -14,10 +33,10 @@ set :application,         'foodsoft'            # application name (whatever you
 set :domain,              'order.foodcoop.nl'   # host
 set :user,                'deploy'              # ssh deploy user
 set :run_user,            'foodsoft'            # user app runs as
-set :db_user,             "fs_#{fetch :suburi}"
+set :db_user,             Proc.new { "fs_#{fetch :suburi}" }
 set :keep_releases,       10
 set :repo_url,            'git://github.com/foodcoop-adam/foodsoft.git'
-set :deploy_to,            "/www/apps/#{fetch :application}_#{fetch :suburi}"
+set :deploy_to,           Proc.new { "/www/apps/#{fetch :application}_#{fetch :suburi}" }
 
 # more settings which are probably ok
 set :log_level,           :info
@@ -25,10 +44,12 @@ set :linked_files,        %w{config/database.yml config/app_config.yml config/in
 set :linked_dirs,         %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # assuming one server for everything, with one user for deploy and one for resque
-server fetch(:domain), user: fetch(:user), roles: [:web, :app, :resque, :db]
+# put this in your config/<stage>.rb
+#server fetch(:domain), user: fetch(:user), roles: [:web, :app, :resque, :db]
 
 # if you use RVM, uncomment the line in Capfile, and optionally uncomment rvm settings
-set :rvm_ruby_string,     :system
+set :rvm_type,           :system
+#set :rvm_ruby_version,   '2.0'
 
 # task hooks
 namespace :deploy do
@@ -48,33 +69,33 @@ namespace :deploy do
   # see lib/capistrano/tasks/plugins.cap
   before 'bundler:install', 'enable_plugins:auto'
 
-  # force ruby 2.0 (until we've merged the rails4 branch)
-  before 'bundler:install', 'rvm:force_ruby_2' do
-    on roles(:app) do
-      execute :sed, '-i', '\'s|^\s*ruby\b.*$|ruby "2.0.0"|\'', release_path.join('Gemfile')
+
+  # include in stage config: `after 'deploy:updated', 'deploy:payment_set_test'`
+  desc 'Use test payments'
+  task 'payment_set_test' do
+    # test/demo instances use Adyen test infrastructure
+    data = 'Adyen.configuration.environment = :test if defined? FoodsoftAdyen'
+    upload! StringIO.new(data), release_path.join('config/initializers/adyen_test.rb')
+    execute :chmod, 'a+r', release_path.join('config/initializers/adyen_test.rb')
+  end
+
+  # include in stage config: `after 'deploy:updated', 'deploy:enable_plain_http'`
+  desc 'Allow non-ssl in production'
+  task 'enable_plain_http' do
+    on roles(:app), in: :sequence do
+      execute :sed, '-i', '\'s|^\(\s*config\.force_ssl\s*=\s*\).*$|\1false|\'',
+        release_path.join("config/environments/#{fetch :stage}.rb")
     end
   end
 
   # some local hacks
   after 'deploy:updated', 'deploy:localhacks' do
     on roles(:app), in: :sequence do
-
       # use custom rake queue names
       execute :sed, '-i', "'s|foodsoft_notifier|#{fetch :suburi}_foodsoft_notifier|'",
-        release_path.join('app/workers/user_notifier.rb'), release_path.join('lib/tasks/resque.rake')
-
-      # some instances work without ssl
-      if %w(vokomokum).include?(fetch(:suburi))
-        execute :sed, '-i', '\'s|^\(\s*config\.force_ssl\s*=\s*\).*$|\1false|\'',
-          release_path.join("config/environments/#{fetch :stage}.rb")
-      end
-
-      # test/demo instances use Adyen test infrastructure
-      if %w(test demo).include?(fetch(:suburi))
-        data = 'Adyen.configuration.environment = :test if defined? FoodsoftAdyen'
-        upload! StringIO.new(data), release_path.join('config/initializers/adyen_test.rb')
-        execute :chmod, 'a+r', release_path.join('config/initializers/adyen_test.rb')
-      end
+        release_path.join('app/workers/user_notifier.rb'),
+        release_path.join('lib/tasks/resque.rake')
+        #release_path.join('app/workers/supplier_notifier.rb')
     end
   end
 
