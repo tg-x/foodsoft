@@ -35,6 +35,13 @@ PATH
       rails
 
 PATH
+  remote: lib/foodsoft_mailall
+  specs:
+    foodsoft_mailall (0.0.1)
+      content_for_in_controllers
+      rails
+
+PATH
   remote: lib/foodsoft_mollie
   specs:
     foodsoft_mollie (0.0.1)
@@ -421,6 +428,7 @@ DEPENDENCIES
   faker
   foodsoft_adyen!
   foodsoft_current_orders!
+  foodsoft_mailall!
   foodsoft_mollie!
   foodsoft_signup!
   foodsoft_uservoice!

@@ -53,7 +53,7 @@ gem 'foodsoft_current_orders', path: 'lib/foodsoft_current_orders'
 #gem 'foodsoft_vokomokum', path: 'lib/foodsoft_vokomokum'
 #gem 'foodsoft_protect_shared', path: 'lib/foodsoft_protect_shared'
 #gem 'foodsoft_userinfo', path: 'lib/foodsoft_userinfo'
-#gem 'foodsoft_mailall', path: 'lib/foodsoft_mailall'
+gem 'foodsoft_mailall', path: 'lib/foodsoft_mailall'
 #gem 'foodsoft_payorder', path: 'lib/foodsoft_payorder'
 gem 'foodsoft_uservoice', path: 'lib/foodsoft_uservoice'
 
