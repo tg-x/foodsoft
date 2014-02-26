@@ -103,6 +103,12 @@ default: &defaults
   # When the payorder plugin is enabled, use Adyen to pay
   payorder_payment: new_payments_adyen_hpp_path
 
+  # Mollie payment settings
+  mollie:
+    partner_id:
+    profile_key:
+    test_mode: false
+
   # Adyen payment settings
   adyen:
     # ISO currency code - http://www.currency-iso.org/en/home/tables/table-a1.html

@@ -8,3 +8,6 @@
     = select_tag 'bank_id', options_from_collection_for_select(@banks, 'id', 'name')
   = submit_tag t('.submit')
 
+  -# pass through options to allow reusing on error
+  - %w(label title fixed).each do |k|
+    = hidden_field_tag k, params[k] if params[k]
