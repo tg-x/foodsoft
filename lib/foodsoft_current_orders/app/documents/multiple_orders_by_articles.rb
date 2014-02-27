@@ -33,7 +33,7 @@ class MultipleOrdersByArticles < OrderPdf
       rows.unshift [GroupOrder.human_attribute_name(:ordergroup),
                     I18n.t('shared.articles.ordered'),
                     I18n.t('shared.articles.received'),
-                    I18n.t('orders.articles_by.price_sum')]
+                    I18n.t('shared.articles_by.price_sum')]
 
 
       text "<b>#{order_article.article.name}</b> " +

@@ -22,6 +22,6 @@
         = f.hidden_field :ordergroup_id, value: @ordergroup.id
 
   %tr#single_ordergroup_total{:class => cycle('even', 'odd', :name => 'articles')}
-    %th{colspan: 7}= t 'orders.articles_by.price_sum'
+    %th{colspan: 7}= t 'shared.articles_by.price_sum'
     %th.price_sum{colspan: 2, data: {value: total}}= number_to_currency(total)
 

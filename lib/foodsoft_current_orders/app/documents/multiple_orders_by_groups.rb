@@ -38,7 +38,7 @@ class MultipleOrdersByGroups < OrderPdf
                     I18n.t('shared.articles.ordered'),
                     I18n.t('shared.articles.received'),
                     OrderArticle.human_attribute_name(:price),
-                    I18n.t('orders.articles_by.price_sum')]
+                    I18n.t('shared.articles_by.price_sum')]
 
       text ordergroup.name, size: 9, style: :bold
       table rows, width: 500, cell_style: {size: 8, overflow: :shrink_to_fit} do |table|
