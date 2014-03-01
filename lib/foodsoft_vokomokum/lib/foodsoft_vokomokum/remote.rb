@@ -44,7 +44,8 @@ module FoodsoftVokomokum
   end
 
   def self.order_req(path, data, cookies)
-    self.remote_req(FoodsoftConfig[:vokomokum_order_url], path, data, cookies)
+    data = {client_id: FoodsoftConfig[:vokomokum_client_id], client_secret: FoodsoftConfig[:vokomokum_client_secret]}
+    self.remote_req(FoodsoftConfig[:vokomokum_order_url], path, data)
   end
 
   def self.remote_req(url, path, data=nil, cookies={})

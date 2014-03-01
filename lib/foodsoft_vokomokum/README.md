@@ -24,12 +24,9 @@ This plugin is configured in the foodcoop configuration in foodsoft's
 
    # To access the Vokomokum system with a session from a different ip address,
    # authentication is needed. Make sure they match Vokomokum configuration.
+   # This is used for both the members and order system.
    vokomokum_client_id: external_app
    vokomokum_client_secret: ze_zekrit_123
-
-   # Vokomokum login for submitting fresh amounts
-   vokomokum_order_user: 123
-   vokomokum_order_password: secret password
    ```
 
 There are no default values, so you need to set them. This is intentional.
