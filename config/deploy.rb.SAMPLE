@@ -37,6 +37,7 @@ set :db_user,             Proc.new { "fs_#{fetch :suburi}" }
 set :keep_releases,       10
 set :repo_url,            'git://github.com/foodcoop-adam/foodsoft.git'
 set :deploy_to,           Proc.new { "/www/apps/#{fetch :application}_#{fetch :suburi}" }
+set :sharedlists_db,      'sharedlists'
 
 # more settings which are probably ok
 set :log_level,           :info
@@ -73,10 +74,12 @@ namespace :deploy do
   # include in stage config: `after 'deploy:updated', 'deploy:payment_set_test'`
   desc 'Use test payments'
   task 'payment_set_test' do
-    # test/demo instances use Adyen test infrastructure
-    data = 'Adyen.configuration.environment = :test if defined? FoodsoftAdyen'
-    upload! StringIO.new(data), release_path.join('config/initializers/adyen_test.rb')
-    execute :chmod, 'a+r', release_path.join('config/initializers/adyen_test.rb')
+    on roles(:app), in: :sequence do
+      # test/demo instances use Adyen test infrastructure
+      data = 'Adyen.configuration.environment = :test if defined? FoodsoftAdyen'
+      upload! StringIO.new(data), release_path.join('config/initializers/adyen_test.rb')
+      execute :chmod, 'a+r', release_path.join('config/initializers/adyen_test.rb')
+    end
   end
 
   # include in stage config: `after 'deploy:updated', 'deploy:enable_plain_http'`
@@ -99,6 +102,16 @@ namespace :deploy do
     end
   end
 
+  # include suburi in session cookie path
+  task 'initial:update_session_path' do
+    on roles(:app), in: :sequence do
+      execute :perl, '-i', '-pe',
+        "'"+'s|^(.*\.config\.session_store\b.*?)(,\s*path:[^,]+(.*))?$|\1, path: "/'+fetch(:suburi)+'"\3\n|'+"'",
+        shared_path.join('config/initializers/session_store.rb')
+    end
+  end
+  after 'deploy:initial:app_config', 'deploy:initial:update_session_path'
+
   # also grant access to sharedlists when creating a database
   after 'initial:db:create', 'initial:db:grant_sharedlists' do
     on roles(:app), in: :sequence do
@@ -110,12 +123,34 @@ namespace :deploy do
   end
 
   # include sharedlists in database.yml
-  after 'deploy:initial:db:config', 'initial:db:config:sharedlists' do
+  task 'initial:db:config:sharedlists' => ['deploy:set_rails_env'] do
     on roles(:app), in: :sequence do
       config = capture :cat, shared_path.join("config/database.yml")
-      config.gsub /^(\s*#{fetch :rails_env}:)/, "\\1 &#{fetch :rails_env}"
+      config.gsub! /^(\s*#{fetch :rails_env}:)/, "\\1 &#{fetch :rails_env}"
       config += "\nsharedlists:\n  <<: *#{fetch :rails_env}\n  database: sharedlists\n"
       upload! StringIO.new(config), shared_path.join("config/database.yml")
+    end
+  end
+  after 'deploy:initial:db:config', 'deploy:initial:db:config:sharedlists'
+
+  # setup awstats config
+  after 'deploy:initial', 'deploy:initial:awstats' do
+    on roles(:app), in: :sequence do
+      config = <<-EOF
+        Include "/etc/awstats/awstats.conf"
+        SiteDomain="#{fetch :domain}"
+        OnlyFiles="REGEX[#{fetch :suburi}\/]"
+      EOF
+      upload! StringIO.new(config), File.join('/etc/awstats', "awstats.#{fetch :suburi}.conf")
+    end
+  end
+
+  # fix permissions!
+  after 'deploy:initial', 'deploy:initial:fix_permissions' do
+    on roles(:app), in: :sequence do
+      # XXX run_user misused as group
+      execute :chown, ":#{fetch :run_user}", shared_path.join('log'), shared_path.join('tmp/*')
+      execute :chmod, 'g+ws', shared_path.join('log'), shared_path.join('tmp/*')
     end
   end
 
