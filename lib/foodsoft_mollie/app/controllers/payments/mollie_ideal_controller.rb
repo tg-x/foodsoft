@@ -89,7 +89,6 @@ class Payments::MollieIdealController < ApplicationController
 
   def set_mollie_cfg
     if mcfg = FoodsoftConfig[:mollie]
-      puts "yay! #{mcfg.inspect}"
       IdealMollie::Config.partner_id  = mcfg['partner_id']  if mcfg['partner_id']
       IdealMollie::Config.profile_key = mcfg['profile_key'] if mcfg['profile_key']
       IdealMollie::Config.test_mode   = mcfg['test_mode']   if mcfg['test_mode']
