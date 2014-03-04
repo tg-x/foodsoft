@@ -55,13 +55,6 @@ PATH
       deface (~> 1.0.0)
       rails
 
-PATH
-  remote: lib/foodsoft_uservoice
-  specs:
-    foodsoft_uservoice (0.0.1)
-      content_for_in_controllers
-      rails
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -431,7 +424,6 @@ DEPENDENCIES
   foodsoft_mailall!
   foodsoft_mollie!
   foodsoft_signup!
-  foodsoft_uservoice!
   haml-rails
   i18n-js!
   i18n-spec
