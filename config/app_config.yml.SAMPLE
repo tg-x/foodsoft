@@ -42,7 +42,10 @@ default: &defaults
   #ignore_browser_locale: false
 
   # price markup in percent
-  price_markup: 7.0
+  price_markup: 3.0
+
+  # percentage to add to supplier's price when importing from the shared database
+  price_markup_shared: 3.0
 
   # default vat percentage for new articles
   tax_default: 6.0

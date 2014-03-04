@@ -64,6 +64,8 @@ describe Article do
     let(:supplier) { create :supplier, shared_supplier_id: shared_supplier.id }
     let(:article) { create :article, supplier: supplier, order_number: shared_article.order_number }
 
+    before { FoodsoftConfig.config[:price_markup_shared] = 0 }
+
     it 'can be found in the shared database' do
       expect(article.shared_article).to_not be_nil
     end
