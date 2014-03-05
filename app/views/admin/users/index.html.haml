@@ -6,7 +6,7 @@
     = link_to '#', data: {toggle: 'dropdown'}, class: 'btn dropdown-toggle' do
       %span.caret
     %ul.dropdown-menu
-      %li= link_to t('.new_user'), new_admin_user_path(:user => {:ordergroup => {:id => 'new'}}), class: 'btn btn-primary'
+      %li= link_to t('.new_user'), new_admin_user_path(:user => {:ordergroup => {:id => 'new'}})
       %li= link_to t('.new_user_invite'), new_invite_path, remote: true
 
 - content_for :sidebar do

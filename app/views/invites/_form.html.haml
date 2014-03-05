@@ -6,7 +6,7 @@
 = form.hidden_field :user_id
 - if @current_user.role_admin?
   .control-group
-    = form.input_field :email, as: :text, style: 'width: 98%', required: true
+    = form.input_field :email, as: :text, style: 'width: 98%', required: true, rows: 4
     .help-block= t '.email_multiple_hint'
 - else
   = form.input :email, required: true
