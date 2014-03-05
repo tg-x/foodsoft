@@ -98,8 +98,8 @@ describe 'invitation', :type => :feature do
   end
 
 
-  def test_accept_invitation_path(**user_attributes)
-    user = build :user, **user_attributes
+  def test_accept_invitation_path(user_attributes)
+    user = build :user, user_attributes
     within('form.new_user, form.edit_user') do
       fill_in 'user_email', :with => user.email
       fill_in 'user_first_name', :with => user.first_name unless user.first_name.blank?
@@ -114,8 +114,8 @@ describe 'invitation', :type => :feature do
     User.where(email: user.email).first
   end
 
-  def new_user_attributes(**user_attributes)
-    user = build :user, **user_attributes
+  def new_user_attributes(user_attributes)
+    user = build :user, user_attributes
     {
       nick: user.nick,
       first_name: user.first_name,
