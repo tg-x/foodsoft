@@ -70,6 +70,7 @@ namespace :deploy do
   # see lib/capistrano/tasks/plugins.cap
   before 'bundler:install', 'enable_plugins:auto'
 
+  after 'deploy:initial', 'deploy:suburi:all'
 
   # include in stage config: `after 'deploy:updated', 'deploy:payment_set_test'`
   desc 'Use test payments'
@@ -96,21 +97,10 @@ namespace :deploy do
     on roles(:app), in: :sequence do
       # use custom rake queue names
       execute :sed, '-i', "'s|foodsoft_notifier|#{fetch :suburi}_foodsoft_notifier|'",
-        release_path.join('app/workers/user_notifier.rb'),
+        release_path.join('app/workers/*_notifier.rb'),
         release_path.join('lib/tasks/resque.rake')
-        #release_path.join('app/workers/supplier_notifier.rb')
     end
   end
-
-  # include suburi in session cookie path
-  task 'initial:update_session_path' do
-    on roles(:app), in: :sequence do
-      execute :perl, '-i', '-pe',
-        "'"+'s|^(.*\.config\.session_store\b.*?)(,\s*path:[^,]+(.*))?$|\1, path: "/'+fetch(:suburi)+'"\3\n|'+"'",
-        shared_path.join('config/initializers/session_store.rb')
-    end
-  end
-  after 'deploy:initial:app_config', 'deploy:initial:update_session_path'
 
   # also grant access to sharedlists when creating a database
   after 'initial:db:create', 'initial:db:grant_sharedlists' do
