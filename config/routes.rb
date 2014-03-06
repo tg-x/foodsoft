@@ -132,6 +132,7 @@ Foodsoft::Application.routes.draw do
           post :sync
           post :update_synchronized
         end
+        get :fields_from_shared
       end
     end
 

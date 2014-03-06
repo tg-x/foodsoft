@@ -1,6 +1,22 @@
 -# use the local 'f', or supply 'f_uq' and 'f_unit' for more control (like in balancing)
+- article = (f_unit rescue f).object
+- article = nil unless article.instance_of? Article and not article.shared_article.nil?
 .fold-line
   = (f_uq rescue f).input :unit_quantity, label: Article.human_attribute_name(:unit),
     input_html: {class: 'input-mini', title: Article.human_attribute_name(:unit_quantity)}
   = (f_unit rescue f).input :unit, label: '&times;'.html_safe,
-    input_html: {class: 'input-mini', title: Article.human_attribute_name(:unit)}
+    input_html: {class: 'input-mini _unit_input_field', title: Article.human_attribute_name(:unit)}
+  - if article
+    = button_tag type: 'button', name: 'update_from_shared', title: 'Update price and unit quantity from shared database' do
+      %i.icon-refresh
+
+- if article
+  :javascript
+    $('input[type=button][name=update_from_shared], button[name=update_from_shared]').on('click', function() {
+      $.ajax({
+        url: '#{supplier_article_fields_from_shared_path(article.supplier, article)}',
+        type: 'get',
+        data: {unit: $('._unit_input_field').val()},
+        contentType: 'application/json; charset=UTF-8'
+      });
+    });

@@ -264,4 +264,19 @@ class ArticlesController < ApplicationController
                   alert: I18n.t('errors.general_msg', :msg => error.message)
     end
   end
+
+  def fields_from_shared
+    @article = Article.find(params[:article_id])
+    @article.unit = params[:unit]
+    converted = @article.convert_units
+    if not converted
+      return # incompatible units, fail non-gracefully ...
+    elsif converted == false
+      @article.price = @article.shared_article.price
+      @article.unit_quantity = @article.shared_article.unit_quantity
+    else
+      @article.price = converted[0]
+      @article.unit_quantity = converted[1]
+    end
+  end
 end
