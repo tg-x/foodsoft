@@ -7,6 +7,8 @@ class SignupController < ApplicationController
   def signup
     if not FoodsoftConfig[:signup]
       redirect_to root_url, alert: I18n.t('signup.controller.disabled', foodcoop: FoodsoftConfig[:name])
+    elsif FoodsoftConfig[:signup] != true and params[:key] != FoodsoftConfig[:signup]
+      redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
     end
     if request.post?
       @user = User.new(params[:user].reject {|k,v| k=='ordergroup'})

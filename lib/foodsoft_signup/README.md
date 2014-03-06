@@ -40,6 +40,13 @@ This plugin is configured in the foodcoop configuration in foodsoft's
   - pages#all
   - group_orders#archive
 
+  # In case you'd like to have protected signup form, and allow members who
+  # signup to order directly, you can enable the following instead. This
+  # effectively disabled approval, and requires a key in the signup url:
+  #   https://foodcoop.test/f/login/signup?key=verySeCrEt123
+  #unapproved_allow_access: '*'
+  #signup: 'verySeCrEt123'
+
   # Message to show when ordergroup is not yet approved. If not set, a concise
   # default message will be shown.
   #ordergroup_approval_msg:

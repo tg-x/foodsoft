@@ -12,7 +12,9 @@ module FoodsoftSignup
   end
 
   def self.signup_warning(c, user)
-    unless user.nil?
+    return true if FoodsoftConfig[:unapproved_allow_access]=='*'
+    if user
+      user.role_admin? and return true
       if user.ordergroup.nil?
         c.flash.now[:warning] = I18n.t('foodsoft_signup.errors.no_ordergroup')
       elsif !user.ordergroup.approved?
@@ -43,7 +45,8 @@ module FoodsoftSignup
     # maybe the page is always allowed, test if member can go here
     always_access = (FoodsoftConfig[:unapproved_allow_access] or
       %w(home login sessions signup feedback pages#show pages#all group_orders#archive))
-    if always_access.member?("#{c.params[:controller]}") or
+    if always_access == '*' or
+       always_access.member?("#{c.params[:controller]}") or
        always_access.member?("#{c.params[:controller]}\##{c.action_name}")
       return true
     end
