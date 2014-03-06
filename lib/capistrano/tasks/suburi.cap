@@ -1,0 +1,35 @@
+# Host foodsoft elsewhere than the domain's root
+
+namespace :deploy do
+
+  namespace :suburi do
+
+    desc 'Updates path where foodsoft is hosted'
+    task :all do
+      after 'deploy:suburi:all', 'deploy:suburi:app_config'
+      after 'deploy:suburi:all', 'deploy:suburi:session_store'
+    end
+
+
+    desc 'Updates the app_config mailer hostname'
+    task :app_config do
+      on roles(:app), in: :groups do
+        # first hostname (+non-documented suburi) guess
+        host_path = [fetch(:domain), fetch(:suburi)].compact.join('/')
+        execute :sed, '-ri', "'s|^(  host:\\s*).*$|\\1#{host_path}|'", shared_path.join("config/app_config.yml")
+      end
+    end
+
+    desc 'Updates the path of the session cookie'
+    # hint: include `config/initializers/session_store.rb` in `linked_files`
+    task :session_store do
+      on roles(:app), in: :groups do
+        execute :perl, '-i', '-pe',
+          "'"+'s|^(.*\.config\.session_store\b.*?)(,\s*path:[^,]+(.*))?$|\1, path: "/'+fetch(:suburi)+'"\3\n|'+"'",
+          release_path.join('config/initializers/session_store.rb')
+      end
+    end
+
+  end
+
+end
