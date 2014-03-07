@@ -47,6 +47,7 @@ gem 'ice_cube', github: 'greenriver/ice_cube', branch: 'issues/50-from_ical' # f
 # we use the git version of acts_as_versioned, and need to include it in this Gemfile
 #gem 'acts_as_versioned', git: 'git://github.com/technoweenie/acts_as_versioned.git'
 #gem 'foodsoft_wiki', path: 'lib/foodsoft_wiki'
+#gem 'foodsoft_messages', path: 'lib/foodsoft_messages'
 
 gem 'foodsoft_mollie', path: 'lib/foodsoft_mollie'
 gem 'foodsoft_adyen', path: 'lib/foodsoft_adyen'
