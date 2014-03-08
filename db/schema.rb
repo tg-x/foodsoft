@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140102170431) do
+ActiveRecord::Schema.define(:version => 20140308121941) do
 
   create_table "adyen_notifications", :force => true do |t|
     t.boolean  "live",                                :default => false, :null => false
@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(:version => 20140102170431) do
     t.integer  "updated_by_user_id"
     t.decimal  "foodcoop_result",    :precision => 8, :scale => 2
     t.integer  "created_by_user_id"
+    t.datetime "pickup"
   end
 
   add_index "orders", ["state"], :name => "index_orders_on_state"
