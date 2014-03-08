@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
                end
     end
 
-    @orders = Order.closed.page(params[:page]).per(@per_page).includes(:supplier).order(sort)
+    @orders = Order.closed.page(params[:page]).per(@per_page).includes(:supplier).reorder(sort)
   end
 
   # Gives a view for the results to a specific order
