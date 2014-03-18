@@ -13,7 +13,7 @@ class GroupOrderArticle < ActiveRecord::Base
   validates_inclusion_of :tolerance, :in => 0..99
   validates_uniqueness_of :order_article_id, :scope => :group_order_id    # just once an article per group order
 
-  scope :ordered, :conditions => 'group_order_articles.result > 0 OR group_order_articles.quantity > 0 OR group_order_articles.tolerance > 0', :include => {:group_order => :ordergroup}, :order => 'groups.name'
+  scope :ordered, -> { includes(:group_order => :ordergroup).order(:groups => :name) }
 
   localize_input_of :result
 
@@ -34,6 +34,13 @@ class GroupOrderArticle < ActiveRecord::Base
   def update_quantities(quantity, tolerance)
     logger.debug("GroupOrderArticle[#{id}].update_quantities(#{quantity}, #{tolerance})")
     logger.debug("Current quantity = #{self.quantity}, tolerance = #{self.tolerance}")
+
+    # When quantity and tolerance are zero, we don't serve any purpose
+    if quantity == 0 and tolerance == 0
+      logger.debug("Self-destructing since requested quantity and tolerance are zero")
+      destroy
+      return
+    end
 
     # Get quantities ordered with the newest item first.
     quantities = group_order_article_quantities.find(:all, :order => 'created_on desc')
