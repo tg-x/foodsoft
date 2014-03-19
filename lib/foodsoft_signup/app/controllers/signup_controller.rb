@@ -10,31 +10,32 @@ class SignupController < ApplicationController
     elsif FoodsoftConfig[:signup] != true and params[:key] != FoodsoftConfig[:signup]
       redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
     end
+    @user = User.new(params[:user])
     if request.post?
-      @user = User.new(params[:user].reject {|k,v| k=='ordergroup'})
-      @group = Ordergroup.new({
-        :name => name_from_user(@user),
-        :contact_person => @user.name,
-        :contact_phone => @user.phone
-      }.merge((params[:user][:ordergroup] or {})))
       begin
+        # XXX code-duplication from LoginController#accept_invitation
         User.transaction do
-          @user.save! and @group.save!
-          Membership.new(:user => @user, :group => @group).save!
-          login @user
-          url = if !FoodsoftConfig[:membership_fee].nil? and FoodsoftConfig[:ordergroup_approval_payment]
-            FoodsoftSignup.payment_link self
-          else
-            root_url
+          # enforce group (security!)
+          @user.ordergroup = {id: 'new'}
+          # save!
+          if @user.save
+            session[:locale] = @user.locale
+            # but we proceed slightly differently (TODO same behaviour for invites)
+            login @user
+            url = if !FoodsoftConfig[:membership_fee].nil? and FoodsoftConfig[:ordergroup_approval_payment]
+              FoodsoftSignup.payment_link self
+            else
+              root_url
+            end
+            redirect_to url, notice: I18n.t('signup.controller.notice')
           end
-          redirect_to url, notice: I18n.t('signup.controller.notice')
         end
       rescue => e
         flash[:error] = I18n.t('errors.general_msg', msg: e)
       end
     else
-      @user = User.new
-      @user.settings.defaults['profile']['language'] = session[:locale]
+      @user.settings.defaults['profile']['language'] ||= session[:locale]
+      render 'login/accept_invitation', locals: {form_url: signup_path}
     end
   end
 

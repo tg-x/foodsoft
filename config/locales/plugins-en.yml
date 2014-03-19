@@ -42,7 +42,3 @@ en:
     controller:
       disabled: You cannot signup yourself for %{foodcoop}. Please contact us to become a member.
       notice: Congratulations, your account has been created.
-    signup:
-      body: <p>Do you want to become a member of %{foodcoop}? Then please fill in this form!</p>
-      submit: Create a Foodsoft account
-      title: Join %{name}
