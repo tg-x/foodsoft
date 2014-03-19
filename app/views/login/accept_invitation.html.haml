@@ -4,7 +4,7 @@
 
 - title t('.title', name: FoodsoftConfig[:name])
 
-- if @invite.group
+- if @invite and @invite.group
   %p
     = raw t '.invited_into_group', group: h(@invite.group.name), foodcoop: h(FoodsoftConfig[:name])
     = t '.invited_into_group_members', members: @invite.group.users.map(&:name).join(', '), count: @invite.group.users.count
@@ -14,8 +14,9 @@
 -# empty paragraph in case when invitation_form_text does not have <p></p>
 %p
 
-= simple_form_for @user, url: accept_invitation_path do |form|
-  - unless @invite.group
+- form_url ||= accept_invitation_path
+= simple_form_for @user, url: form_url do |form|
+  - unless @invite and @invite.group
     - capt = capture do
       = form.fields_for :ordergroup do |ogf|
         = ogf.input :contact_address
