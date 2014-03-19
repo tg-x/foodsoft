@@ -39,8 +39,8 @@ class MultipleOrdersByArticles < OrderPdf
       text "<b>#{order_article.article.name}</b> " +
            "(#{order_article.article.unit}, #{number_to_currency order_article.price.fc_price}, " +
            units_history_line(order_article, plain: true) + ')',
-           size: 10, inline_format: true
-      table rows, cell_style: {size: 8, overflow: :shrink_to_fit} do |table|
+           size: fontsize(10), inline_format: true
+      table rows, cell_style: {size: fontsize(8), overflow: :shrink_to_fit} do |table|
         table.cells.borders = [:bottom]
         table.cells.border_width = 0.02
         table.cells.border_color = 'dddddd'
@@ -58,7 +58,7 @@ class MultipleOrdersByArticles < OrderPdf
         dimrows.each { |ri| table.row(ri).text_color = '999999' }
       end
 
-      move_down 15
+      down_or_page 15
     end
   end
 

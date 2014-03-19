@@ -40,8 +40,8 @@ class MultipleOrdersByGroups < OrderPdf
                     OrderArticle.human_attribute_name(:price),
                     I18n.t('shared.articles_by.price_sum')]
 
-      text ordergroup.name, size: 9, style: :bold
-      table rows, width: 500, cell_style: {size: 8, overflow: :shrink_to_fit} do |table|
+      text ordergroup.name, size: fontsize(9), style: :bold
+      table rows, width: 500, cell_style: {size: fontsize(8), overflow: :shrink_to_fit} do |table|
         # borders
         table.cells.borders = [:bottom]
         table.cells.border_width = 0.02
@@ -63,7 +63,7 @@ class MultipleOrdersByGroups < OrderPdf
         dimrows.each { |ri| table.row(ri).text_color = '999999' }
       end
 
-      move_down 15
+      down_or_page 15
     end
 
   end
