@@ -1,4 +1,15 @@
-# Foodsoft foodcoop-adam 3.3.0
+# Foodsoft 3.3.1-adam
+(20 Mar 2014)
+
+* Improved order close dialog
+* Allow to send mail to supplier when closing an order
+* Add PDF configuration options for font-size, paper-size and page breaks
+* Use the same form for invitations and signup
+* It's now possible to specify a pickup-day for orders
+* Article synchronisation now understands all units (50ml, 21gr, etc.)
+* Avoid word-wrap when showing currency
+
+# Foodsoft 3.3.0-adam
 (10 Mar 2014)
 
 * Hide deleted ordergroups in "Check member orders"
@@ -14,7 +25,7 @@
 * [mailall plugin] Fix mailall plugin breaking admin user search
 * [mollie plugin] Leep payment details on return page when payment fails
 
-# Foodsoft foodcoop-adam 3.2.1
+# Foodsoft 3.2.1-adam
 (24 Feb 2014; tagged in retrospect)
 
 This is the first official foodcoop-adam release. There are too many changes to
