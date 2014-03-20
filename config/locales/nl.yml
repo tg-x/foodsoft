@@ -1318,7 +1318,7 @@ nl:
       default_message: Problemen gevonden, controleer alsjeblieft de invoer.
     hints:
       article:
-        unit: ! 'Bijvoorbeeld: KG of 1L of 500g'
+        unit: ! 'Bijv. KG of 1L of 500g'
       message:
         private: Bericht wordt niet getoond in de Foodsoft inbox.
       order_article:

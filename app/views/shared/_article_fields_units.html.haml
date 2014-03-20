@@ -6,11 +6,12 @@
     input_html: {class: 'input-mini', title: Article.human_attribute_name(:unit_quantity)}
   = (f_unit rescue f).input :unit, label: '&times;'.html_safe,
     input_html: {class: 'input-mini _unit_input_field', title: Article.human_attribute_name(:unit)}
-  - if article
+  - if article and article.shared_article and article.id
     = button_tag type: 'button', name: 'update_from_shared', title: 'Update price and unit quantity from shared database' do
       %i.icon-refresh
 
-- if article
+-# for new OrderArticles there is no id yet, and the route for *_fields_form_shared_path will fail
+- if article and article.shared_article and article.id
   :javascript
     $('input[type=button][name=update_from_shared], button[name=update_from_shared]').on('click', function() {
       $.ajax({
