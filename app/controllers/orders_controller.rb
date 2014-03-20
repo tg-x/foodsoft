@@ -11,16 +11,14 @@ class OrdersController < ApplicationController
     @open_orders = Order.open.includes(:supplier)
     @finished_orders = Order.finished_not_closed.includes(:supplier)
     @per_page = 15
-    if params['sort']
-      sort = case params['sort']
-               when "supplier"         then "suppliers.name, ends DESC"
-               when "ends"             then "ends DESC"
-               when "pickup"           then "pickup DESC"
-               when "supplier_reverse" then "suppliers.name DESC"
-               when "ends_reverse"     then "ends"
-               when "pickup_reverse"   then "pickup"
-               end
-    end
+    sort = case (params['sort'] || 'ends')
+             when "supplier"         then "suppliers.name, ends DESC"
+             when "ends"             then "ends DESC"
+             when "pickup"           then "pickup DESC"
+             when "supplier_reverse" then "suppliers.name DESC"
+             when "ends_reverse"     then "ends"
+             when "pickup_reverse"   then "pickup"
+             end
 
     @orders = Order.finished.page(params[:page]).per(@per_page).includes(:supplier).reorder(sort)
   end
