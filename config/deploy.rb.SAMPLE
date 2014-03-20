@@ -34,6 +34,7 @@ set :domain,              'order.foodcoop.nl'   # host
 set :user,                'deploy'              # ssh deploy user
 set :run_user,            'foodsoft'            # user app runs as
 set :db_user,             Proc.new { "fs_#{fetch :suburi}" }
+set :db_host,             '127.0.0.1'           # set explicitely for graphdat hook
 set :keep_releases,       10
 set :repo_url,            'git://github.com/foodcoop-adam/foodsoft.git'
 set :deploy_to,           Proc.new { "/www/apps/#{fetch :application}_#{fetch :suburi}" }
