@@ -17,9 +17,10 @@
 #   https://github.com/moneybird/active_merchant_mollie
 #
 class Payments::MollieIdealController < ApplicationController
+  before_filter -> { require_plugin_enabled FoodsoftMollie }
   skip_before_filter :authenticate, :only => [:check]
   before_filter :get_ordergroup, only: [:new, :create]
-  before_filter -> { require_plugin_enabled FoodsoftMollie }
+  before_filter :accept_return_to, only: [:new]
 
   def new
     set_mollie_cfg
@@ -46,7 +47,7 @@ class Payments::MollieIdealController < ApplicationController
     )
 
     transaction_id = request.transaction_id
-    logger.info "iDEAL start: #{amount} for \##{@current_user.id} (#{@current_user.display}) with bank #{bank_id}"
+    logger.info "Mollie start: #{amount} for \##{@current_user.id} (#{@current_user.display}) with bank #{bank_id}"
 
     redirect_to request.url
   end
@@ -55,7 +56,7 @@ class Payments::MollieIdealController < ApplicationController
     set_mollie_cfg
     transaction_id = params[:transaction_id]
     response = IdealMollie.check_order(transaction_id)
-    logger.info "iDEAL check: #{response.inspect}"
+    logger.info "Mollie check: #{response.inspect}"
 
     if response.paid
       user = User.find(params[:id])
@@ -71,15 +72,19 @@ class Payments::MollieIdealController < ApplicationController
     transaction_id = params[:transaction_id]
     @transaction = FinancialTransaction.where(:note => self.ideal_note(transaction_id)).first
     if @transaction
-      logger.info "iDEAL result: transaction #{transaction_id} succeeded"
-      redirect_to root_path, :notice => I18n.t('payments.mollie_ideal.controller.result.notice')
+      logger.info "Mollie result: transaction #{transaction_id} succeeded"
+      redirect_to_return_or root_path, :notice => I18n.t('payments.mollie_ideal.controller.result.notice')
     else
-      logger.info "iDEAL result: transaction #{transaction_id} failed"
+      logger.info "Mollie result: transaction #{transaction_id} failed"
       # redirect to form with same parameters as original page
       pms = {foodcoop: FoodsoftConfig.scope}.merge((session[:mollie_params] or {}))
       session[:mollie_params] = nil
       redirect_to new_payments_mollie_path(pms), :alert => I18n.t('payments.mollie_ideal.controller.result.failed') # TODO recall check's response.message
     end
+  end
+
+  def cancel
+    redirect_to_return_or root_path
   end
 
   protected
@@ -95,10 +100,29 @@ class Payments::MollieIdealController < ApplicationController
   end
 
   def set_mollie_cfg
-    if mcfg = FoodsoftConfig[:mollie]
-      IdealMollie::Config.partner_id  = mcfg['partner_id']  if mcfg['partner_id']
-      IdealMollie::Config.profile_key = mcfg['profile_key'] if mcfg['profile_key']
-      IdealMollie::Config.test_mode   = mcfg['test_mode']   if mcfg['test_mode']
+    if mcfg = FoodsoftConfig[:mollie].try(&:symbolize_keys)
+      IdealMollie::Config.partner_id  = mcfg[:partner_id]  if mcfg[:partner_id]
+      IdealMollie::Config.profile_key = mcfg[:profile_key] if mcfg[:profile_key]
+      IdealMollie::Config.test_mode   = mcfg[:test_mode]   if mcfg[:test_mode]
     end
+  end
+
+  # TODO move this to ApplicationController, use it in SessionController too
+  # TODO use a stack of return_to urls
+  def accept_return_to
+    session[:return_to] = nil # or else an unfollowed previous return_to may interfere
+    return unless params[:return_to].present?
+    if params[:return_to].starts_with?(root_path) or params[:return_to].starts_with?(root_url)
+      session[:return_to] = params[:return_to]
+    end
+  end
+  def redirect_to_return_or(fallback_url, options={})
+    if session[:return_to].present?
+      redirect_to_url = session[:return_to]
+      session[:return_to] = nil
+    else
+      redirect_to_url = fallback_url
+    end
+    redirect_to redirect_to_url, options
   end
 end
