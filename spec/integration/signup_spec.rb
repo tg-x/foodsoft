@@ -4,10 +4,14 @@ require_relative '../spec_helper'
 if defined? FoodsoftSignup
   describe 'the signup plugin', :type => :feature do
 
+    before do
+      FoodsoftConfig.config[:signup] = true
+      FoodsoftConfig.config[:unapproved_allow_access] = nil
+      FoodsoftConfig.config[:ordergroup_approval_payment] = nil
+    end
 
     describe 'its signup page', :type => :feature do
       it 'is accessible when enabled' do
-        FoodsoftConfig.config[:signup] = true
         get signup_path
         expect(response).to be_success
       end
@@ -18,8 +22,19 @@ if defined? FoodsoftSignup
         expect(response).to_not be_success
       end
 
+      it 'is not accessible without key when protected' do
+        FoodsoftConfig.config[:signup] = 'abcdefgh'
+        get signup_path
+        expect(response).to_not be_success
+      end
+
+      it 'is accessible with key when protected' do
+        FoodsoftConfig.config[:signup] = 'abcdefgh'
+        get signup_path(key: FoodsoftConfig.config[:signup])
+        expect(response).to be_success
+      end
+
       it 'can create a new user and unapproved ordergroup' do
-        FoodsoftConfig.config[:signup] = true
         visit signup_path
         user = build :_user
         ordergroup = build :ordergroup
@@ -30,7 +45,7 @@ if defined? FoodsoftSignup
         fill_in 'user_password', :with => user.password
         fill_in 'user_password_confirmation', :with => user.password
         fill_in 'user_phone', :with => user.phone
-        #fill_in 'user_ordergroup_contact_address', :with => ordergroup.contact_address # XXX
+        fill_in 'user_ordergroup_contact_address', :with => Faker::Address.street_address
         find('input[type=submit]').click
         expect(page).to have_selector('.alert-success')
         newuser = User.find_by_email(user.email)

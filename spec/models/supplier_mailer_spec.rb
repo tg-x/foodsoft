@@ -47,6 +47,8 @@ describe 'the supplier mailer' do
   describe 'sends mail when order is finished' do
     let(:mailto) { Faker::Internet.email }
     before do
+      FoodsoftConfig.config[:send_order_on_finish] = true
+      FoodsoftConfig.config[:send_order_on_finish_cc] = nil
       ActionMailer::Base.deliveries.clear
       goa.update_quantities(oa.price.unit_quantity, 0)
       oa.update_results!
@@ -63,7 +65,6 @@ describe 'the supplier mailer' do
     it 'to supplier' do
       supplier.order_howto = mailto
       supplier.save!
-      FoodsoftConfig.config[:send_order_on_finish] = true
       order.finish!(user)
       email = ActionMailer::Base.deliveries.first
       expect(email.to[0]).to eq supplier.order_howto
@@ -72,7 +73,6 @@ describe 'the supplier mailer' do
     it 'not to supplier when it is empty' do
       supplier.order_howto = nil
       supplier.save!
-      FoodsoftConfig.config[:send_order_on_finish] = true
       order.finish!(user)
       email = ActionMailer::Base.deliveries.first
       expect((email.to rescue [])).to_not include mailto

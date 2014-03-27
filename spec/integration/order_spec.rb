@@ -26,8 +26,11 @@ describe Order, :type => :feature do
   end
 
   describe :type => :feature, :js => true do
-    before { login admin }
-    before { FoodsoftConfig.config[:send_order_on_finish] = ['%{supplier}'] }
+    before do
+      login admin
+      FoodsoftConfig.config[:send_order_on_finish] = true
+      FoodsoftConfig.config[:send_order_on_finish_cc] = nil
+    end
 
     it 'can close an order and send mail' do
       set_quantities [2,0], [1,0]
