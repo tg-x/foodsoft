@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(:version => 20140308121941) do
   create_table "invites", :force => true do |t|
     t.string   "token",      :default => "", :null => false
     t.datetime "expires_at",                 :null => false
-    t.integer  "group_id",   :default => 0,  :null => false
+    t.integer  "group_id"
     t.integer  "user_id",    :default => 0,  :null => false
     t.string   "email",      :default => "", :null => false
   end
