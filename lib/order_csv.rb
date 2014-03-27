@@ -24,7 +24,7 @@ class OrderCsv
                  oa.units_to_order,
                  oa.article.order_number,
                  oa.article.name,
-                 oa.article.unit + (oa.price.unit_quantity > 1 ? " × #{oa.price.unit_quantity}" : ''),
+                 oa.article.unit + (oa.price.unit_quantity > 1 ? " x #{oa.price.unit_quantity}" : ''),
                  number_to_currency(oa.article_price.price * oa.article_price.unit_quantity),
                  number_to_currency(oa.total_price)
                ]
