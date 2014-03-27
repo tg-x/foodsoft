@@ -39,8 +39,6 @@ Notes specific to this fork
 
 * The master branch is a combination of many merges and ad-hoc changes. A new version is being worked on in branch foodcoop-adam-rails4, based on Foodsoft 4.0.0. This is working, but does not yet contain all features present in the master branch. At some point, this branch will be abandoned in favour of foodcoop-adam-rails4.
 
-* This branch requires Ruby 2.0 (because of the use of `**args`)
-
 
 License
 -------
