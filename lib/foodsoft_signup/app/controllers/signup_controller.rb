@@ -22,7 +22,7 @@ class SignupController < ApplicationController
               session[:locale] = @user.locale
               # but we proceed slightly differently (TODO same behaviour for invites)
               login @user
-              url = if FoodsoftSignup.enabled? :approval and FoodsoftConfig[:membership_fee] > 0
+              url = if FoodsoftSignup.enabled? :approval and FoodsoftSignup.enabled? :membership_fee
                 url = FoodsoftSignup.payment_link self 
               else
                 nil

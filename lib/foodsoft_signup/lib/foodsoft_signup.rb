@@ -23,6 +23,9 @@ module FoodsoftSignup
         FoodsoftConfig[:use_approval]
       end
 
+    when :membership_fee
+      FoodsoftConfig[:membership_fee].to_f > 0
+
     else
       Rails.logger.warn "FoodsoftSignup.enabled? called with unknown parameter #{what}"
       nil
