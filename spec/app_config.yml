@@ -1,0 +1,33 @@
+# Foodsoft testing configuration
+#
+# This file is used when running tests. When plugins would modify foodsoft behaviour
+# and they are enabled in the sample configuration, there is stable base to test with.
+
+default: &defaults
+  # test on single coop install
+  multi_coop_install: false
+  default_scope: 'f'
+
+  # without these settings Foodsoft breaks
+  host: localhost
+  name: FC Test
+  contact:
+    email: f@c.test
+
+  # do we really need the following ones?
+  price_markup: 5.0
+  tax_default: 6.0
+  email_sender: noreply@c.test
+
+  # true by default to keep compat with older installations, but test with false here
+  use_nick: false
+
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
