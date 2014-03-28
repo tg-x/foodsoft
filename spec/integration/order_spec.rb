@@ -49,8 +49,8 @@ describe Order, :type => :feature do
       end
       expect(page).to_not have_selector('#modalContainer form')
       expect(page).to_not have_link I18n.t('orders.index.action_end')
-      email = ActionMailer::Base.deliveries.first
-      expect(email.to[0]).to eq supplier.order_howto
+      email = ActionMailer::Base.deliveries.select {|email| email.to[0] == supplier.order_howto}.first
+      expect(email).to_not be nil
       expect(email.text_part.body.to_s).to include delivery_contact_name
       expect(email.text_part.body.to_s).to include order_contact_phone
     end
