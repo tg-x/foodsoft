@@ -92,7 +92,7 @@ default: &defaults
   membership_fee: 35
 
   # enable to to allow public signup
-  signup: true
+  use_signup: true
 
   # Array of which pages are accesible to ordergroups that are not approved.
   # Values are controller names (`pages`) or actions combined with controller

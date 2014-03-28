@@ -12,6 +12,7 @@ module FoodsoftSignup
   end
 
   def self.signup_warning(c, user)
+    FoodsoftSignup.enabled? :approval or return true
     return true if FoodsoftConfig[:unapproved_allow_access]=='*'
     if user
       user.role_admin? and return true
@@ -40,6 +41,7 @@ module FoodsoftSignup
 
   def self.check_approval(c, user)
     # short checks
+    FoodsoftSignup.enabled? :approval or return true
     user and user.role_admin? and return true
     user and user.ordergroup and user.ordergroup.approved? and return true
     # maybe the page is always allowed, test if member can go here
@@ -71,21 +73,6 @@ module FoodsoftSignup
       msg = (FoodsoftConfig[:ordergroup_approval_msg] or I18n.t('foodsoft_signup.approval.msg'))
     end
     msg
-  end
-
-  def self.payment_link(c)
-    (s = FoodsoftConfig[:ordergroup_approval_payment]) or return nil
-    url = if s.match(/^https?:/i)
-      s
-    else
-      c.send s.to_sym
-    end
-    url + '?' + {
-      amount: FoodsoftConfig[:membership_fee],
-      fixed: 'true',
-      label: I18n.t('foodsoft_signup.payment.pay_label'),
-      title: I18n.t('foodsoft_signup.payment.pay_title')
-    }.to_param
   end
 
 end

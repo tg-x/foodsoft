@@ -18,12 +18,12 @@ Configuration
 -------------
 This plugin is configured in the foodcoop configuration in foodsoft's
 "config/app\_config.yml":
-```
+```yaml
   # membership fee substracted from balance when a new ordergroup is created
   membership_fee: 35
 
   # enable to to allow public signup
-  signup: true
+  use_signup: true
 
   # Array of which pages are accesible to ordergroups that are not approved.
   # Values are controller names (`pages`) or actions combined with controller
@@ -60,4 +60,9 @@ This plugin is configured in the foodcoop configuration in foodsoft's
   # When starting with http: or https:, this is considered to be a full url; else 
   # a Ruby name that will be evaluated on the controller.
   #ordergroup_approval_payment: new_payments_mollie_path
+
+  # By default ordergroup approval is enabled when signup is enabled; in case
+  # you'd like to control this independently, set it to true or false.
+  #use_approval: signup
+
 ```

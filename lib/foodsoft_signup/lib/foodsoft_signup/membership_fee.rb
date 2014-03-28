@@ -7,7 +7,7 @@ module FoodsoftSignup
       base.class_eval do
 
         # debit membership on ordergroup creation
-        after_create :debit_membership!, :unless => Proc.new { FoodsoftConfig[:membership_fee].nil? }
+        after_create :debit_membership!, :unless => proc { FoodsoftConfig[:membership_fee].nil? }
         def debit_membership!
           amount = (-FoodsoftConfig[:membership_fee]).to_s
           amount.gsub!('\.', I18n.t('separator', :scope => 'number.format')) # workaround localize_input problem
@@ -25,9 +25,11 @@ module FoodsoftSignup
         alias_method :foodsoft_signup_orig_add_financial_transaction!, :add_financial_transaction!
         def add_financial_transaction!(amount, note, user)
           result = self.foodsoft_signup_orig_add_financial_transaction!(amount, note, user)
-          if not self.approved? and amount >= (FoodsoftConfig[:membership_fee] - 1e-3)
-            self.approved = true
-            save!
+          if FoodsoftSignup.enabled? :approval and FoodsoftConfig[:membership_fee] > 0
+            if not self.approved? and amount >= (FoodsoftConfig[:membership_fee] - 1e-3)
+              self.approved = true
+              save!
+            end
           end
           result
         end

@@ -5,33 +5,42 @@ if defined? FoodsoftSignup
   describe 'the signup plugin', :type => :feature do
 
     before do
-      FoodsoftConfig.config[:signup] = true
+      FoodsoftConfig.config[:use_signup] = true
       FoodsoftConfig.config[:unapproved_allow_access] = nil
       FoodsoftConfig.config[:ordergroup_approval_payment] = nil
     end
 
+    def expect_signup_page(page, is=true)
+      matcher = have_selector('form#new_user')
+      if is
+        expect(page).to matcher
+      else
+        expect(page).to_not matcher
+      end
+    end
+
     describe 'its signup page', :type => :feature do
       it 'is accessible when enabled' do
-        get signup_path
-        expect(response).to be_success
+        visit signup_path
+        expect_signup_page(page)
       end
 
       it 'is not accessible when disabled' do
-        FoodsoftConfig.config[:signup] = false
-        get signup_path
-        expect(response).to_not be_success
+        FoodsoftConfig.config[:use_signup] = false
+        visit signup_path
+        expect_signup_page(page, false)
       end
 
       it 'is not accessible without key when protected' do
-        FoodsoftConfig.config[:signup] = 'abcdefgh'
-        get signup_path
-        expect(response).to_not be_success
+        FoodsoftConfig.config[:use_signup] = 'abcdefgh'
+        visit signup_path
+        expect_signup_page(page, false)
       end
 
       it 'is accessible with key when protected' do
-        FoodsoftConfig.config[:signup] = 'abcdefgh'
-        get signup_path(key: FoodsoftConfig.config[:signup])
-        expect(response).to be_success
+        FoodsoftConfig.config[:use_signup] = 'abcdefgh'
+        visit signup_path(key: 'abcdefgh')
+        expect_signup_page(page)
       end
 
       it 'can create a new user and unapproved ordergroup' do

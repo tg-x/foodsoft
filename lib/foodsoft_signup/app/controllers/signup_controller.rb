@@ -5,9 +5,9 @@ class SignupController < ApplicationController
 
   # For anyone
   def signup
-    if not FoodsoftConfig[:signup]
+    if not FoodsoftSignup.enabled? :signup
       redirect_to root_url, alert: I18n.t('signup.controller.disabled', foodcoop: FoodsoftConfig[:name])
-    elsif FoodsoftConfig[:signup] != true and params[:key] != FoodsoftConfig[:signup]
+    elsif not FoodsoftSignup.check_signup_key(params[:key])
       redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
     else
       @user = User.new(params[:user])
@@ -22,12 +22,12 @@ class SignupController < ApplicationController
               session[:locale] = @user.locale
               # but we proceed slightly differently (TODO same behaviour for invites)
               login @user
-              url = if !FoodsoftConfig[:membership_fee].nil? and FoodsoftConfig[:ordergroup_approval_payment]
-                FoodsoftSignup.payment_link self
+              url = if FoodsoftSignup.enabled? :approval and FoodsoftConfig[:membership_fee] > 0
+                url = FoodsoftSignup.payment_link self 
               else
-                root_url
+                nil
               end
-              redirect_to url, notice: I18n.t('signup.controller.notice')
+              redirect_to url || root_url, notice: I18n.t('signup.controller.notice')
             end
           end
         rescue => e
