@@ -23,7 +23,7 @@ class MultipleOrdersByGroups < OrderPdf
         total += sub_total
         rows <<  [goa.order_article.article.name,
                   goa.order_article.article.unit,
-                  goa.group_order.order.name.truncate(10, omission: ''),
+                  goa.group_order.order.name.truncate(9, omission: ''),
                   "#{goa.quantity} + #{goa.tolerance}",
                   goa.result,
                   number_to_currency(price),
