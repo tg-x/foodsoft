@@ -36,7 +36,11 @@ class Payments::MollieIdealController < ApplicationController
     set_mollie_cfg
     IdealMollie::Config.return_url = result_payments_mollie_url
     IdealMollie::Config.report_url = check_payments_mollie_url(:id => @current_user.id)
-    request = IdealMollie.new_order((amount*100.0).to_i, @current_user.nick, bank_id)
+    request = IdealMollie.new_order(
+      amount: (amount*100.0).to_i,
+      description: "#{@current_user.ordergroup_id}, #{FoodsoftConfig[:name]}",
+      bank_id: bank_id
+    )
 
     transaction_id = request.transaction_id
     logger.info "iDEAL start: #{amount} for \##{@current_user.id} (#{@current_user.display}) with bank #{bank_id}"
