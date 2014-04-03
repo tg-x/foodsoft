@@ -97,7 +97,8 @@ namespace :deploy do
   after 'deploy:updated', 'deploy:localhacks' do
     on roles(:app), in: :sequence do
       # use custom rake queue names
-      execute :sed, '-i', "'s|foodsoft_notifier|#{fetch :suburi}_foodsoft_notifier|'",
+      notifier_prefix = fetch(:suburi).gsub /-/, ''
+      execute :sed, '-i', "'s|foodsoft_notifier|#{notifier_prefix}_foodsoft_notifier|'",
         release_path.join('app/workers/*_notifier.rb'),
         release_path.join('lib/tasks/resque.rake')
     end
@@ -128,9 +129,9 @@ namespace :deploy do
   after 'deploy:initial', 'deploy:initial:awstats' do
     on roles(:app), in: :sequence do
       config = <<-EOF
-        Include "/etc/awstats/awstats.conf"
-        SiteDomain="#{fetch :domain}"
-        OnlyFiles="REGEX[#{fetch :suburi}\/]"
+Include "/etc/awstats/awstats.conf"
+SiteDomain="#{fetch :domain}"
+OnlyFiles="REGEX[#{fetch :suburi}\/]"
       EOF
       upload! StringIO.new(config), File.join('/etc/awstats', "awstats.#{fetch :suburi}.conf")
     end
@@ -140,8 +141,8 @@ namespace :deploy do
   after 'deploy:initial', 'deploy:initial:fix_permissions' do
     on roles(:app), in: :sequence do
       # XXX run_user misused as group
-      execute :chown, ":#{fetch :run_user}", shared_path.join('log'), shared_path.join('tmp/*')
-      execute :chmod, 'g+ws', shared_path.join('log'), shared_path.join('tmp/*')
+      execute :chown, '-R', ":#{fetch :run_user}", shared_path.join('log'), shared_path.join('tmp/*')
+      execute :chmod, '-R', 'g+ws', shared_path.join('log'), shared_path.join('tmp')
     end
   end
 
