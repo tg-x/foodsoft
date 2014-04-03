@@ -25,13 +25,14 @@ module FoodsoftVokomokum
   end
 
   # upload ordergroup totals to vokomokum system
+  #   this is a hash of {ordergroup_id: sum}
   #   type can be one of 'Groente', 'Kaas', 'Misc.'
-  def self.upload_amounts(amounts, type, cookies)
+  def self.upload_amounts(amounts, type)
     # submit fresh page
     res = order_req('/cgi-bin/vers_upload.cgi', {
                       submit: type,
                       paste: export_amounts(data)
-    }, cookies);
+    });
     # TODO check response
   end
 
@@ -43,7 +44,7 @@ module FoodsoftVokomokum
     self.remote_req(FoodsoftConfig[:vokomokum_members_url], path, data, cookies)
   end
 
-  def self.order_req(path, data, cookies)
+  def self.order_req(path, data)
     data = {client_id: FoodsoftConfig[:vokomokum_client_id], client_secret: FoodsoftConfig[:vokomokum_client_secret]}
     self.remote_req(FoodsoftConfig[:vokomokum_order_url], path, data)
   end
