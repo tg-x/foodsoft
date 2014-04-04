@@ -3,6 +3,7 @@ module FoodsoftVokomokum
 
   # create text blob for uploading ordergroup totals to vokomokum system
   def self.export_amounts(amounts)
+    lines = []
     amounts.map do |ordergroup, amount|
       ordergroup = Ordergroup.find(ordergroup) unless ordergroup.kind_of?(Ordergroup)
       if ordergroup.users.count == 0
@@ -16,9 +17,10 @@ module FoodsoftVokomokum
         if ordergroup.users.count > 1
           Rails.logger.warn "Ordergroup ##{ordergroup.id} has multiple users, selecting ##{user.id}."
         end
-        "#{user.id}\t#{user.display}\t€ #{'%.02f'%amount}\tAfgewogen"
+        lines << "#{user.id}\t#{user.display}\t€ #{'%.02f'%amount}\tAfgewogen"
       end
-    end.join("\r\n")
+    end
+    lines.join("\r\n")
   end
 
 end
