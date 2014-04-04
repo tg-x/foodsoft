@@ -50,6 +50,8 @@ class Order < ActiveRecord::Base
 
   # returns whether this order meets the criteria for sending it to the supplier
   # returns true, or a reason
+  # Please note that this does not take into account whether there is an email address
+  # to send the order to, just whether it is ready for sending.
   def can_send
     # never for stock orders!
     stockit? and return :stockit

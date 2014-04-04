@@ -28,26 +28,21 @@ describe Order, :type => :feature do
   describe :type => :feature, :js => true do
     before do
       login admin
-      FoodsoftConfig.config[:send_order_on_finish] = true
-      FoodsoftConfig.config[:send_order_on_finish_cc] = nil
     end
 
     it 'can close an order and send mail' do
-      set_quantities [2,0], [1,0]
-      visit orders_path
-      click_link_or_button I18n.t('orders.index.action_end')
-      expect(page).to have_selector('#modalContainer form')
+      FoodsoftConfig.config[:send_order_on_finish] = true
+      FoodsoftConfig.config[:send_order_on_finish_cc] = nil
       order_contact_phone = Faker::PhoneNumber.phone_number 
       delivery_contact_name = Faker::Name.name
-      within('#modalContainer form') do
+      close_order do
         fill_in 'order_info_order_contact_phone', :with => order_contact_phone
         fill_in 'order_info_delivery_contact_phone', :with => Faker::PhoneNumber.phone_number 
         fill_in 'order_info_delivery_contact_name', :with => delivery_contact_name
         fill_in 'order_info_delivered_before_date', :with => Time.now.strftime('%Y-%m-%d')
         fill_in 'order_info_delivered_before_time', :with => Time.now.strftime('%H:%M')
-        find('input[type="submit"]').click
       end
-      expect(page).to_not have_selector('#modalContainer form')
+      expect(order).to be_finished
       expect(page).to_not have_link I18n.t('orders.index.action_end')
       email = ActionMailer::Base.deliveries.select {|email| email.to[0] == supplier.order_howto}.first
       expect(email).to_not be nil
@@ -55,6 +50,23 @@ describe Order, :type => :feature do
       expect(email.text_part.body.to_s).to include order_contact_phone
     end
 
+    it 'can close an order without sending an email' do
+      close_order
+      expect(order).to be_finished
+      expect(page).to_not have_link I18n.t('orders.index.action_end')
+    end
+  end
+
+  def close_order
+    set_quantities [2,0], [1,0]
+    visit orders_path
+    click_link_or_button I18n.t('orders.index.action_end')
+    expect(page).to have_selector('#modalContainer form')
+    within('#modalContainer form') do
+      find('input[type="submit"]').click unless block_given? and yield == false
+    end
+    expect(page).to_not have_selector('#modalContainer form')
+    order.reload
   end
 
 end
