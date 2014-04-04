@@ -35,7 +35,6 @@ class SignupController < ApplicationController
         end
       else
         @user.settings.defaults['profile']['language'] ||= session[:locale]
-        render 'login/accept_invitation', locals: {form_url: signup_path}
       end
     end
   end

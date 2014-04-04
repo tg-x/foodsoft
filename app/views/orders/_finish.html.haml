@@ -13,7 +13,7 @@
       -# send to supplier if all is fine
       - will_send = false
       - if @order.can_send == true
-        - unless @order.supplier.order_send_email
+        - unless @order.supplier.order_send_email and @order.order_send_emails.present?
           %p= t '.confirm_end_send_manual'
 
         - else

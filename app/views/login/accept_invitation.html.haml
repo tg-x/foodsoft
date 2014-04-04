@@ -1,7 +1,3 @@
-- content_for :javascript do
-  :javascript
-    $(#{FoodsoftConfig[:use_nick] ? 'user_nick' : 'user_first_name'}).focus();
-
 - title t('.title', name: FoodsoftConfig[:name])
 
 - if @invite and @invite.group
@@ -10,16 +6,5 @@
     = t '.invited_into_group_members', members: @invite.group.users.map(&:name).join(', '), count: @invite.group.users.count
 - else
   %p= t '.invited_new_group', foodcoop: FoodsoftConfig[:name]
-= (FoodsoftConfig[:invitation_form_message] or t('.body')).html_safe
--# empty paragraph in case when invitation_form_text does not have <p></p>
-%p
 
-- form_url ||= accept_invitation_path
-= simple_form_for @user, url: form_url do |form|
-  - unless @invite and @invite.group
-    - capt = capture do
-      = form.fields_for :ordergroup do |ogf|
-        = ogf.input :contact_address
-  = render partial: 'shared/user_form_fields', locals: {f: form, captured: capt}
-  .form-actions
-    = submit_tag t('.submit'), class: 'btn'
+= render 'accept_invitation_form'

@@ -1,3 +1,12 @@
+# Foodsoft 3.3.2-adam
+(04 Apr 2014)
+
+* Foodsoft messages can now be enabled/disabled using a plugin (upstream)
+* Admins can (bulk) invite new members
+* The signup plugin can now be enabled/disabled on a per-foodcoop basis
+* Make foodsoft work with some older browsers
+* Several small fixes and enhancements
+
 # Foodsoft 3.3.1-adam
 (20 Mar 2014)
 

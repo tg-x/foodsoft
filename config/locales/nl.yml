@@ -882,9 +882,10 @@ nl:
         one: Deze groep bestaat momenteel uit %{members}.
         other: Deze groep bestaat momenteel uit %{members}.
       invited_new_group: Je bent uitgenodigd om lid te worden van %{foodcoop}.
-      body: <p>Als je wilt meedoen, vul dan dit formulier in.</p> <p>Natuurlijk zullen we je informatie niet delen met anderen. Je kunt zelf aangeven, welke informatie voor andere leden beschikbaar is (maar beheerders hebben daar altijd toegang toe).</p>
-      submit: Foodsoft account aanmaken
       title: Uitnodiging voor %{name}
+    accept_invitation_form:
+      body: <p>Als je wilt meedoen, vul dan dit formulier in.</p> <p>Natuurlijk zullen we je informatie niet delen met anderen. Je kunt zelf aangeven welke informatie voor andere leden beschikbaar is (maar beheerders hebben daar altijd toegang toe).</p>
+      submit: Foodsoft account aanmaken
     controller:
       accept_invitation:
         notice: Gefeliciteerd, je account is aangemaakt. Nu kun je inloggen.

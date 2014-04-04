@@ -28,13 +28,24 @@ module FoodsoftVokomokum
   #   this is a hash of {ordergroup_id: sum}
   #   type can be one of 'Groente', 'Kaas', 'Misc.'
   def self.upload_amounts(amounts, type)
+    type = type.downcase.gsub '.',''
+    parms = {submit: 'Submit', which: type, column: "mo_vers_#{type}"}
+    amounts.each_pair do |ordergroup,sum|
+      parms["mo_vers_#{type}_#{ordergroup.to_i}"] = sum
+    end
+    res = order_req('/cgi-bin/vers_upload.cgi', parms);
+  end
+
+  def self.upload_amounts_csv(amounts, type)
     # submit fresh page
     res = order_req('/cgi-bin/vers_upload.cgi', {
                       submit: type,
-                      paste: export_amounts(data)
+                      paste: export_amounts(amounts)
     });
-    # TODO check response
+    # TODO check the form for errors
+    # TODO submit the form, or it won't be saved at all
   end
+
 
 
   protected
@@ -45,7 +56,7 @@ module FoodsoftVokomokum
   end
 
   def self.order_req(path, data)
-    data = {client_id: FoodsoftConfig[:vokomokum_client_id], client_secret: FoodsoftConfig[:vokomokum_client_secret]}
+    data = data.merge({client_id: FoodsoftConfig[:vokomokum_client_id], client_secret: FoodsoftConfig[:vokomokum_client_secret]})
     self.remote_req(FoodsoftConfig[:vokomokum_order_url], path, data)
   end
 
