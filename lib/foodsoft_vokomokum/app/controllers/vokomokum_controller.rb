@@ -34,9 +34,18 @@ class VokomokumController < ApplicationController
   end
 
   def export_amounts
-    order = Order.find(params[:order_id])
-    amounts = Hash[order.group_orders.map{|go| [go.ordergroup, go.price] }]
-    send_data FoodsoftVokomokum.export_amounts(amounts), filename: order.name+'-vers.txt', type: 'text/plain'
+    if params[:order_id].present?
+      order = Order.find(params[:order_id])
+      order_name = order.name
+      group_orders = order.group_orders
+    else
+      order_name = 'current_orders'
+      group_orders = GroupOrder.includes(:order).where(orders: {state: 'finished'})
+    end
+
+    amounts = Hash[group_orders.map{|go| [go.ordergroup, go.price] }]
+    send_data FoodsoftVokomokum.export_amounts(amounts), filename: order_name+'-vers.csv', type: 'text/plain; charset=utf-8', disposition: 'inline'
+
   end
 
 
