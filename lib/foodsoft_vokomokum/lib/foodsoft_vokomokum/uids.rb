@@ -17,7 +17,7 @@ module FoodsoftVokomokum
 
         # when creating a new record, start at the offset by default
         before_create do
-          self.id = [@@_id_offset, @@_id_cls.maximum(:id) + 1].max if self.id.nil?
+          self.id = [@@_id_offset, (@@_id_cls.maximum(:id) or 0) + 1].max if self.id.nil?
         end
 
       end
