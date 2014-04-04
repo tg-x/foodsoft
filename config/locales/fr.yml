@@ -898,8 +898,9 @@ fr:
         mais en ce qui concerne les autres membres de la coop, tu pourras choisir quelles données leurs sont visibles.
 
 '
-      submit: Créer un compte Foodsoft
       title: Invitation chez les %{name}
+    accept_invitation_form:
+      submit: Créer un compte Foodsoft
     controller:
       accept_invitation:
         notice: Ton compte vient d'être créé. Bienvenue! Tu peux maintenant te connecter.

@@ -869,8 +869,9 @@ de:
   login:
     accept_invitation:
       body: <p>Du bist eingeladen worden als Mitglied der Gruppe <b>%{group}</b> in der Foodcoop %{foodcoop} mitzumachen.</p> <p>Wenn Du mitmachen möchtest, dann fülle bitte dieses Formular aus.</p> <p>Deine Daten werden selbstverständlich nicht an Dritte, aus was auch immer für Gründen, weitergeben. Du kannst auch entscheiden, wieviel deiner persönlichen Daten für alle einsehbar sein sollen. 'Alle' bedeutet hier alle Foodcoop-Mitglieder. Die Administratoren haben aber jederzeit Zugriff auf deine Daten.</p>
-      submit: Foodsoft Account erstellen
       title: Einlading in die %{name}
+    accept_invitation_form:
+      submit: Foodsoft Account erstellen
     controller:
       accept_invitation:
         notice: Herzlichen Glückwunsch, Dein Account wurde erstellt. Du kannst Dich nun einloggen.
