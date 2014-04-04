@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require_relative 'initializers/uglifier.rb'
 
 # need to include this before requiring some other gems
 #   http://stackoverflow.com/questions/20361428
@@ -60,6 +61,7 @@ module Foodsoft
     
     # Enable the asset pipeline
     config.assets.enabled = true
+    config.assets.js_compressor = Foodsoft::UglifyTransformer.new
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
