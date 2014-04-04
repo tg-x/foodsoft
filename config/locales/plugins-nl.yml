@@ -42,3 +42,5 @@ nl:
     controller:
       disabled: Je kunt je niet zelf aanmelden voor %{foodcoop}. Neem daarvoor contact met ons op.
       notice: Gefeliciteerd, je hebt nu een account.
+    signup:
+      title: Lid worden van %{name}
