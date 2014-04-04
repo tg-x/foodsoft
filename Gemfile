@@ -3,6 +3,7 @@ source "https://rubygems.org"
 #ruby "1.9.3"
 
 gem "rails", '~> 3.2.9'
+gem "rake", '= 10.1.1' # until https://github.com/capistrano/capistrano/pull/983 is merged in capistrano
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -81,8 +82,8 @@ group :development do
   
   # Deploy with Capistrano
   gem 'capistrano', '~> 3.0', require: false
-  # https://github.com/capistrano/rails/issues/48#issuecomment-31443739
-  gem 'capistrano-rvm', github: 'capistrano/rvm', require: false
+  gem 'net-ssh', '= 2.7.0' # until https://github.com/net-ssh/net-ssh/issues/148 is fixed
+  gem 'capistrano-rvm', require: false
   gem 'capistrano-bundler', '>= 1.1.0', require: false
   gem 'capistrano-rails', require: false
   # Avoid having content-length warnings
