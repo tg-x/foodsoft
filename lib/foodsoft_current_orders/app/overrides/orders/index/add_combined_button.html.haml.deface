@@ -1,5 +1,5 @@
 / insert_before 'h2:contains(".orders_finished")'
-.btn-toolbar.pull-right
+.btn-toolbar.pull-right#orders_finished_toolbar
   .btn-group
     = link_to '#', data: {toggle: 'dropdown'}, class: 'btn dropdown-toggle' do
       = t 'current_orders.orders.combined_pdf'
