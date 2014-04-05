@@ -9,6 +9,7 @@ module FoodsoftAdyen
 
     # add to existing navigation
     def navigation(primary, context)
+      return unless FoodsoftAdyen.enabled?
       return if primary[:finance].nil?
       primary[:finance].sub_navigation.items <<
         SimpleNavigation::Item.new(primary, :pin_terminal, I18n.t('payments.navigation.pin'), context.detect_payments_adyen_pin_path)

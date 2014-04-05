@@ -4,6 +4,7 @@ class Payments::AdyenNotificationsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:notify]
   skip_before_filter :authenticate, :only => [:notify]
   before_filter :authenticate_adyen, :only => [:notify]
+  before_filter -> { require_plugin_enabled FoodsoftAdyen }
 
   class WrongCurrencyException < Exception; end
   class OrdergroupNotFoundException < Exception; end

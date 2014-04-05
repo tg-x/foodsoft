@@ -1,5 +1,5 @@
 class Payments::AdyenHppController < ApplicationController
-
+  before_filter -> { require_plugin_enabled FoodsoftAdyen }
   before_filter :get_ordergroup, only: [:new, :create]
 
   def new

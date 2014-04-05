@@ -2,6 +2,11 @@ require "content_for_in_controllers"
 require "foodsoft_uservoice/engine"
 
 module FoodsoftUservoice
+  # enabled when configured, but can still be disabled by use_uservoice option
+  def self.enabled?
+    FoodsoftConfig[:use_uservoice] != false and FoodsoftConfig[:uservoice]
+  end
+
   module LoadUservoice
     def self.included(base) # :nodoc:
       base.class_eval do
@@ -10,7 +15,7 @@ module FoodsoftUservoice
         protected
 
         def add_uservoice_script
-          return unless FoodsoftConfig[:uservoice]
+          return unless FoodsoftUservoice.enabled?
 
           # include uservoice javascript
           api_key = FoodsoftConfig[:uservoice]['api_key']

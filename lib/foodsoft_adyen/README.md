@@ -30,6 +30,9 @@ This plugin is configured in the foodcoop configuration in foodsoft's
     notify_password: tRuLySeCrEtpAssWoRdth@1No0ne2hoULdKn0wR3@Lly
 ```
 
+This plugin also introduces the foodcoop config option `use_adyen`, which can
+be set to `false` to disable this plugin's functionality. May be useful in
+multicoop deployments.
 
 == Adyen configuration
 

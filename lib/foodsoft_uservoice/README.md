@@ -36,4 +36,8 @@ This plugin is configured in the foodcoop configuration in foodsoft's
       #type: ExampleFoodcoopType
 ```
 
+This plugin also introduces the foodcoop config option `use_uservoice`, which
+can be set to `false` to disable uservoice integration. May be useful in
+multicoop deployments.
+
 See also the [uservoice-widget documentation](http://rubydoc.info/gems/uservoice-widget).

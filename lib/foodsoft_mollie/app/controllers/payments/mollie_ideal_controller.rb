@@ -19,6 +19,7 @@
 class Payments::MollieIdealController < ApplicationController
   skip_before_filter :authenticate, :only => [:check]
   before_filter :get_ordergroup, only: [:new, :create]
+  before_filter -> { require_plugin_enabled FoodsoftMollie }
 
   def new
     set_mollie_cfg

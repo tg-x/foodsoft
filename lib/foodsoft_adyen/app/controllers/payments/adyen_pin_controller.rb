@@ -1,6 +1,7 @@
 require 'base64'
 
 class Payments::AdyenPinController < ApplicationController
+  before_filter -> { require_plugin_enabled FoodsoftAdyen }
 
   layout 'adyen_mobile'
 

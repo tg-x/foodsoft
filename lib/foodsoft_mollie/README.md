@@ -26,3 +26,6 @@ The following url parameters are recognised:
 * ''title'' - page title (optional)
 * ''label'' - label for amount (optional)
 
+This plugin also introduces the foodcoop config option `use_mollie`, which can
+be set to `false` to disable this plugin's functionality. May be useful in
+multicoop deployments.

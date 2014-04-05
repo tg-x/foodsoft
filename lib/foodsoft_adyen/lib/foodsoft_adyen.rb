@@ -5,6 +5,10 @@ require 'foodsoft_adyen/railtie'
 
 module FoodsoftAdyen
 
+  def self.enabled?
+    FoodsoftConfig[:use_adyen] != false and FoodsoftConfig[:adyen]
+  end
+
   # return whether the current request is likely to support the mobile PIN app
   def self.detect_pin(request)
     true if self.get_mobile(request)
