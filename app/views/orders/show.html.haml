@@ -57,6 +57,9 @@
           %li= order_pdf(@order, :fax, t('.download.fax_pdf'))
           %li= link_to t('.download.fax_txt'), order_path(@order, format: :txt), {title: t('.download.download_file')}
           %li= link_to t('.download.fax_csv'), order_path(@order, format: :csv), {title: t('.download.download_file')}
+          - if defined? FoodsoftOrderdoc # TODO fix deface https://github.com/spree/deface/issues/125
+            - if FoodsoftOrderdoc.enabled? and FoodsoftOrderdoc.supplier_has_orderdoc?(@order.supplier)
+              %li= link_to 'Order document', url_for(controller: 'orderdoc', action: 'order_doc', id: @order.id), {title: t('.download.download_file')}
 
     - if @order.open?
       = link_to t('.action_end'), finish_order_path(@order), remote: true, class: 'btn btn-success'

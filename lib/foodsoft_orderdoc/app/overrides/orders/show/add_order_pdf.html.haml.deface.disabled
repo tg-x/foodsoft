@@ -1,0 +1,4 @@
+/ insert_bottom '.btn-toolbar .dropdown-menu'
+-# disabled because of https://github.com/spree/deface/issues/125
+- if defined? FoodsoftOrderdoc.enabled? and FoodsoftOrderdoc.supplier_has_orderdoc?(@order.supplier)
+  %li= link_to 'Order spreadsheet', controller: 'orderdoc', action: 'order_doc', id: @order.id

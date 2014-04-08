@@ -1,0 +1,77 @@
+#
+# Fill in a spreadsheet template with numbers from a datafile.
+#
+# This allows us to return suppliers spreadsheets that they have sent,
+# filled in with a foodcoop order.
+# During import, `srcdata` is stored in the article. Because an order may
+# reference a past import, this information is stored in the article (or
+# should this be order_article in foodsoft, perhaps?).
+#
+#
+#    ExportHelper.export([
+#      {result: 1, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 11, col: 5}},
+#      {result: 5, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 27, col: 5}},
+#    ])
+#
+module FoodsoftOrderdoc::ExportHelper
+
+  def self.export(article_data, search_path=[])
+
+    normalize_data! article_data
+    fns = data_filenames(article_data)
+    if fns.count == 0
+      return {error: 'Articles have no associated spreadsheet'}
+    elsif fns.count > 1
+      return {error: 'Articles do not belong to a single spreadsheet'}
+    end
+
+    src = find_file(fns[0], search_path) # TODO sanitize filename!
+
+    # XXX needs to have setup OpenOffice.org script
+    # OpenOffice.org does not like to work on tempfiles, so use their path instead.
+    dst = Tempfile.new(['orderdoc_cells_', src.gsub(/^.*\./, '.')]).to_path
+    celldata = Tempfile.new(['orderdoc_cells_', '.dat']).to_path
+    begin
+      File.open(celldata, 'w+') do |f|
+        article_data.each do |a|
+          p = a[:srcdata] or next
+          f.puts "#{p[:sheet].to_i} #{p[:row].to_i} #{p[:col].to_i} #{a[:result]}"
+        end
+      end
+      Rails.logger.debug "libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{src},#{dst},#{celldata})' >/dev/null"
+      %x(libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{src},#{dst},#{celldata})' >/dev/null)
+    ensure
+      output = File.read(dst)
+      File.delete dst
+      File.delete celldata
+    end
+
+    # The sheets gem did not maintain spreadsheet formatting,
+    # the workbook gem did not work at all, or complained about unsupported features in the source document,
+    # and so I went for OpenOffice.org (which allows writing in many formats as well).
+
+    {data: output, filename: File.basename(src), filetype: MimeMagic.by_path(src)}
+  end
+
+  private
+
+  def self.normalize_data!(article_data)
+    article_data.each do |a|
+      a[:srcdata] = YAML.load(a[:srcdata]) if a[:srcdata].is_a? String
+    end
+  end
+
+  def self.data_filenames(article_data)
+    article_data.map{|a| a[:srcdata][:file]}.uniq.compact
+  end
+
+  def self.find_file(filename, search_path=[])
+    return filename if File.exists? filename
+    search_path.each do |path|
+      f = File.join(path, filename)
+      return f if File.exists? f
+    end
+    nil
+  end
+
+end

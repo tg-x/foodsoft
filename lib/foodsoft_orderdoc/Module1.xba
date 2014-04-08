@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is an OpenOffice.org macro used by lib/export_helper.rb -->
+<!-- Reads a spreadsheet, updates numbers in cells, stores it. -->
+<!-- Copy this to ~/.config/libreoffice/4/user/basic/Standard/Module1.xba -->
+<!-- It's called Module1.xba because that's already enabled by default in OpenOffice.org. -->
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">
+
+&apos; @param src path of original spreadsheet
+&apos; @param dst path of modified spreadsheet that will be created
+&apos; @param datafile path of textfile with lines &quot;sheet_num row_num col_num float_value&quot;
+Sub UpdateCells(src, dst, datafile)
+  &apos; open file
+  doc = StarDesktop.loadComponentFromURL(ConvertToUrl(src), &quot;_blank&quot;, 0, Array())
+  &apos; update cells from textfile
+  datadesc = Freefile
+  Open datafile For Input As datadesc
+  While Not eof(datadesc)
+    Line Input #datadesc, dataline
+    c = Split(dataline, &quot; &quot;)
+    s = doc.getSheets().getByIndex(c(0))
+    s.getCellByPosition(c(2), c(1)).setValue(c(3))
+  Wend
+  &apos; write file
+  doc.storeToURL(ConvertToUrl(dst), Array())
+  doc.Close(True)
+End Sub
+</script:module>

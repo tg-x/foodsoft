@@ -183,6 +183,8 @@ default: &defaults
 
   # Access to sharedLists, the external article-database; references entry in `config/database.yml`
   shared_lists: sharedlists
+  shared_supplier_assets_path: /www/apps/sharedlists/shared/supplier_assets
+  use_orderdoc: true
 
 development:
   <<: *defaults
