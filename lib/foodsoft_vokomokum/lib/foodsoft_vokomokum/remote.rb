@@ -28,6 +28,7 @@ module FoodsoftVokomokum
   #   this is a hash of {ordergroup_id: sum}
   #   type can be one of 'Groente', 'Kaas', 'Misc.'
   def self.upload_amounts(amounts, type)
+    Rails.logger.debug "Vokomokum update for #{type}: #{amounts.inspect}"
     type = type.downcase.gsub '.',''
     parms = {submit: 'Submit', which: type, column: "mo_vers_#{type}"}
     amounts.each_pair do |ordergroup,sum|
