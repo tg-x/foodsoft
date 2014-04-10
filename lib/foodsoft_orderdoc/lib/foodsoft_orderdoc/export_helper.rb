@@ -15,20 +15,35 @@
 #
 module FoodsoftOrderdoc::ExportHelper
 
-  def self.export(article_data, search_path=[])
+  class OrderdocException < Exception; end
 
+  # returns filename of source document, raises exception on error
+  def self.check_export(article_data, search_path=[])
     normalize_data! article_data
+    if article_data.find_index {|a| a[:srcdata].blank?}
+      raise OrderdocException.new('Articles present that have no associated spreadsheet. You may need to synchronise first.')
+    end
     fns = data_filenames(article_data)
     if fns.count == 0
-      return {error: 'Articles have no associated spreadsheet'}
+      raise OrderdocException.new('Articles have no associated spreadsheet. You may need to synchronise first.')
     elsif fns.count > 1
-      return {error: 'Articles do not belong to a single spreadsheet'}
+      raise OrderdocException.new('Articles do not belong to a single spreadsheet. You may need to synchronise first.')
     end
 
     src = find_file(fns[0], search_path) # TODO sanitize filename!
+    return src
+  end
+
+  # return document with ordering data from a supplier's template
+  def self.export(article_data, search_path=[])
+    begin
+      src = check_export article_data, search_path
+    rescue OrderdocException => e
+      return {error: e.message}
+    end
 
     # XXX needs to have setup OpenOffice.org script
-    # OpenOffice.org does not like to work on tempfiles, so use their path instead.
+    # OpenOffice.org does not like to work on tempfiles, so create new files with same path
     dst = Tempfile.new(['orderdoc_cells_', src.gsub(/^.*\./, '.')]).to_path
     celldata = Tempfile.new(['orderdoc_cells_', '.dat']).to_path
     begin

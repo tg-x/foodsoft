@@ -14,13 +14,31 @@ module FoodsoftOrderdoc
   end
 
   def self.orderdoc(order)
+    FoodsoftOrderdoc::ExportHelper.export(article_data(order), search_path(order))
+  end
+
+  def self.valid?(order)
+    begin
+      FoodsoftOrderdoc::ExportHelper.check_export?(article_data(order), search_path(order))
+      return true
+    rescue FoodsoftOrderdoc::ExportHelper::OrderdocException
+      return false
+    end
+  end
+
+  private
+
+  def self.article_data(order)
     article_data = order.order_articles.ordered.includes(:article).map {|oa| {
       order_number: oa.article.order_number,
       result: oa.units_to_order,
       srcdata: oa.article.shared_article.srcdata
     }}
+  end
+
+  def self.search_path(order)
     search_path = FoodsoftConfig[:shared_supplier_assets_path]
     search_path = File.join(search_path, 'mail_attachments', order.supplier.shared_supplier.id.to_s) if search_path
-    FoodsoftOrderdoc::ExportHelper.export(article_data, [search_path].compact)
+    [search_path].compact
   end
 end
