@@ -1,7 +1,8 @@
 - title t('.title', name: @ordergroup.name)
 
-- content_for :actionbar do
-  = link_to t('.new_transaction'), new_finance_ordergroup_transaction_path(@ordergroup), class: 'btn btn-primary'
+- if FoodsoftConfig[:use_paymanual]
+  - content_for :actionbar do
+    = link_to t('.new_transaction'), new_finance_ordergroup_transaction_path(@ordergroup), class: 'btn btn-primary'
 
 - content_for :sidebar do
   .well.well-small

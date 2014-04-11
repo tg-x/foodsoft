@@ -76,6 +76,9 @@ default: &defaults
   # Members of a user's groups and administrators can still see full names.
   use_nick: false
 
+  # Members with finance permissions can create debit and credit ordergroup accounts.
+  # In some cases, you may want to disable that (e.g. when using online payments only).
+  #use_paymanual: true
   # Most plugins can be enabled/disabled here as well. Messages and wiki are enabled
   # by default and need to be set to false to disable. Most other plugins needs to
   # be enabled before they do anything.

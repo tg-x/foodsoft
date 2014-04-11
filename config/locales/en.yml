@@ -587,6 +587,7 @@ en:
           alert: ! 'An error occured: %{error}'
           error_note_required: Note is required!
           notice: All transactions were saved.
+        paymanual_disabled: 'Manual payments are disabled.'
       index:
         balance: ! 'Balance of account: %{balance}'
         last_updated_at: (last updated %{when} ago)

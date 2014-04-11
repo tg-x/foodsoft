@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Finance::FinancialTransactionsController < ApplicationController
   before_filter :authenticate_finance
+  before_filter :paymanual_enabled, :except => [:index]
   before_filter :find_ordergroup, :except => [:new_collection, :create_collection]
   inherit_resources
 #  belongs_to :ordergroup
@@ -70,6 +71,12 @@ class Finance::FinancialTransactionsController < ApplicationController
 
   def find_ordergroup
     @ordergroup = Ordergroup.find(params[:ordergroup_id])
+  end
+
+  def paymanual_enabled
+    unless FoodsoftConfig[:use_paymanual]
+      redirect_to finance_ordergroups_url, alert: I18n.t('finance.financial_transactions.controller.paymanual_disabled')
+    end
   end
 
 end

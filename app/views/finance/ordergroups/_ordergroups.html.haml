@@ -15,6 +15,7 @@
         %td= ordergroup.contact
         %td.numeric= number_to_currency(ordergroup.available_funds)
         %td
-          = link_to t('.new_transaction'), new_finance_ordergroup_transaction_path(ordergroup), class: 'btn btn-mini'
+          - if FoodsoftConfig[:use_paymanual]
+            = link_to t('.new_transaction'), new_finance_ordergroup_transaction_path(ordergroup), class: 'btn btn-mini'
           = link_to t('.account_statement'), finance_ordergroup_transactions_path(ordergroup), class: 'btn btn-mini'
         
