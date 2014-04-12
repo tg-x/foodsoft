@@ -395,7 +395,8 @@ nl:
           one: Er moet éen artikel bijgewerkt worden.
           other: Er moeten %{count} artikelen bijgewerkt worden.
     upload:
-      body: <p>Het bestand moet een utf-8 tekstbestand zijn met als extensie '.csv'. De eerste regel wordt overgeslagen.</p> <p>Velden moeten met een puntkomma (';') gescheiden worden, en tekst mag tussen dubbele aanhalingstekstens ("Tekst...") staan.</p> <p>Volgende van de kolommen:</p>
+      body: <p>Het bestand is utf-8 tekstbestand zijn met als extensie <tt>.csv</tt>. De eerste regel bevat kolomhoofden.</p> <p>Velden worden met een puntkomma (';') gescheiden, en tekst mag tussen dubbele aanhalingstekstens ("Tekst...") staan.</p> <p>Volgorde van de kolommen:</p>
+      body_convert: <p>Het bestand is een spreadsheet (met extensie <tt>.xls</tt>, <tt>.xlsx</tt>, <tt>.ods</tt>, <tt>.sxc</tt> of <tt>.csv</tt>). De eerste regel bevat kolomhoofden.</p> <p>Volgorde van de kolommen:</p>
       fields:
         season_amount: 
         season_price: 

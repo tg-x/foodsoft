@@ -400,7 +400,8 @@ en:
           one: One article needs to be updated.
           other: ! '%{count} articles need to be updated.'
     upload:
-      body: <p>The file has to be a text file with the ending '.csv' The first line will be ignored when imported</p> <p>The fields have to be separated with semicolons (';') and the text enclosed by double quotation marks ("text...").</p> <p>As character set UTF-8 is demanded. Correct order of the column:</p>
+      body: <p>The file has to be a text file with the ending <tt>.csv</tt> The first line will be ignored when imported</p> <p>The fields have to be separated with semicolons (';') and the text enclosed by double quotation marks ("text...").</p> <p>As character set UTF-8 is demanded. Order of the columns:</p>
+      body_convert: <p>The file is a spreadsheet (ending with <tt>.xls</tt>, <tt>.xlsx</tt>, <tt>.ods</tt>, <tt>.sxc</tt> or <tt>.csv</tt>). The first line contains columns headers.</p><p>Order of the columns:</p>
       fields:
         season_amount: Scaled amount
         season_price: Scaled price

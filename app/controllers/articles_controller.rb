@@ -142,35 +142,34 @@ class ArticlesController < ApplicationController
   # field-seperator: ";"
   # text-seperator: ""
   def parse_upload
-    begin
-      @articles = Array.new
-      articles, outlisted_articles = FoodsoftFile::parse(params[:articles]["file"])
-      no_category = ArticleCategory.new
-      articles.each do |row|
-        # fallback to Others category
-        category = (ArticleCategory.find_by_name(row[:category]) or no_category)
-        # creates a new article and price
-        article = Article.new( :name => row[:name], 
-                               :note => row[:note],
-                               :manufacturer => row[:manufacturer],
-                               :origin => row[:origin],
-                               :unit => row[:unit],
-                               :article_category => category,
-                               :price => row[:price],
-                               :unit_quantity => row[:unit_quantity],
-                               :order_number => row[:number],
-                               :deposit => row[:deposit],
-                               :tax => (row[:tax] or FoodsoftConfig[:tax_default]))
-        # stop parsing, when an article isn't valid
-        unless article.valid?
-          raise I18n.t('articles.controller.error_parse', :msg => article.errors.full_messages.join(", "), :line => (articles.index(row) + 2).to_s)
-        end
-        @articles << article
+    @articles = Array.new
+    articles, outlisted_articles = FoodsoftFile::parse(params[:articles]["file"])
+    no_category = ArticleCategory.new
+    articles.each do |row|
+      # fallback to Others category
+      category = (ArticleCategory.find_by_name(row[:category]) or no_category)
+      # creates a new article and price
+      article = Article.new( :name => row[:name], 
+                             :note => row[:note],
+                             :manufacturer => row[:manufacturer],
+                             :origin => row[:origin],
+                             :unit => row[:unit],
+                             :article_category => category,
+                             :price => row[:price],
+                             :unit_quantity => row[:unit_quantity],
+                             :quantity => row[:quantity],
+                             :order_number => row[:number],
+                             :deposit => row[:deposit],
+                             :tax => (row[:tax] or FoodsoftConfig[:tax_default]))
+      # stop parsing, when an article isn't valid
+      unless article.valid?
+        raise I18n.t('articles.controller.error_parse', :msg => article.errors.full_messages.join(", "), :line => (articles.index(row) + 2).to_s)
       end
-      flash.now[:notice] = I18n.t('articles.controller.parse_upload.notice', :count => @articles.size)
-    rescue => error
-      redirect_to upload_supplier_articles_path(@supplier), :alert => I18n.t('errors.general_msg', :msg => error.message)
+      @articles << article
     end
+    flash.now[:notice] = I18n.t('articles.controller.parse_upload.notice', :count => @articles.size)
+  rescue Exception => error
+    redirect_to upload_supplier_articles_path(@supplier), :alert => I18n.t('errors.general_msg', :msg => error.message)
   end
  
   # creates articles from form

@@ -1,5 +1,8 @@
 - title t('.title', supplier: @supplier.name)
-= t('.body').html_safe
+- if FoodsoftConfig[:use_libreoffice]
+  = t('.body_convert').html_safe
+- else
+  = t('.body').html_safe
 %pre
   = [t('.fields.status'),
      Article.human_attribute_name(:order_number),
