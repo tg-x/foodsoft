@@ -32,7 +32,7 @@ module FoodsoftOrderdoc
     article_data = order.order_articles.ordered.includes(:article).map {|oa| {
       order_number: oa.article.order_number,
       result: oa.units_to_order,
-      srcdata: oa.article.shared_article.srcdata
+      srcdata: (oa.article.shared_article.srcdata rescue nil)
     }}
   end
 

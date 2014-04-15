@@ -21,13 +21,13 @@ module FoodsoftOrderdoc::ExportHelper
   def self.check_export(article_data, search_path=[])
     normalize_data! article_data
     if article_data.find_index {|a| a[:srcdata].blank?}
-      raise OrderdocException.new('Articles present that have no associated spreadsheet. You may need to synchronise first.')
+      raise OrderdocException.new(I18n.t('lib.foodsoft_orderdoc.error_no_srcdata'))
     end
     fns = data_filenames(article_data)
     if fns.count == 0
-      raise OrderdocException.new('Articles have no associated spreadsheet. You may need to synchronise first.')
+      raise OrderdocException.new(I18n.t('lib.foodsoft_orderdoc.error_spreadsheet_none'))
     elsif fns.count > 1
-      raise OrderdocException.new('Articles do not belong to a single spreadsheet. You may need to synchronise first.')
+      raise OrderdocException.new(I18n.t('lib.foodsoft_orderdoc.error_spreadsheet_multiple'))
     end
 
     src = find_file(fns[0], search_path) # TODO sanitize filename!

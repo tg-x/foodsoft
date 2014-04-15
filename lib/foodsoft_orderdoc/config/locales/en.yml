@@ -1,0 +1,6 @@
+en:
+  lib:
+    foodsoft_orderdoc:
+      error_no_srcdata: Articles present that have no associated spreadsheet. You may need to synchronise first.
+      error_spreadsheet_none: Articles have no associated spreadsheet. You may need to synchronise first.
+      error_spreadsheet_multiple: Articles do not belong to a single spreadsheet. You may need to synchronise first.
