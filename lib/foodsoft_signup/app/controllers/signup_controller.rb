@@ -3,41 +3,34 @@ class SignupController < ApplicationController
   layout 'login'
   skip_before_filter :authenticate # no authentication since this is the signup page
 
-  # For anyone
+  before_filter :signup_enabled
+
   def signup
-    if not FoodsoftSignup.enabled? :signup
-      redirect_to root_url, alert: I18n.t('signup.controller.disabled', foodcoop: FoodsoftConfig[:name])
-    elsif not FoodsoftSignup.check_signup_key(params[:key])
-      redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
-    elsif FoodsoftConfig[:signup_ordergroup_limit] and Ordergroup.count >= FoodsoftConfig[:signup_ordergroup_limit].to_i
-      redirect_to root_url, alert: I18n.t('signup.controller.ordergroup_limit',foodcoop: FoodsoftConfig[:name], max: FoodsoftConfig[:signup_ordergroup_limit])
-    else
-      @user = User.new(params[:user])
-      if request.post?
-        begin
-          # XXX code-duplication from LoginController#accept_invitation
-          User.transaction do
-            # enforce group (security!)
-            @user.ordergroup = {id: 'new'}
-            # save!
-            if @user.save
-              session[:locale] = @user.locale
-              # but we proceed slightly differently (TODO same behaviour for invites)
-              login @user
-              url = if FoodsoftSignup.enabled? :approval and FoodsoftSignup.enabled? :membership_fee
-                url = FoodsoftSignup.payment_link self 
-              else
-                nil
-              end
-              redirect_to url || root_url, notice: I18n.t('signup.controller.notice')
+    @user = User.new(params[:user])
+    if request.post?
+      begin
+        # XXX code-duplication from LoginController#accept_invitation
+        User.transaction do
+          # enforce group (security!)
+          @user.ordergroup = {id: 'new'}
+          # save!
+          if @user.save
+            session[:locale] = @user.locale
+            # but we proceed slightly differently (TODO same behaviour for invites)
+            login @user
+            url = if FoodsoftSignup.enabled? :approval and FoodsoftSignup.enabled? :membership_fee
+              url = FoodsoftSignup.payment_link self
+            else
+              nil
             end
+            redirect_to url || root_url, notice: I18n.t('signup.controller.notice')
           end
-        rescue => e
-          flash[:error] = I18n.t('errors.general_msg', msg: e)
         end
-      else
-        @user.settings.defaults['profile']['language'] ||= session[:locale]
+      rescue => e
+        flash[:error] = I18n.t('errors.general_msg', msg: e)
       end
+    else
+      @user.settings.defaults['profile']['language'] ||= session[:locale]
     end
   end
 
@@ -54,6 +47,16 @@ class SignupController < ApplicationController
       suffix += 1
     end
     name
+  end
+
+  def signup_enabled
+    if not FoodsoftSignup.enabled? :signup
+      redirect_to root_url, alert: I18n.t('signup.controller.disabled', foodcoop: FoodsoftConfig[:name])
+    elsif not FoodsoftSignup.check_signup_key(params[:key])
+      redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
+    elsif FoodsoftConfig[:signup_ordergroup_limit] and Ordergroup.count >= FoodsoftConfig[:signup_ordergroup_limit].to_i
+      redirect_to root_url, alert: I18n.t('signup.controller.ordergroup_limit',foodcoop: FoodsoftConfig[:name], max: FoodsoftConfig[:signup_ordergroup_limit])
+    end
   end
 
 end
