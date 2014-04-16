@@ -6,8 +6,6 @@ if defined? FoodsoftSignup
 
     before do
       FoodsoftConfig.config[:use_signup] = true
-      FoodsoftConfig.config[:unapproved_allow_access] = nil
-      FoodsoftConfig.config[:ordergroup_approval_payment] = nil
     end
 
     def expect_signup_page(page, is=true)
@@ -41,6 +39,25 @@ if defined? FoodsoftSignup
         FoodsoftConfig.config[:use_signup] = 'abcdefgh'
         visit signup_path(key: 'abcdefgh')
         expect_signup_page(page)
+      end
+
+      it 'is accessible with ordergroup an limit' do
+        FoodsoftConfig.config[:signup_ordergroup_limit] = 5
+        visit signup_path
+        expect_signup_page(page)
+      end
+
+      it 'is not accessible with ordergroup limit 0' do
+        FoodsoftConfig.config[:signup_ordergroup_limit] = 0
+        visit signup_path
+        expect_signup_page(page, false)
+      end
+
+      it 'is not accessible with more ordergroups than the limit' do
+        FoodsoftConfig.config[:signup_ordergroup_limit] = 5
+        5.times { create :ordergroup }
+        visit signup_path
+        expect_signup_page(page, false)
       end
 
       it 'can create a new user and unapproved ordergroup' do

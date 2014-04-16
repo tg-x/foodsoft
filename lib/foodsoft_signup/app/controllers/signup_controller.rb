@@ -9,6 +9,8 @@ class SignupController < ApplicationController
       redirect_to root_url, alert: I18n.t('signup.controller.disabled', foodcoop: FoodsoftConfig[:name])
     elsif not FoodsoftSignup.check_signup_key(params[:key])
       redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
+    elsif FoodsoftConfig[:signup_ordergroup_limit] and Ordergroup.count >= FoodsoftConfig[:signup_ordergroup_limit].to_i
+      redirect_to root_url, alert: I18n.t('signup.controller.ordergroup_limit',foodcoop: FoodsoftConfig[:name], max: FoodsoftConfig[:signup_ordergroup_limit])
     else
       @user = User.new(params[:user])
       if request.post?

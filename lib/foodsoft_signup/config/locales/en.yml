@@ -26,5 +26,6 @@ en:
       disabled: You cannot signup yourself for %{foodcoop}. Please contact us to become a member.
       key_wrong: Signup for %{foodcoop} is not public. Please contact us to be come a member.
       notice: Congratulations, your account has been created.
+      ordergroup_limit: I'm sorry, %{foodcoop} has already reached the maximum of %{max} members.
     signup:
       title: Join %{name}

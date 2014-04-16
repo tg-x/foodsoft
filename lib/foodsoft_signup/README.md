@@ -25,6 +25,9 @@ This plugin is configured in the foodcoop configuration in foodsoft's
   # enable to to allow public signup
   use_signup: true
 
+  # disable signup when there are this many ordergroups or more (unlimited by default)
+  #signup_ordergroup_limit: 25
+
   # Array of which pages are accesible to ordergroups that are not approved.
   # Values are controller names (`pages`) or actions combined with controller
   # names (`pages#show`). If not set, the default is:
@@ -42,7 +45,7 @@ This plugin is configured in the foodcoop configuration in foodsoft's
 
   # In case you'd like to have protected signup form, and allow members who
   # signup to order directly, you can enable the following instead. This
-  # effectively disabled approval, and requires a key in the signup url:
+  # effectively disables approval, and requires a key in the signup url:
   #   https://foodcoop.test/f/login/signup?key=verySeCrEt123
   #unapproved_allow_access: '*'
   #signup: 'verySeCrEt123'
