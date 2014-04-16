@@ -20,9 +20,12 @@ module FoodsoftOrderdoc::ExportHelper
   # returns filename of source document, raises exception on error
   def self.check_export(article_data, search_path=[])
     normalize_data! article_data
-    if article_data.find_index {|a| a[:srcdata].blank?}
-      raise OrderdocException.new(I18n.t('lib.foodsoft_orderdoc.error_no_srcdata'))
-    end
+    # we could give an error, but as this usually means there are articles removed from sharedlists,
+    # ignore them - they aren't deliverable anymore anyway, and we'd rather have something as output
+    article_data.reject! {|a| a[:srcdata].blank?}
+    #if article_data.find_index {|a| a[:srcdata].blank?}
+    #  raise OrderdocException.new(I18n.t('lib.foodsoft_orderdoc.error_no_srcdata'))
+    #end
     fns = data_filenames(article_data)
     if fns.count == 0
       raise OrderdocException.new(I18n.t('lib.foodsoft_orderdoc.error_spreadsheet_none'))
