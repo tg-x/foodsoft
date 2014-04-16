@@ -87,7 +87,7 @@ class Article < ActiveRecord::Base
           :tax => [self.tax, self.shared_article.tax],
           :deposit => [self.deposit, self.shared_article.deposit],
           # take care of different num-objects.
-          :unit_quantity => [self.unit_quantity.to_s.to_f, new_unit_quantity.to_s.to_f],
+          :unit_quantity => [self.unit_quantity.to_s.to_f.round(1), new_unit_quantity.to_s.to_f.round(1)],
           :note => [self.note.to_s, self.shared_article.note.to_s]
         }
       )
@@ -124,9 +124,10 @@ class Article < ActiveRecord::Base
       # legacy, used by foodcoops in Germany
       if shared_article.unit == "KI" and unit == "ST" # 'KI' means a box, with a different amount of items in it
         # try to match the size out of its name, e.g. "banana 10-12 St" => 10
-        new_unit_quantity = /[0-9\-\s]+(St)/.match(shared_article.name).to_s.to_i
+        # unit_quantity would be an integer, but to show when it's not whole, return float instead
+        new_unit_quantity = /[0-9\-\s]+(St)/.match(shared_article.name).to_f.round(1)
         if new_unit_quantity and new_unit_quantity > 0
-          new_price = (shared_article.price/new_unit_quantity.to_f).round(2)
+          new_price = (shared_article.price/new_unit_quantity.to_f).round(3)
           [new_price, new_unit_quantity]
         else
           false
@@ -136,8 +137,8 @@ class Article < ActiveRecord::Base
         supplier_unit = (::Unit.new(shared_article.unit) rescue nil)
         if fc_unit and supplier_unit and fc_unit =~ supplier_unit
           conversion_factor = (fc_unit.convert_to(supplier_unit.units) / supplier_unit).scalar
-          new_price = shared_article.price * conversion_factor
-          new_unit_quantity = shared_article.unit_quantity / conversion_factor
+          new_price = (shared_article.price * conversion_factor).to_f.round(3)
+          new_unit_quantity = (shared_article.unit_quantity / conversion_factor).to_f.round(1)
           [new_price, new_unit_quantity]
         else
           false
