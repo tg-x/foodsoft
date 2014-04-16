@@ -29,11 +29,28 @@ module FoodsoftOrderdoc
   private
 
   def self.article_data(order)
-    article_data = order.order_articles.ordered.includes(:article).map {|oa| {
-      order_number: oa.article.order_number,
-      result: oa.units_to_order,
-      srcdata: (oa.article.shared_article.srcdata rescue nil)
-    }}
+    article_data = order.order_articles.ordered.includes(:article).map do |oa|
+      shared_article = oa.article.shared_article
+      units_to_order = oa.units_to_order
+      # convert units back if needed
+      if shared_article and shared_article.unit_quantity != oa.article.unit_quantity
+        fc_unit = (::Unit.new(oa.article.unit) rescue nil)
+        supplier_unit = (::Unit.new(shared_article.unit) rescue nil)
+        if fc_unit and supplier_unit and fc_unit =~ supplier_unit
+          conversion_factor = (fc_unit.convert_to(supplier_unit.units) / supplier_unit).scalar
+          units_to_order = (units_to_order*oa.article.unit_quantity * conversion_factor / shared_article.unit_quantity).to_f.round(2)
+        else
+          # skip articles where unit can't be converted TODO proper warning
+          units_to_order = "(units incompatible: #{oa.article.unit} vs #{shared_article.unit})"
+        end
+      end
+      # return relevant data
+      {
+        order_number: oa.article.order_number,
+        result: units_to_order,
+        srcdata: (shared_article.srcdata if shared_article)
+      }
+    end
   end
 
   def self.search_path(order)
