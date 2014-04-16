@@ -31,7 +31,7 @@ class FoodsoftConfig
 
     # Loop through each foodcoop and executes the given block after setup config and database
     def each_coop
-      APP_CONFIG.keys.reject { |coop| coop =~ /^(default|development|test|production)$/ }.each do |coop|
+      scopes.each do |coop|
         select_foodcoop coop
         yield coop
       end
@@ -64,6 +64,11 @@ class FoodsoftConfig
     def reload!(filename = APP_CONFIG_FILE)
       APP_CONFIG.clear.merge! YAML.load(File.read(File.expand_path(filename, Rails.root)))
       init
+    end
+
+    # return list of foodcoop scopes
+    def scopes
+      APP_CONFIG.keys.reject { |scope| scope =~ /^(default|development|test|production)$/ }
     end
 
   end
