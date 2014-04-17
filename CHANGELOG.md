@@ -1,3 +1,13 @@
+# Foodsoft 3.3.3-adam
+(17 apr 2014)
+
+* Article uploads support Microsoft Excel and OpenOffice.org file formats
+* Most other plugins can now be enabled/disabled on a per-foodcoop basis
+* Vokomokum plugin now updates totals at the dry ordering system
+* New orderdoc plugin: suppliers can get original spreadsheet filled in with order
+* Bugfix: membership fee was not debited
+* Bugfix: add some missing translations
+
 # Foodsoft 3.3.2-adam
 (04 Apr 2014)
 
