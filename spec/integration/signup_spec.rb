@@ -103,5 +103,16 @@ if defined? FoodsoftSignup
       end
     end
 
+    describe 'membership fee', :type => :feature do
+      before do
+        FoodsoftConfig.config[:membership_fee] = 1+rand(5000)/100
+      end
+
+      it 'is debited' do
+        ordergroup = Ordergroup.create name: 'foobar'
+        expect(ordergroup.account_balance).to eq -FoodsoftConfig.config[:membership_fee]
+      end
+    end
+
   end
 end
