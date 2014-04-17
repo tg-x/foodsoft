@@ -4,6 +4,7 @@ class SignupController < ApplicationController
   skip_before_filter :authenticate # no authentication since this is the signup page
 
   before_filter :signup_enabled
+  before_filter :signup_limit_reached
 
   def signup
     @user = User.new(params[:user])
@@ -54,7 +55,11 @@ class SignupController < ApplicationController
       redirect_to root_url, alert: I18n.t('signup.controller.disabled', foodcoop: FoodsoftConfig[:name])
     elsif not FoodsoftSignup.check_signup_key(params[:key])
       redirect_to root_url, alert: I18n.t('signup.controller.key_wrong', foodcoop: FoodsoftConfig[:name])
-    elsif FoodsoftConfig[:signup_ordergroup_limit] and Ordergroup.count >= FoodsoftConfig[:signup_ordergroup_limit].to_i
+    end
+  end
+
+  def signup_limit_reached
+    if FoodsoftSignup.limit_reached?
       redirect_to root_url, alert: I18n.t('signup.controller.ordergroup_limit',foodcoop: FoodsoftConfig[:name], max: FoodsoftConfig[:signup_ordergroup_limit])
     end
   end

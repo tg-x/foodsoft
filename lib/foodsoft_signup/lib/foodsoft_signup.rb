@@ -52,4 +52,13 @@ module FoodsoftSignup
       title: I18n.t('foodsoft_signup.payment.pay_title')
     }.to_param
   end
+
+  # returns whether the ordergroup signup limit has been reached or not
+  def self.limit_reached?
+    limit = FoodsoftConfig[:signup_ordergroup_limit]
+    return unless limit
+    groups = Ordergroup
+    groups = groups.where(approved: true) if enabled?(:approval)
+    groups.count >= limit.to_i
+  end
 end
