@@ -45,12 +45,14 @@ module FoodsoftSignup
     else
       c.send s.to_sym
     end
-    url + '?' + {
+    params = {
       amount: FoodsoftConfig[:membership_fee],
-      fixed: 'true',
-      label: I18n.t('foodsoft_signup.payment.pay_label'),
-      title: I18n.t('foodsoft_signup.payment.pay_title')
-    }.to_param
+      fixed: FoodsoftConfig[:membership_fee_fixed] || 'true',
+      label: FoodsoftConfig[:ordergroup_approval_payment_label] || I18n.t('foodsoft_signup.payment.pay_label'),
+      title: FoodsoftConfig[:ordergroup_approval_payment_title] || I18n.t('foodsoft_signup.payment.pay_title')
+    }
+    params[:min] = FoodsoftConfig[:membership_fee] if FoodsoftConfig[:membership_fee_fixed] == 'false'
+    url + '?' + params.to_param
   end
 
   # returns whether the ordergroup signup limit has been reached or not

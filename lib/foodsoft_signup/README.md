@@ -19,8 +19,12 @@ Configuration
 This plugin is configured in the foodcoop configuration in foodsoft's
 "config/app\_config.yml":
 ```yaml
-  # membership fee substracted from balance when a new ordergroup is created
+  # Membership fee substracted from balance when a new ordergroup is created
   membership_fee: 35
+  # The membership fee is fixed by default. If you'd like members to be able
+  # to enter a larger amount, set this to false, and members will be able to
+  # enter a larger amount than the membership_fee on payment.
+  #membership_fee_fixed: false
 
   # enable to to allow public signup
   use_signup: true
@@ -63,6 +67,10 @@ This plugin is configured in the foodcoop configuration in foodsoft's
   # When starting with http: or https:, this is considered to be a full url; else 
   # a Ruby name that will be evaluated on the controller.
   #ordergroup_approval_payment: new_payments_mollie_path
+
+  # You can customize the fields shown on the membership payment form.
+  #ordergroup_approval_payment_label: Membership fee
+  #ordergroup_approval_payment_title: Pay your membership
 
   # By default ordergroup approval is enabled when signup is enabled; in case
   # you'd like to control this independently, set it to true or false.

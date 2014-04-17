@@ -25,14 +25,16 @@ class Payments::MollieIdealController < ApplicationController
     set_mollie_cfg
     @banks = IdealMollie.banks
     @amount = (params[:amount] or [0, -@ordergroup.get_available_funds].min)
+    @amount = [params[:min], @amount].max if params[:min]
   end
 
   def create
     # store parameters so we can redirect to original form on problems
-    session[:mollie_params] = params.select {|k,v| %w(amount label title fixed).include?(k)}
+    session[:mollie_params] = params.select {|k,v| %w(amount label title fixed min).include?(k)}
 
     bank_id = params[:bank_id]
     amount = params[:amount].to_f
+    amount = [params[:min].to_f, amount].max if params[:min]
 
     set_mollie_cfg
     IdealMollie::Config.return_url = result_payments_mollie_url
