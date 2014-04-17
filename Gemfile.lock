@@ -41,6 +41,13 @@ PATH
       rails
 
 PATH
+  remote: lib/foodsoft_messages
+  specs:
+    foodsoft_messages (0.0.1)
+      deface (~> 1.0.0)
+      rails
+
+PATH
   remote: lib/foodsoft_mollie
   specs:
     foodsoft_mollie (0.0.1)
@@ -436,6 +443,7 @@ DEPENDENCIES
   foodsoft_adyen!
   foodsoft_current_orders!
   foodsoft_mailall!
+  foodsoft_messages!
   foodsoft_mollie!
   foodsoft_orderdoc!
   foodsoft_signup!

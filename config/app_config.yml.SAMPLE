@@ -83,7 +83,7 @@ default: &defaults
   # by default and need to be set to false to disable. Most other plugins needs to
   # be enabled before they do anything.
   #use_wiki: true
-  #use_messages: true
+  use_messages: false
 
   # default order schedule, used to provide initial dates for new orders
   # (recurring dates in ical format; no spaces!)
