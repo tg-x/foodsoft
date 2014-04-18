@@ -159,7 +159,7 @@ class Article < ActiveRecord::Base
   end
 
   # product information url, fallback to optional supplier-wide value
-  def info_url
+  def info_url(supplier=self.supplier)
     self[:info_url] or supplier.article_info_url(self)
   end
 

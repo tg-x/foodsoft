@@ -27,7 +27,7 @@
         - cssclass = (units > 0 ? 'used' : (order_article.quantity > 0 ? 'unused' : 'unavailable'))
         %tr{:class => cycle('even', 'odd', :name => 'articles') + ' ' + cssclass}
           %td.name
-            = article_info_icon order_article.article
+            = article_info_icon order_article.article, order.supplier
             = order_article.article.name
           %td= "#{unit_quantity} x #{order_article.article.unit}"
           %td= "#{number_to_currency(net_price)} / #{number_to_currency(gross_price)}"
@@ -38,7 +38,7 @@
               %td= "#{order_article.quantity} + #{order_article.tolerance}"
             - else
               %td= "#{order_article.quantity}"
-            %td{title: units_history_line(order_article, plain: true)}
+            %td{title: units_history_line(order_article, order, plain: true)}
               = units
               = pkg_helper order_article.price
 %p

@@ -26,10 +26,10 @@ module ArticlesHelper
   end
 
   # show icon with link to product information when available
-  def article_info_icon(article)
+  def article_info_icon(article, supplier=article.supplier)
     icon = "<i class='icon-info-sign'></i>".html_safe
-    unless article.info_url.blank?
-      link_to icon, article.info_url, target: '_blank'
+    unless (url = article.info_url(supplier)).blank?
+      link_to icon, url, target: '_blank'
     else
       icon
     end
