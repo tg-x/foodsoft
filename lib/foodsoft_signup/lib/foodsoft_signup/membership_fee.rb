@@ -27,10 +27,22 @@ module FoodsoftSignup
         def add_financial_transaction!(amount, note, user)
           result = self.foodsoft_signup_orig_add_financial_transaction!(amount, note, user)
           if FoodsoftSignup.enabled? :approval and FoodsoftSignup.enabled? :membership_fee
-            if not self.approved? and amount >= (FoodsoftConfig[:membership_fee].to_f - 1e-3)
-              Rails.logger.debug "Approving ordergroup ##{id} after membership fee payment"
-              self.approved = true
-              save!
+            if not self.approved? and (diff = amount - FoodsoftConfig[:membership_fee].to_f) > -1e-4
+              transaction do
+                Rails.logger.debug "Approving ordergroup ##{id} after membership fee payment"
+                self.approved = true
+                save!
+                # when this is the first transaction after the membership fee, and it's more than the
+                # fee, we assume it's a donation - debit that
+                # TODO config option - perhaps some groups would like to have a prepaid credit right away
+                if financial_transactions.count <= 2 and diff > 1e-4
+                  note = I18n.t('foodsoft_signup.membership_fee.transaction_note_donation')
+                  t = FinancialTransaction.new(:ordergroup => self, :amount => -diff, :note => note, :user_id => 0)
+                  t.save!
+                  self.account_balance = financial_transactions.sum('amount')
+                  save!
+                end
+              end
             end
           end
           result

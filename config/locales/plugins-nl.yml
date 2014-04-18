@@ -16,6 +16,7 @@ nl:
       not_approved: Je lidmaatschap moet worden bevestigd voor je hier naartoe kan.
     membership_fee:
       transaction_note: Lidmaatschap voor huishouden
+      transaction_note_donation: Extra donatie. Bedankt voor je bijdrage!
     payment:
       msg: Je moet het lidmaatschapsgeld nog betalen, dat kun je %{link}.
       msg_link: online doen

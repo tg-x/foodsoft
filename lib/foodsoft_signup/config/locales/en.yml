@@ -17,6 +17,7 @@ en:
       not_approved: Your membership needs to be approved before you can go there.
     membership_fee:
       transaction_note: Membership fee for ordergroup
+      transaction_note_donation: Voluntary donation. Thank you for your support!
   finance:
     financial_transactions:
       new:

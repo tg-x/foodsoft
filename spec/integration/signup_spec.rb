@@ -104,13 +104,27 @@ if defined? FoodsoftSignup
     end
 
     describe 'membership fee', :type => :feature do
+      let(:ordergroup) { Ordergroup.create name: 'foobar' }
+      let(:admin) { create :admin }
       before do
         FoodsoftConfig.config[:membership_fee] = 1+rand(5000)/100
       end
 
       it 'is debited' do
-        ordergroup = Ordergroup.create name: 'foobar'
         expect(ordergroup.account_balance).to eq -FoodsoftConfig.config[:membership_fee]
+      end
+
+      it 'when payed approves ordergroup' do
+        expect(ordergroup.approved?).to be_false
+        ordergroup.add_financial_transaction! FoodsoftConfig.config[:membership_fee], 'payment', admin
+        expect(ordergroup.approved?).to be_true
+        expect(ordergroup.account_balance).to eq 0
+      end
+
+      it 'can be a larger donation' do
+        ordergroup.add_financial_transaction! FoodsoftConfig.config[:membership_fee]+20, 'larger payment', admin
+        expect(ordergroup.financial_transactions.last.amount).to eq -20
+        expect(ordergroup.account_balance).to eq 0
       end
     end
 
