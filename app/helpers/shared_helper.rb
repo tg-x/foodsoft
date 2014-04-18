@@ -10,4 +10,17 @@ module SharedHelper
     end
   end
 
+  # admin path to an area the user has access to (used in layout)
+  def admin_path_sensible(user=@current_user)
+    if user.role_orders?
+      orders_path
+    elsif user.role_suppliers? or user.role_article_meta?
+      suppliers_path
+    elsif user.role_admin?
+      admin_root_path
+    elsif user.role_finance?
+      finance_order_index_path
+    end
+  end
+
 end

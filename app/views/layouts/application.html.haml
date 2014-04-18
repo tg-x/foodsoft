@@ -11,7 +11,7 @@
           %li= link_to t('navigation.messages'), messages_path
         -#%li= link_to t('.ordergroup'), my_ordergroup_path
   %ul.nav.nav-pills.pull-right
-    %li= link_to 'Admin', orders_path if @current_user.role_admin? or @current_user.role_finance? or @current_user.role_article_meta? or @current_user.role_suppliers? or @current_user.role_orders?
+    %li= link_to 'Admin', admin_path_sensible if admin_path_sensible
     %li= link_to t('.logout'), logout_path
   .logo
     = FoodsoftConfig[:name]
