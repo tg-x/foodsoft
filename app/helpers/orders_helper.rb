@@ -19,7 +19,8 @@ module OrdersHelper
   end
 
   # "1×2 ordered, 2×2 billed, 2×2 received"
-  def units_history_line(order_article, order=order_article.order, options={})
+  def units_history_line(order_article, order=nil, options={})
+    order ||= order_article.order
     if order.open?
       nil
     else
