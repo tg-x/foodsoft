@@ -15,6 +15,8 @@
     %li= link_to t('.logout'), logout_path
   .logo
     = FoodsoftConfig[:name]
+    - if FoodsoftConfig[:sub_name]
+      .sub-logo= FoodsoftConfig[:sub_name]
   .clearfix
 
   -# XXX only show dashboard on non-admin items

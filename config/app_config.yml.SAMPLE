@@ -28,6 +28,9 @@ default: &defaults
   # Homepage
   homepage: http://www.foodcoop.nl
 
+  # optional subtitle (empty by default)
+  #sub_name: location city centre
+
   # foodsoft documentation URL
   #help_url: https://github.com/foodcoops/foodsoft/wiki/Doku
 
