@@ -1,0 +1,14 @@
+# hooks to standard Capistrano cycle for supporting the multicoops feature
+
+Rake::Task['deploy:migrate'].clear_actions
+desc '(multicoops)'
+task 'deploy:migrate' do
+  on primary fetch(:migration_role) do
+    within release_path do
+      with rails_env: fetch(:rails_env) do
+        execute :rake, 'multicoops:run', 'TASK=db:migrate'
+      end
+    end
+  end
+end
+
