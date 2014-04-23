@@ -13,6 +13,8 @@
 #      {result: 5, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 27, col: 5}},
 #    ])
 #
+require 'fileutils'
+
 module FoodsoftOrderdoc::ExportHelper
 
   class OrderdocException < Exception; end
@@ -50,14 +52,15 @@ module FoodsoftOrderdoc::ExportHelper
     dst = Tempfile.new(['orderdoc_cells_', src.gsub(/^.*\./, '.')]).to_path
     celldata = Tempfile.new(['orderdoc_cells_', '.dat']).to_path
     begin
+      FileUtils.copy_file(src, dst, true)
       File.open(celldata, 'w+') do |f|
         article_data.each do |a|
           p = a[:srcdata] or next
           f.puts "#{p[:sheet].to_i} #{p[:row].to_i} #{p[:col].to_i} #{a[:result]}"
         end
       end
-      Rails.logger.debug "libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{src},#{dst},#{celldata})' >/dev/null"
-      %x(libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{src},#{dst},#{celldata})' >/dev/null)
+      Rails.logger.debug "libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{dst},#{celldata})' >/dev/null"
+      %x(libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{dst},#{celldata})' >/dev/null)
     ensure
       output = File.read(dst)
       File.delete dst

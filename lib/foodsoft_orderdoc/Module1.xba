@@ -6,12 +6,11 @@
 <!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">
 
-&apos; @param src path of original spreadsheet
-&apos; @param dst path of modified spreadsheet that will be created
+&apos; @param file path of original spreadsheet
 &apos; @param datafile path of textfile with lines &quot;sheet_num row_num col_num float_value&quot;
-Sub UpdateCells(src, dst, datafile)
+Sub UpdateCells(file, datafile)
   &apos; open file
-  doc = StarDesktop.loadComponentFromURL(ConvertToUrl(src), &quot;_blank&quot;, 0, Array())
+  doc = StarDesktop.loadComponentFromURL(ConvertToUrl(file), &quot;_blank&quot;, 0, Array())
   &apos; update cells from textfile
   datadesc = Freefile
   Open datafile For Input As datadesc
@@ -22,7 +21,7 @@ Sub UpdateCells(src, dst, datafile)
     s.getCellByPosition(c(2), c(1)).setValue(c(3))
   Wend
   &apos; write file
-  doc.storeToURL(ConvertToUrl(dst), Array())
+  doc.store()
   doc.Close(True)
 End Sub
 </script:module>
