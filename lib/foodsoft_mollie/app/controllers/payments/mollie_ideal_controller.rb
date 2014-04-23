@@ -30,7 +30,7 @@ class Payments::MollieIdealController < ApplicationController
 
   def create
     # store parameters so we can redirect to original form on problems
-    session[:mollie_params] = params.select {|k,v| %w(amount label title fixed min).include?(k)}
+    session[:mollie_params] = params.select {|k,v| %w(amount label title fixed min text).include?(k)}
 
     bank_id = params[:bank_id]
     amount = params[:amount].to_f
