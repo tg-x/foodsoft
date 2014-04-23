@@ -1,5 +1,8 @@
 - title t('.title'), false
 
+- if FoodsoftConfig[:home_notice]
+  .well= FoodsoftConfig[:home_notice]
+
 -# placeholder deface to add content using erb[silent]:contains()
 - '<dashboard_top_mark>'
 

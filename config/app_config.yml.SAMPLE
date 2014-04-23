@@ -31,6 +31,9 @@ default: &defaults
   # optional subtitle (empty by default)
   #sub_name: location city centre
 
+  # optional message to show on dashboard, e.g. for important announcements
+  #home_notice: We are currently in summer-break, hope to see you again in September.
+
   # foodsoft documentation URL
   #help_url: https://github.com/foodcoops/foodsoft/wiki/Doku
 
