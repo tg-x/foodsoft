@@ -71,6 +71,10 @@ This plugin is configured in the foodcoop configuration in foodsoft's
   # You can customize the fields shown on the membership payment form.
   #ordergroup_approval_payment_label: Membership fee
   #ordergroup_approval_payment_title: Pay your membership
+  #ordergroup_approval_payment_text:
+  #  A membership contribution is needed so that we can do the initial investments.
+  #  If you really like this initiative, please feel free to donate more by adjusting
+  #  the amount.
 
   # By default ordergroup approval is enabled when signup is enabled; in case
   # you'd like to control this independently, set it to true or false.

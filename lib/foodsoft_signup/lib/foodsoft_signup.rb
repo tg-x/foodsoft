@@ -50,6 +50,7 @@ module FoodsoftSignup
       label: FoodsoftConfig[:ordergroup_approval_payment_label] || I18n.t('foodsoft_signup.payment.pay_label'),
       title: FoodsoftConfig[:ordergroup_approval_payment_title] || I18n.t('foodsoft_signup.payment.pay_title')
     }
+    params[:text] = FoodsoftConfig[:ordergroup_approval_payment_text] if FoodsoftConfig[:ordergroup_approval_payment_text]
     if FoodsoftConfig[:membership_fee_fixed] == false
       params[:min] = FoodsoftConfig[:membership_fee]
     else
