@@ -47,11 +47,14 @@ module FoodsoftSignup
     end
     params = {
       amount: FoodsoftConfig[:membership_fee],
-      fixed: FoodsoftConfig[:membership_fee_fixed] || 'true',
       label: FoodsoftConfig[:ordergroup_approval_payment_label] || I18n.t('foodsoft_signup.payment.pay_label'),
       title: FoodsoftConfig[:ordergroup_approval_payment_title] || I18n.t('foodsoft_signup.payment.pay_title')
     }
-    params[:min] = FoodsoftConfig[:membership_fee] if FoodsoftConfig[:membership_fee_fixed] == 'false'
+    if FoodsoftConfig[:membership_fee_fixed] == false
+      params[:min] = FoodsoftConfig[:membership_fee]
+    else
+      params[:fixed] = 'true'
+    end
     url + '?' + params.to_param
   end
 
