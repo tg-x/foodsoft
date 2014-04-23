@@ -39,15 +39,19 @@ class SignupController < ApplicationController
   protected
 
   # generate an unique ordergroup name from a user
-  # TODO use from ordergroup model, when wvengen/feature-edit_ordergroup_with_user is merged
+  # TODO only use from ordergroup model, when wvengen/feature-edit_ordergroup_with_user is merged
   def name_from_user(user)
-    name = user.display
-    suffix = 2
-    while Ordergroup.where(name: name).exists? do
-      name = "#{user.display} (#{suffix})"
-      suffix += 1
+    if Ordergroup.respond_to? name_from_user
+      Ordergroup.name_from_user user
+    else
+      name = user.display
+      suffix = 2
+      while Ordergroup.where(name: name).exists? do
+        name = "#{user.display} (#{suffix})"
+        suffix += 1
+      end
+      name
     end
-    name
   end
 
   def signup_enabled
