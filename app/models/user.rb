@@ -199,7 +199,7 @@ class User < ActiveRecord::Base
     end
     if attributes[:id] == 'new'
       # create a new ordergroup (this already makes the association)
-      Ordergroup.build_from_user(self, attributes.reject {|i| i=='id'})
+      Ordergroup.build_from_user(self, attributes.reject {|i| i.to_s=='id'})
     elsif ordergroup.nil?
       # create a new relation
       memberships << Membership.new(group_id: attributes[:id])

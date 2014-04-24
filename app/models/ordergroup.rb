@@ -111,7 +111,7 @@ class Ordergroup < Group
     og = Ordergroup.new({:name => name_from_user(user)})
     og.contact_person = user.name unless user.name.blank?
     og.contact_phone = user.phone unless user.phone.blank?
-    og.update_attributes attributes
+    og.assign_attributes attributes
     # create membership (vs. setting user_ids) to allow new users to associate
     user.memberships << Membership.new(group: og)
     og
@@ -138,10 +138,10 @@ class Ordergroup < Group
 
   # generate an unique ordergroup name from a user
   def self.name_from_user(user)
-    name = user.display
+    name = user.display.truncate(25, omission: '').rstrip
     suffix = 2
     while Ordergroup.where(name: name).exists? do
-      name = "#{user.display} (#{suffix})"
+      name = "#{user.display.truncate(20, omission: '').rstrip} (#{suffix})"
       suffix += 1
     end
     name
