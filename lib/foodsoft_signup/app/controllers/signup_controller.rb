@@ -28,6 +28,7 @@ class SignupController < ApplicationController
           end
         end
       rescue => e
+        Rails.logger.warn "Signup error: #{e}"
         flash[:error] = I18n.t('errors.general_msg', msg: e)
       end
     else
@@ -41,13 +42,13 @@ class SignupController < ApplicationController
   # generate an unique ordergroup name from a user
   # TODO only use from ordergroup model, when wvengen/feature-edit_ordergroup_with_user is merged
   def name_from_user(user)
-    if Ordergroup.respond_to? name_from_user
+    if Ordergroup.respond_to? :name_from_user
       Ordergroup.name_from_user user
     else
-      name = user.display
+      name = user.display.truncate(25, omission: '').rstrip
       suffix = 2
       while Ordergroup.where(name: name).exists? do
-        name = "#{user.display} (#{suffix})"
+        name = "#{user.display.trucate(20, omissions: '').rstrip} (#{suffix})"
         suffix += 1
       end
       name
