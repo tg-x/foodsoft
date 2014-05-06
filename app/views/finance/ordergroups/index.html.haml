@@ -1,7 +1,8 @@
 - title t('.title')
 
-- if FoodsoftConfig[:use_paymanual]
-  - content_for :actionbar do
+- content_for :actionbar do
+  = link_to t('.show_all'), finance_transactions_path, class: 'btn'
+  - if FoodsoftConfig[:use_paymanual]
     = link_to t('.new_transaction'), finance_new_transaction_collection_path, class: 'btn btn-primary'
 
 .well.well-small

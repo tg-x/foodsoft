@@ -7,11 +7,7 @@
 - content_for :sidebar do
   .well.well-small
     = render 'account_info', ordergroup: @ordergroup
-.well.well-small
-  = form_tag finance_ordergroup_transactions_path(@ordergroup), :method => :get, :remote => true,
-    'data-submit-onchange' => true, class: 'form-search' do
-    = text_field_tag :query, params[:query], class: 'input-medium search-query',
-      placeholder: t('.search_placeholder')
 
+= render 'transactions_search', url: finance_ordergroup_transactions_path(@ordergroup)
 
 #transactions= render 'transactions'
