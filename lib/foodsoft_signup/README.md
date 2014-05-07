@@ -52,7 +52,7 @@ This plugin is configured in the foodcoop configuration in foodsoft's
   # effectively disables approval, and requires a key in the signup url:
   #   https://foodcoop.test/f/login/signup?key=verySeCrEt123
   #unapproved_allow_access: '*'
-  #signup: 'verySeCrEt123'
+  #use_signup: 'verySeCrEt123'
 
   # Message to show when ordergroup is not yet approved. If not set, a concise
   # default message will be shown.

@@ -1,3 +1,3 @@
 - title t('.title', name: FoodsoftConfig[:name])
 
-= render 'login/accept_invitation_form', form_url: signup_path
+= render 'login/accept_invitation_form', form_url: signup_path(params.select {|k,v| k=='key'})
