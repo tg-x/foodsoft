@@ -13,7 +13,7 @@ class UserNotifier
     Order.find(order_id).group_orders.each do |group_order|
       group_order.ordergroup.users.each do |user|
         begin
-          Mailer.order_result(user, group_order).deliver if user.settings.notify["order_finished"]
+          Mailer.order_result(user, group_order).deliver if user.settings.notify["order_finished"] and not FoodsoftConfig[:skip_order_finished_mails]
         rescue
           Rails.logger.warn "Can't deliver mail to #{user.email}"
         end
