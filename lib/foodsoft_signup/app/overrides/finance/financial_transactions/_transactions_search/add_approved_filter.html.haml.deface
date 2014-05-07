@@ -1,0 +1,5 @@
+/ insert_bottom '.search-fields'
+- if FoodsoftSignup.enabled?(:approval) and @ordergroup.nil?
+  &nbsp;
+  = label_tag :search_ordergroup_approved_is_true, Ordergroup.human_attribute_name(:approved_short)
+  = f.check_box :ordergroup_approved_is_true
