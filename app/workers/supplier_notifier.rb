@@ -5,7 +5,9 @@ class SupplierNotifier
   # Resque style method to perform every class method defined here
   def self.perform(foodcoop, method_name, *args)
     FoodsoftConfig.select_foodcoop(foodcoop) if FoodsoftConfig[:multi_coop_install]
-    self.send method_name, *args
+    I18n.with_locale(FoodsoftConfig[:default_locale] || I18n.locale) do
+      self.send method_name, *args
+    end
   end
 
   def self.finished_order(order_id, options={})
