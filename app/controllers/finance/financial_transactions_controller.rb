@@ -21,13 +21,14 @@ class Finance::FinancialTransactionsController < ApplicationController
     end
 
     @q = FinancialTransaction.search(params[:search])
-    @financial_transactions = @q.relation.includes(:user).order(sort).page(params[:page]).per(@per_page)
-    @financial_transactions = @financial_transactions.where(ordergroup_id: @ordergroup.id) if @ordergroup
+    @financial_transactions_all = @q.relation.includes(:user).order(sort)
+    @financial_transactions_all = @financial_transactions_all.where(ordergroup_id: @ordergroup.id) if @ordergroup
+    @financial_transactions = @financial_transactions_all.page(params[:page]).per(@per_page)
 
     respond_to do |format|
       format.js; format.html { render }
       format.csv do
-        send_data FinancialTransactionsCsv.new(@financial_transactions).to_csv, filename: 'transactions.csv', type: 'text/csv'
+        send_data FinancialTransactionsCsv.new(@financial_transactions_all).to_csv, filename: 'transactions.csv', type: 'text/csv'
       end
     end
   end
