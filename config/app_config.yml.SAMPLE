@@ -183,7 +183,11 @@ default: &defaults
   use_libreoffice: true
 
   # email address to be used as sender
-  email_sender: info@foodcoop.nl
+  email_sender: Foodsoft <info@foodcoop.nl>
+  # contact info will be used as email from, but you can override it here
+  #email_from: FC Test <contact@foodcoop.test>
+  # reply-to address for all emails (not set by default)
+  #email_replyto: FC Test <support@foodcoop.test>
 
   # If your foodcoop uses a mailing list instead of internal messaging system
   #mailing_list: list@example.org

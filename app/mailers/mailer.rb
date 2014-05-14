@@ -9,10 +9,6 @@ class Mailer < ActionMailer::Base
 
   layout 'email'  # Use views/layouts/email.txt.erb
 
-  default from: "FoodSoft <#{FoodsoftConfig[:email_sender]}>",
-          sender: FoodsoftConfig[:email_sender],
-          errors_to: FoodsoftConfig[:email_sender]
-  
   # Sends an email with instructions on how to reset the password.
   # Assumes user.setResetPasswordToken has been successfully called already.
   def reset_password(user)
@@ -71,8 +67,6 @@ class Mailer < ActionMailer::Base
 
     mail :to => FoodsoftConfig[:notification]["error_recipients"],
          :from => "#{show_user user} <#{user.email}>",
-         :sender => FoodsoftConfig[:notification]["sender_address"],
-         :errors_to => FoodsoftConfig[:notification]["sender_address"],
          :subject => "[#{FoodsoftConfig[:name]}] " + I18n.t('mailer.feedback.subject', :email => user.email)
   end
 
@@ -116,5 +110,13 @@ class Mailer < ActionMailer::Base
     attachments['order.pdf'] = OrderFax.new(@order, @options).to_pdf
     attachments['order.csv'] = OrderCsv.new(@order, @options).to_csv
   end
-  
+
+  # using after_action to allow different scopes and optional defaults
+  def mail(options={})
+    options[:from] ||= FoodsoftConfig[:email_from] || "\"#{FoodsoftConfig[:name]}\" <#{FoodsoftConfig[:contact]['email']}>"
+    options[:sender] ||= FoodsoftConfig[:email_sender]
+    options[:reply_to] ||= FoodsoftConfig[:email_replyto] if FoodsoftConfig[:email_replyto]
+    super
+  end
+
 end
