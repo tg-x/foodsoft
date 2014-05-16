@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140308121941) do
+ActiveRecord::Schema.define(:version => 20140516125606) do
 
   create_table "adyen_notifications", :force => true do |t|
     t.boolean  "live",                                :default => false, :null => false
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20140308121941) do
     t.integer  "next_weekly_tasks_number",                               :default => 8
     t.boolean  "ignore_apple_restriction",                               :default => false
     t.boolean  "approved",                                               :default => false
+    t.string   "price_markup_key"
   end
 
   add_index "groups", ["name"], :name => "index_groups_on_name", :unique => true

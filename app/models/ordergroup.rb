@@ -18,6 +18,10 @@ class Ordergroup < Group
   validate :uniqueness_of_name, :uniqueness_of_members
 
   after_create :update_stats!
+  after_initialize do
+    # make sure there is a default value
+    self.price_markup_key ||= FoodsoftConfig[:price_markup] if FoodsoftConfig[:price_markup_list]
+  end
 
   def contact
     "#{contact_phone} (#{contact_person})"
@@ -117,6 +121,15 @@ class Ordergroup < Group
     og
   end
   
+  # return price markup percentage for this ordergroup
+  def markup_pct
+    if list = FoodsoftConfig[:price_markup_list]
+      list[price_markup_key]['markup'].to_f
+    else
+      FoodsoftConfig[:price_markup].to_f
+    end
+  end
+
   private
 
   # Make sure, that a user can only be in one ordergroup
