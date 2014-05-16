@@ -18,10 +18,7 @@ class Ordergroup < Group
   validate :uniqueness_of_name, :uniqueness_of_members
 
   after_create :update_stats!
-  after_initialize do
-    # make sure there is a default value
-    self.price_markup_key ||= FoodsoftConfig[:price_markup] if FoodsoftConfig[:price_markup_list]
-  end
+  after_initialize :default_price_markup_key
 
   def contact
     "#{contact_phone} (#{contact_person})"
@@ -147,6 +144,14 @@ class Ordergroup < Group
       message = group.first.deleted? ? :taken_with_deleted : :taken
       errors.add :name, message
     end
+  end
+
+  def default_price_markup_key
+    # make sure there is a default value
+    self.price_markup_key ||= FoodsoftConfig[:price_markup] if FoodsoftConfig[:price_markup_list]
+  rescue ActiveModel::MissingAttributeError
+    # this should only happen on Model.exists?() call. It can be safely ignored.
+    # http://www.tatvartha.com/2011/03/activerecordmissingattributeerror-missing-attribute-a-bug-or-a-features/
   end
 
   # generate an unique ordergroup name from a user
