@@ -5,6 +5,6 @@
   %td.center= "#{goa.quantity} + #{goa.tolerance}"
   %td.center.input-delta= group_order_article_edit_result(goa)
   %td.symbol &times;
-  %td= number_to_currency goa.order_article.price.fc_price
+  %td= number_to_currency goa.order_article.price.fc_price(@ordergroup)
   %td.symbol =
   %td.price{data: {value: goa.total_price}}= number_to_currency goa.total_price

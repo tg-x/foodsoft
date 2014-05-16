@@ -21,7 +21,7 @@ class MultipleOrdersByArticles < OrderPdf
         rows << [goa.group_order.ordergroup.name,
                  "#{goa.quantity} + #{goa.tolerance}",
                  goa.result,
-                 number_to_currency(order_article.price.fc_price * goa.result)]
+                 number_to_currency(goa.total_price(order_article))]
         dimrows << rows.length if goa.result == 0
       end
       next if rows.length == 0

@@ -18,8 +18,8 @@ class MultipleOrdersByGroups < OrderPdf
       dimrows = []
 
       GroupOrderArticle.ordered.joins(:group_order => :order).where(:group_orders =>{:ordergroup_id => ordergroup.id}).where(:orders => {id: @order}).includes(:order_article).reorder('orders.id').each do |goa|
-        price = goa.order_article.price.fc_price
-        sub_total = price * goa.result
+        price = goa.order_article.price.fc_price(goa.group_order.ordergroup)
+        sub_total = goa.total_price
         total += sub_total
         rows <<  [goa.order_article.article.name,
                   goa.order_article.article.unit,
