@@ -38,7 +38,7 @@ class MultipleOrdersByArticles < OrderPdf
 
       text "<b>#{order_article.article.name}</b> " +
            "(#{order_article.article.unit}, #{number_to_currency order_article.price.fc_price}, " +
-           units_history_line(order_article, @order, plain: true) + ')',
+           units_history_line(order_article, nil, plain: true) + ')',
            size: fontsize(10), inline_format: true
       table rows, cell_style: {size: fontsize(8), overflow: :shrink_to_fit} do |table|
         table.cells.borders = [:bottom]
