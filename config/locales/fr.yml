@@ -1088,6 +1088,10 @@ fr:
       home: Page d'accueil
       title: Wiki
     workgroups: Équipes
+  number:
+    percentage:
+      format:
+        strip_insignificant_zeros: true
   order_articles:
     edit:
       stock_alert: 
