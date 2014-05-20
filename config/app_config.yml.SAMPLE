@@ -31,7 +31,7 @@ default: &defaults
   # optional subtitle (empty by default)
   #sub_name: location city centre
 
-  # optional message to show on dashboard, e.g. for important announcements
+  # optional message to show on dashboard, e.g. for important announcements (html allowed)
   #home_notice: We are currently in summer-break, hope to see you again in September.
 
   # foodsoft documentation URL
