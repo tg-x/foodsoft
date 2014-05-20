@@ -8,7 +8,7 @@
             %h1
               = yield(:title)
               - if FoodsoftConfig[:sub_name]
-                .sub-logo= FoodsoftConfig[:sub_name]
+                .sub-logo= expand_text FoodsoftConfig[:sub_name]
         = yield
 
         %footer

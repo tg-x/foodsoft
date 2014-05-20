@@ -65,12 +65,12 @@ module FoodsoftSignup
     if s = FoodsoftConfig[:ordergroup_approval_payment]
       link = c.class.helpers.link_to(I18n.t('foodsoft_signup.payment.msg_link'), payment_link(c))
       msg = if FoodsoftConfig[:ordergroup_approval_msg]
-        FoodsoftConfig[:ordergroup_approval_msg].gsub /%{link}/, link
+        c.class.helpers.expand_text(FoodsoftConfig[:ordergroup_approval_msg], link: link)
       else
         I18n.t('foodsoft_signup.payment.msg', link: link)
       end
     else
-      msg = (FoodsoftConfig[:ordergroup_approval_msg] or I18n.t('foodsoft_signup.approval.msg'))
+      msg = (c.expand_text(FoodsoftConfig[:ordergroup_approval_msg]) or I18n.t('foodsoft_signup.approval.msg'))
     end
     msg
   end

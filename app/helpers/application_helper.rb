@@ -234,5 +234,13 @@ module ApplicationHelper
       content_tag :i, nil, class: 'icon-cog', style: 'color: #e3e3e3'
     end.html_safe
   end
+
+  # allow to replace some variables in a text
+  # TODO make this general
+  def expand_text(txt, options = {})
+    txt = txt.gsub(/%{contact\.([_a-zA-Z0-9]+)}/) {|s| FoodsoftConfig[:contact][$1]}
+    options.each { |k,v| txt = txt.gsub(/%{#{k}}/) {|s| options[k]} }
+    txt
+  end
   
 end
