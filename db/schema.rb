@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140516125606) do
+ActiveRecord::Schema.define(:version => 20140521142651) do
 
   create_table "adyen_notifications", :force => true do |t|
     t.boolean  "live",                                :default => false, :null => false
@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(:version => 20140516125606) do
     t.string   "min_order_quantity"
     t.datetime "deleted_at"
     t.string   "article_info_url"
+    t.string   "shared_sync_method"
   end
 
   add_index "suppliers", ["name"], :name => "index_suppliers_on_name", :unique => true
