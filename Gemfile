@@ -85,7 +85,6 @@ group :development do
   
   # Deploy with Capistrano
   gem 'capistrano', '~> 3.2.0', require: false
-  gem 'net-ssh', '= 2.7.0' # until https://github.com/net-ssh/net-ssh/issues/148 is fixed, >2.8.0
   gem 'capistrano-rvm', require: false
   gem 'capistrano-bundler', '>= 1.1.0', require: false
   gem 'capistrano-rails', require: false
