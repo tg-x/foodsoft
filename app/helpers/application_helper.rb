@@ -238,6 +238,7 @@ module ApplicationHelper
   # allow to replace some variables in a text
   # TODO make this general
   def expand_text(txt, options = {})
+    return if txt.blank?
     txt = txt.gsub(/%{contact\.([_a-zA-Z0-9]+)}/) {|s| FoodsoftConfig[:contact][$1]}
     options.each { |k,v| txt = txt.gsub(/%{#{k}}/) {|s| options[k]} }
     txt

@@ -70,7 +70,7 @@ module FoodsoftSignup
         I18n.t('foodsoft_signup.payment.msg', link: link)
       end
     else
-      msg = (c.expand_text(FoodsoftConfig[:ordergroup_approval_msg]) or I18n.t('foodsoft_signup.approval.msg'))
+      msg = (c.class.helpers.expand_text(FoodsoftConfig[:ordergroup_approval_msg]) or I18n.t('foodsoft_signup.approval.msg'))
     end
     msg
   end
