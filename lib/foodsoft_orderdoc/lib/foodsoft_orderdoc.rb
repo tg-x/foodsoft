@@ -32,8 +32,10 @@ module FoodsoftOrderdoc
     article_data = order.order_articles.ordered.includes(:article).map do |oa|
       shared_article = oa.article.shared_article
       units_to_order = oa.units_to_order
+      unit_quantity = oa.price.unit_quantity
       # convert units back if needed
       if shared_article and shared_article.unit_quantity != oa.article.unit_quantity
+        unit_quantity = shared_article.unit_quantity
         fc_unit = (::Unit.new(oa.article.unit) rescue nil)
         supplier_unit = (::Unit.new(shared_article.unit) rescue nil)
         if fc_unit and supplier_unit and fc_unit =~ supplier_unit
@@ -48,6 +50,7 @@ module FoodsoftOrderdoc
       {
         order_number: oa.article.order_number,
         result: units_to_order,
+        unit_quantity: unit_quantity,
         srcdata: (shared_article.srcdata if shared_article)
       }
     end

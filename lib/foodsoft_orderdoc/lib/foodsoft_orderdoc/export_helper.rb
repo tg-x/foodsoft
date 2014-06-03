@@ -9,8 +9,8 @@
 #
 #
 #    ExportHelper.export([
-#      {result: 1, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 11, col: 5}},
-#      {result: 5, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 27, col: 5}},
+#      {result: 1, unit_quantity: 1, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 11, col: 5}},
+#      {result: 6, unit_quantity: 3, srcdata: {file: '20140217_Aanbod_week_8-9.xlsx', sheet: 0, row: 27, col: 5}},
 #    ])
 #
 require 'fileutils'
@@ -56,7 +56,12 @@ module FoodsoftOrderdoc::ExportHelper
       File.open(celldata, 'w+') do |f|
         article_data.each do |a|
           p = a[:srcdata] or next
-          f.puts "#{p[:sheet].to_i} #{p[:row].to_i} #{p[:col].to_i} #{a[:result]}"
+          value = case p[:val]
+                  when nil, 'result' then a[:result]
+                  when 'quantity' then a[:unit_quantity].to_i * a[:result].to_f
+                  else '?'
+                  end
+          f.puts "#{p[:sheet].to_i} #{p[:row].to_i} #{p[:col].to_i} #{value}"
         end
       end
       Rails.logger.debug "libreoffice --headless --nolockcheck 'macro:///Standard.Module1.UpdateCells(#{dst},#{celldata})' >/dev/null"
