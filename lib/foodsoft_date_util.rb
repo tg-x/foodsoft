@@ -5,12 +5,12 @@ module FoodsoftDateUtil
       schedule = IceCube::Schedule.new(start)
       schedule.add_recurrence_rule IceCube::Rule.from_ical(options[:recurr])
       # TODO handle ical parse errors
-      occ = (schedule.next_occurrence(from).to_time rescue nil)
+      occ = (Time.parse(schedule.next_occurrence(from)) rescue nil)
     else
       occ = start
     end
     if occ and options[:time]
-      occ = occ.beginning_of_day.advance(seconds: options[:time].to_time.seconds_since_midnight)
+      occ = occ.beginning_of_day.advance(seconds: Time.parse(options[:time]).seconds_since_midnight)
     end
     occ
   end
