@@ -419,8 +419,7 @@ en:
       body: <p>The file has to be a text file with the ending <tt>.csv</tt> The first line will be ignored when imported</p> <p>The fields have to be separated with semicolons (';') and the text enclosed by double quotation marks ("text...").</p> <p>As character set UTF-8 is demanded. Order of the columns:</p>
       body_convert: <p>The file is a spreadsheet (ending with <tt>.xls</tt>, <tt>.xlsx</tt>, <tt>.ods</tt>, <tt>.sxc</tt> or <tt>.csv</tt>). The first line contains columns headers.</p><p>Order of the columns:</p>
       fields:
-        season_amount: Scaled amount
-        season_price: Scaled price
+        reserved: (Reserved)
         status: Status (x=skip)
       file_label: Please choose a compatible file
       submit: Upload file

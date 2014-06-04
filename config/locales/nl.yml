@@ -399,8 +399,7 @@ nl:
       body: <p>Het bestand is utf-8 tekstbestand zijn met als extensie <tt>.csv</tt>. De eerste regel bevat kolomhoofden.</p> <p>Velden worden met een puntkomma (';') gescheiden, en tekst mag tussen dubbele aanhalingstekstens ("Tekst...") staan.</p> <p>Volgorde van de kolommen:</p>
       body_convert: <p>Het bestand is een spreadsheet (met extensie <tt>.xls</tt>, <tt>.xlsx</tt>, <tt>.ods</tt>, <tt>.sxc</tt> of <tt>.csv</tt>). De eerste regel bevat kolomhoofden.</p> <p>Volgorde van de kolommen:</p>
       fields:
-        season_amount: 
-        season_price: 
+        reserved: (Leeg)
         status: Status (x=overslaan)
       file_label: Graag een compatibel bestand uitkiezen
       submit: Bestand uploaden

@@ -396,8 +396,7 @@ fr:
 
         <p>L''encodage du fichier doit être UTF-8. L''ordre des colonnes est:</p>'
       fields:
-        season_amount: Quantité échelonnée
-        season_price: Prix échelonné
+        reserved: 
         status: Statut (x=exclu)
       file_label: Merci de choisir un fichier compatible
       submit: Transférer le fichier
