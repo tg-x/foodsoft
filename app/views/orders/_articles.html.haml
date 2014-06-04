@@ -24,8 +24,7 @@
         - units = order_article.units
         - total_net += units * unit_quantity * net_price
         - total_gross += units * unit_quantity * gross_price
-        - cssclass = (units > 0 ? 'used' : (order_article.quantity > 0 ? 'unused' : 'unavailable'))
-        %tr{:class => cycle('even', 'odd', :name => 'articles') + ' ' + cssclass}
+        %tr{:class => cycle('even', 'odd', :name => 'articles') + ' ' + order_article_class(order_article)}
           %td.name
             = article_info_icon order_article.article, order.supplier
             = order_article.article.name
