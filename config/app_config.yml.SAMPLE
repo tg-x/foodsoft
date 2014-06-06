@@ -41,7 +41,7 @@ default: &defaults
   #applepear_url: https://github.com/foodcoops/foodsoft/wiki/%C3%84pfel-u.-Birnen
 
   # foodsoft software URL (used in footer)
-  foodsoft_url: https://github.com/foodcoops/foodsoft
+  foodsoft_url: https://github.com/foodcoop-adam/foodsoft
 
   # Default language
   #default_locale: en
@@ -51,7 +51,7 @@ default: &defaults
   #ignore_browser_locale: false
 
   # Price markup in percent
-  price_markup: 3.0
+  price_markup: 6.0
   # Alternatively, ordergroups can have different price levels as defined by
   # `price_markup_list`. The key is an identifier (which shouldn't change),
   # and contains `markup` with the markup percentage and an optional `name`.
@@ -67,7 +67,7 @@ default: &defaults
   #    name: Pick-up only
 
   # percentage to add to supplier's price when importing from the shared database
-  price_markup_shared: 3.0
+  #price_markup_shared: 3.0
 
   # default vat percentage for new articles
   tax_default: 6.0
