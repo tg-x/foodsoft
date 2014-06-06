@@ -103,6 +103,7 @@ GEM
       activerecord (>= 3.0.0)
     adyen (1.4.1)
     arel (3.0.3)
+    attribute_normalizer (1.1.0)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -426,6 +427,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_tree
+  attribute_normalizer
   better_errors
   binding_of_caller
   bootstrap-datepicker-rails

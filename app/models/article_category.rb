@@ -1,6 +1,8 @@
 class ArticleCategory < ActiveRecord::Base
   has_many :articles
 
+  normalize_attributes :name, :description
+
   validates :name, :presence => true, :uniqueness => true, :length => { :minimum => 2 }
 
   before_destroy :check_for_associated_articles

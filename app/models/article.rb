@@ -3,6 +3,8 @@ class Article < ActiveRecord::Base
 
   # Replace numeric seperator with database format
   localize_input_of :price, :tax, :deposit
+  # Get rid of unwanted whitespace. {Unit#new} may even bork on whitespace.
+  normalize_attributes :name, :unit, :note, :manufacturer, :origin, :order_number
 
   # Associations
   belongs_to :supplier
