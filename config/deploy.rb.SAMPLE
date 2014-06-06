@@ -49,9 +49,15 @@ set :linked_dirs,         %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundl
 # put this in your config/<stage>.rb
 #server fetch(:domain), user: fetch(:user), roles: [:web, :app, :resque, :db]
 
-# if you use RVM, uncomment the line in Capfile, and optionally uncomment rvm settings
-set :rvm_type,           :system
-#set :rvm_ruby_version,   '2.0'
+# If you use RVM, uncomment the line in Capfile, and optionally uncomment rvm settings
+#set :rvm_ruby_string,     :system
+#set :rvm_ruby_version,    '2.1'
+# You can use use system-wide gems for sharing them between applications.
+#   This can break git repos in the Gemfile, use bundler config for that.
+#   http://bundler.io/v1.2/git.html#local
+#set :bundle_path,        nil
+#set :bundle_binstubs,    nil
+#set :bundle_flags,       '--system --quiet'
 
 # task hooks
 namespace :deploy do
