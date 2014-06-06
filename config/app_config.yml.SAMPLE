@@ -40,6 +40,9 @@ default: &defaults
   # documentation URL for the apples&pears work system
   #applepear_url: https://github.com/foodcoops/foodsoft/wiki/%C3%84pfel-u.-Birnen
 
+  # foodsoft software URL (used in footer)
+  foodsoft_url: https://github.com/foodcoops/foodsoft
+
   # Default language
   #default_locale: en
   # By default, foodsoft takes the language from the webbrowser/operating system.
@@ -194,6 +197,8 @@ default: &defaults
 
   # To import other spreadsheets than csv, libreoffice can be used. Disabled by default.
   use_libreoffice: true
+  # Page footer (html allowed). Default is a Foodsoft footer. Set to `blank` for no footer.
+  #page_footer: Brought to you by <a href="http://www.hoster.net/">Hoster</a>.
 
   # email address to be used as sender
   email_sender: Foodsoft <info@foodcoop.nl>
