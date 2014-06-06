@@ -198,7 +198,7 @@ default: &defaults
   # To import other spreadsheets than csv, libreoffice can be used. Disabled by default.
   use_libreoffice: true
   # Page footer (html allowed). Default is a Foodsoft footer. Set to `blank` for no footer.
-  page_footer: <a href="%{homepage}">%{name}</a> wordt ondersteund door <a href="http://www.foodcoop.nl/">FoodCoopNL</a>
+  page_footer: <a href="%{homepage}">%{name}</a> ism <a href="http://www.foodcoop.nl/">FoodCoopNL</a>
 
   # email address to be used as sender
   email_sender: Foodsoft <info@foodcoop.nl>
