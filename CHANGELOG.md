@@ -1,5 +1,25 @@
+# Foodsoft 3.3.4-adam
+(10 Jun 2014)
+
+* Allow donations with membership fee payment
+* Allow to show extra text on membership fee payment page
+* Improve performance of certain queries
+* Only show navigation items that are accessible
+* New view for all transactions
+* Send emails to members in their own language
+* Make CSV export more compatible with Microsoft Excel (using ; as separator)
+* Allow different foodcoop markup levels for ordergroups
+* Hide insignificant zeroes for percentage (no more 6.000%, but 6%)
+* Allow to use a small number of variables in configurable texts
+* Allow to synchronize all articles of a shared supplier
+* Give partially unused articles an orange colour in view order
+* Add page footer
+* Bugfix: export orderdoc in same file format as original (requires reinstalling the macro)
+* Bugfix: protected signup (with key) didn't work
+* Bugfix: fix member ordering on Internet Explorer (clicks weren't registered on IE11+)
+
 # Foodsoft 3.3.3-adam
-(17 apr 2014)
+(17 Apr 2014)
 
 * Article uploads support Microsoft Excel and OpenOffice.org file formats
 * Most other plugins can now be enabled/disabled on a per-foodcoop basis
