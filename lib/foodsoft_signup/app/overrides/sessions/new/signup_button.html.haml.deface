@@ -1,0 +1,5 @@
+/ insert_bottom '.span3'
+- if FoodsoftSignup.enabled? :signup
+  .center
+    %p= t '.signup_text'
+    %p= link_to t('.signup_link', name: FoodsoftConfig[:name]), url_for(action: 'signup', controller: 'signup'), class: 'btn'

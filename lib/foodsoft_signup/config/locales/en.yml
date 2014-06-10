@@ -22,6 +22,10 @@ en:
     financial_transactions:
       new:
         membership_fee_note: An amount of %{fee} or more will approve the membership.
+  sessions:
+    new:
+      signup_text: No account yet?
+      signup_link: Signup for %{name}
   signup:
     controller:
       disabled: You cannot signup yourself for %{foodcoop}. Please contact us to become a member.

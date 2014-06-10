@@ -59,6 +59,26 @@ body {
   margin: 0;
 }
 
+// Narrow control labels
+@media (min-width: 768px) {
+  .form-label-small {
+    .control-label {
+      width: 120px;
+    }
+    .controls {
+      margin-left: 140px;
+    }
+  }
+}
+
+// Login layout
+.layout-login {
+  @media(min-width: 600px) {
+    width: 600px;
+    margin: 0 auto;
+  }
+}
+
 // Light tooltips without empty space below tables
 .tooltip-inner {
   color: #000;
