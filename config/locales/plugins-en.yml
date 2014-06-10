@@ -1,13 +1,88 @@
 en:
   activerecord:
     attributes:
+      article_category:
+        scope: Foodcoop
+      group:
+        scope: Foodcoop
+      order:
+        scope: Foodcoop
       ordergroup:
         approved: Membership approved
         approved_short: Approved
+      supplier:
+        scope: Foodcoop
+      task:
+        scope: Foodcoop
+  current_orders:
+    articles:
+      form:
+        article_placeholder: Choose an article...
+        current_orders: All current orders
+        no_selection: Choose an article to show who ordered it.
+      index:
+        title: Articles in current orders
+      ordergroups:
+        add_new: Add an ordergroup...
+      show:
+        title: 'Article: %{name}'
+    group_orders:
+      index:
+        title: Your current orders
+    ordergroups:
+      articles:
+        add_new: Add an article...
+      form:
+        no_selection: Choose an ordergroup to show the articles.
+        ordergroup_placeholder: Choose an ordergroup...
+      index:
+        title: Articles for ordergroup
+      payment_bar:
+        account_balance: Account balance
+        new_pin: PIN
+        new_transaction: New transaction
+        payment: 'Payment:'
+      show:
+        title: Articles for %{name}
+    orders:
+      combined_pdf: Combined PDF
+      receive:
+        no_finished_orders: There are currently no orders to receive.
+        title: Receive orders
+  documents:
+    multiple_orders_by_articles:
+      filename: Current orders sorted by article
+      title: Current orders - by article
+    multiple_orders_by_groups:
+      filename: Current orders sorted by group
+      title: Current orders - by group
+    multiple_orders_scope_by_articles:
+      filename:
+        one: Order by foodcoop and article
+        other: "%{count} orders by foodcoop and article"
+      title:
+        one: Order - by foodcoop and article
+        other: "%{count} orders - by foodcoop and article"
+    multiple_orders_scope_by_groups:
+      filename:
+        one: Order by foodcoop
+        other: "%{count} orders by foodcoop"
+      title:
+        one: Order - by foodcoop
+        other: "%{count} orders - by foodcoop"
   finance:
     financial_transactions:
       new:
         membership_fee_note: An amount of %{fee} or more will approve the membership.
+  foodsoft_demo:
+    autologin:
+      fields:
+        email: demo%{id}@foodcoop.test
+        first_name: Demo
+        last_name: "#%{id}"
+        nick: demo%{id}
+    restrict_new_message:
+      notice_disabled: This is just a demo, you'll be able to communicate with other members on the real site.
   foodsoft_signup:
     approval:
       msg: Your membership needs to be approved before you can participate.
@@ -22,7 +97,59 @@ en:
       msg_link: do online
       pay_label: Membership fee
       pay_title: Pay your membership
+  group_orders:
+    group_order_totals:
+      payable: Total payable
+      payment_fee: Transaction costs
+      previous_deficit: Previous deficit
+      previous_surplus: Already paid
+  helpers:
+    current_orders:
+      pay_amount: To pay %{amount}
+      pay_done: Fully paid
+      pay_none: Nothing to pay
+    payorder:
+      paid: paid
+      payment: Payment
+      payment_prompt: Pay for your orders
+  lib:
+    foodsoft_orderdoc:
+      error_no_srcdata: Articles present that have no associated spreadsheet. You may need to synchronise first.
+      error_spreadsheet_multiple: Articles do not belong to a single spreadsheet. You may need to synchronise first.
+      error_spreadsheet_none: Articles have no associated spreadsheet. You may need to synchronise first.
+  multishared_signup:
+    error_no_ordergroup: Please ask your foodcoop to place you in an ordergroup.
+    error_scope_denied: This is not a foodcoop you can join yourself.
+    form:
+      search_placeholder: Search city or name...
+    full: full
+    index:
+      submit: to signup
+      text: 'Select which foodcoop you''d like to join:'
+    orders:
+      fc_articles_pdf: Foodcoop article PDF
+      fc_group_pdf: Foodcoop group PDF
+    profile:
+      subtitle: You are part of foodcoop
+    select_foodcoop:
+      body: "<p>Currently you are part of %{name}. If you would like to join a different foodcoop instead, you can do so here. Select your new foodcoop, and continue. Afterwards, you'll need to login again.<p><p>Please note that you may not be able to come back to the current foodcoop after leaving.</p>"
+      notice: You have moved from %{from} to %{to}.
+      submit: change foodcoop
+      text: 'Select which foodcoop you''d like to join instead:'
+      title: Move to a different foodcoop
   payments:
+    adyen_hpp:
+      form:
+        amount_pay: Amount to pay
+        submit: Pay at your bank
+      new:
+        title: Credit your account
+      result:
+        cancelled: Payment cancelled.
+        error: An error occured while processing the payment.
+        notice_success: Online payment succeeded, your account will be updated shortly.
+        refused: Payment refused.
+        unknown: 'An error occured: payment returned an unknown status.'
     adyen_pin:
       index:
         title: PIN payment
@@ -30,18 +157,31 @@ en:
       controller:
         result:
           failed: Payment failed.
-          notice: Your account has been credited.
+          notice: Your account was credited.
+          wait: Your account will be credited when the payment is received.
+        transaction_note: "%{method} payment"
       form:
         amount_pay: Amount to pay
         bank: Your bank
+        method: Pay using
         submit: Pay at your bank
       new:
         title: Credit your account
     navigation:
       pin: PIN terminal
+  sessions:
+    new:
+      signup_link: Signup for %{name}
+      signup_text: No account yet?
   signup:
     controller:
       disabled: You cannot signup yourself for %{foodcoop}. Please contact us to become a member.
+      key_wrong: Signup for %{foodcoop} is not public. Please contact us to be come a member.
       notice: Congratulations, your account has been created.
+      ordergroup_limit: I'm sorry, %{foodcoop} has already reached the maximum of %{max} members.
     signup:
+      body: "<p>Do you want to become a member of %{foodcoop}? Then please fill in this form!</p>"
+      submit: Create a Foodsoft account
       title: Join %{name}
+  ui:
+    back: Back

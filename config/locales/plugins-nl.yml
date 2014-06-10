@@ -1,13 +1,88 @@
 nl:
   activerecord:
     attributes:
+      article_category:
+        scope: Foodcoop
+      group:
+        scope: Foodcoop
+      order:
+        scope: Foodcoop
       ordergroup:
         approved: Lidmaatschap bevestigd
         approved_short: Bevestigd
+      supplier:
+        scope: Foodcoop
+      task:
+        scope: Foodcoop
+  current_orders:
+    articles:
+      form:
+        article_placeholder: Kies een artikel...
+        current_orders: Alle huidige bestellingen
+        no_selection: Kies een artikel om te zien wie het besteld heeft.
+      index:
+        title: Artikelen in huidige bestellingen
+      ordergroups:
+        add_new: Huishouden toevoegen...
+      show:
+        title: 'Artikel: %{name}'
+    group_orders:
+      index:
+        title: Je laatste bestelling
+    ordergroups:
+      articles:
+        add_new: Artikel toevoegen...
+      form:
+        no_selection: Kies een huishouden om de artikelen te tonen.
+        ordergroup_placeholder: Kies een huishouden...
+      index:
+        title: Artikelen voor huishouden
+      payment_bar:
+        account_balance: Account balance
+        new_pin: PIN
+        new_transaction: Nieuwe transactie
+        payment: 'Betaling:'
+      show:
+        title: Artikelen voor %{name}
+    orders:
+      combined_pdf: Gecombineerde PDF
+      receive:
+        no_finished_orders: Er zijn momenteel geen bestellingen die ontvangen hoeven te worden.
+        title: Bestellingen ontvangen
+  documents:
+    multiple_orders_by_articles:
+      filename: Huidige bestellingen per artikel
+      title: Huidige bestellingen - per artikel
+    multiple_orders_by_groups:
+      filename: Huidige bestellingen per huishouden
+      title: Huidige bestellingen - per huishouden
+    multiple_orders_scope_by_articles:
+      filename:
+        one: Artikellijst per foodcoop van bestelling
+        other: Artikellijst per foodcoop van %{count} bestellingen
+      title:
+        one: Artikellijst per foodcoop van bestelling
+        other: Artikellijst per foodcoop van %{count} bestellingen
+    multiple_orders_scope_by_groups:
+      filename:
+        one: Foodcooplijst van bestelling
+        other: Foodcooplijst van %{count} bestellingen
+      title:
+        one: Foodcooplijst van bestelling
+        other: Foodcooplijst van %{count} bestellingen
   finance:
     financial_transactions:
       new:
         membership_fee_note: Bij %{fee} of meer wordt dit huishouden bevestigd als lid.
+  foodsoft_demo:
+    autologin:
+      fields:
+        email: demo%{id}@foodcoop.test
+        first_name: Demo
+        last_name: "#%{id}"
+        nick: demo%{id}
+    restrict_new_message:
+      notice_disabled: Dit is slechts een demo, op de echte website kun je met andere leden communiceren.
   foodsoft_signup:
     approval:
       msg: Je lidmaatschap moet bevestigd worden voordat je kunt bestellen.
@@ -22,7 +97,59 @@ nl:
       msg_link: online doen
       pay_label: Lidmaatschapsgeld
       pay_title: Betaal je lidmaatschap
+  group_orders:
+    group_order_totals:
+      payable: Totaal te betalen
+      payment_fee: Transactiekosten
+      previous_deficit: Openstaand bedrag
+      previous_surplus: Reeds betaald
+  helpers:
+    current_orders:
+      pay_amount: Te betalen %{amount}
+      pay_done: Alles betaald
+      pay_none: Niets te betalen
+    payorder:
+      paid: betaald
+      payment: Betalen
+      payment_prompt: Bestelling betalen
+  lib:
+    foodsoft_orderdoc:
+      error_no_srcdata: Eén of meer artikelen hebben geen spreadsheet. Mogelijk moeten de artikelen eerst gesynchroniseerd worden.
+      error_spreadsheet_multiple: Artikelen behoren tot verschillende spreadsheets. Mogelijk moeten de artikelen eerst gesynchroniseerd worden.
+      error_spreadsheet_none: Er is geen spreadsheet voor de artikelen. Mogelijk moeten de artikelen eerst gesynchroniseerd worden.
+  multishared_signup:
+    error_no_ordergroup: Vraag je foodcoop om je in een huishouden te plaatsen.
+    error_scope_denied: Je kunt je niet zelf aanmelden voor deze foodcoop.
+    form:
+      search_placeholder: Zoek stad of naam...
+    full: vol
+    index:
+      submit: naar inschrijven
+      text: 'Kies een foodcoop om lid van te worden:'
+    orders:
+      fc_articles_pdf: Foodcoop artikelen PDF
+      fc_group_pdf: Foodcoop huishoudens PDF
+    profile:
+      subtitle: Je bent deel van foodcoop
+    select_foodcoop:
+      body: "<p>Momenteel ben je deel van %{name}. In dit scherm kun je naar een andere foodcoop gaan. Kies je nieuwe foodcoop, en druk op de knop. Daarna wordt je gevraagd opnieuw in te loggen.</p><p>Denk eraan dat je mogelijk niet zomaar terug kunt komen in de huidige foodcoop.</p>"
+      notice: Je bent van %{from} naar %{to} gegaan.
+      submit: foodcoop veranderen
+      text: 'Kies bij welke foodcoop je je wilt aansluiten:'
+      title: Naar een andere foodcoop gaan
   payments:
+    adyen_hpp:
+      form:
+        amount_pay: 
+        submit: 
+      new:
+        title: 
+      result:
+        cancelled: 
+        error: 
+        notice_success: 
+        refused: 
+        unknown: 
     adyen_pin:
       index:
         title: Pinbetaling
@@ -31,17 +158,30 @@ nl:
         result:
           failed: Betaling mislukt.
           notice: Je account is opgewaardeerd.
+          wait: Je betaling wordt verwerkt wanneer het bedrag is ontvangen.
+        transaction_note: "%{method} betaling"
       form:
         amount_pay: Te betalen bedrag
         bank: Jouw bank
+        method: Hoe te betalen
         submit: Betalen
       new:
         title: Betalen
     navigation:
       pin: PIN terminal
+  sessions:
+    new:
+      signup_link: Schrijf je in voor %{name}
+      signup_text: Nog geen account?
   signup:
     controller:
       disabled: Je kunt je niet zelf aanmelden voor %{foodcoop}. Neem daarvoor contact met ons op.
+      key_wrong: Alleen genodigden kunnen zich aanmelden voor %{foodcoop}. Neem contact met ons om om lid te worden.
       notice: Gefeliciteerd, je hebt nu een account.
+      ordergroup_limit: Sorry, %{foodcoop} heeft het maximum aantal van %{max} leden al bereikt.
     signup:
+      body: "<p>Wil je lid worden van %{foodcoop}? Vul dan dit formulier in!</p>"
+      submit: Account maken
       title: Lid worden van %{name}
+  ui:
+    back: Terug
