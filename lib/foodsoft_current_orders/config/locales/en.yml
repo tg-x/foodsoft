@@ -1,16 +1,19 @@
 en:
   current_orders:
     articles:
+      article_info:
+        from: from %{supplier}
+        unit: per %{unit}
       form:
-        article_placeholder: Choose an article...
+        article_placeholder: Search articles...
         current_orders: All current orders
         no_selection: Choose an article to show who ordered it.
       index:
-        title: Articles in current orders
+        title: Distribute article
       ordergroups:
         add_new: Add an ordergroup...
       show:
-        title: ! 'Article: %{name}'
+        title: ! 'Distribute %{name}'
     group_orders:
       index:
         title: Your current orders

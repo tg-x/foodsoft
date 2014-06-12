@@ -1,42 +1,25 @@
-.well
-  .btn-group.pull-right
-    = link_to '#', data: {toggle: 'dropdown'}, class: 'btn dropdown-toggle' do
-      = t 'current_orders.orders.combined_pdf'
-      %span.caret
-    %ul.dropdown-menu
-      %li= link_to t('orders.show.download.group_pdf'), current_orders_orders_path(document: :groups, format: :pdf)
-      %li= link_to t('orders.show.download.article_pdf'), current_orders_orders_path(document: :articles, format: :pdf)
+.row-fluid
 
-  = form_tag current_orders_articles_path, method: :get, remote: true, 'data-submit-onchange' => true, style: 'display: inline-block; margin: 0;' do
-    = select_tag 'order_id',
-        options_for_select([[t('.current_orders'), '']] + @current_orders.includes(:supplier).reorder('suppliers.name').all.map { |g| [ g.name, g.id ] }, (@order.id rescue '')),
-        id: 'supplier_select', style: 'min-width: 250px', 'data-submit-on-change' => :true
-    - article_data = articles_for_select2(@order_articles) {|a| "#{a.article.name} (#{a.article.unit})"}
-    = select_tag 'id',
-        options_for_select(article_data.map {|a| [a[:text], a[:id]]}, (@order_article.id rescue '')),
-        id: 'order_article_select', style: 'min-width: 350px', 'data-submit-on-change' => :true,
-        'data-placeholder' => t('.article_placeholder')
+  .span4
+    .well
+      %ul.nav.nav-list#article_list
+        %li.keep
+          = form_for @q, url: current_orders_articles_path, method: 'get', html: {data: {'submit-onchange' => true}, class: 'form-search'}, remote: true do |f|
+            .input-append
+              = f.text_field :article_name_contains, placeholder: t('.article_placeholder'), class: 'search-query input-block-level resettable'
+              %button.add-on.btn.reset-search{type: 'button'}
+                %i.icon.icon-remove
+        = render 'articles', orders: @current_orders
 
-    = render 'article_info', order_article: @order_article
+  .span8
+    = render 'article', order_article: @order_article
+    = render 'shared/articles_by/common'
 
-- if @order_article
-  = render 'ordergroups', order_article: @order_article
-- else
-  %i#articles_by_articles= t '.no_selection'
-
-= render 'shared/articles_by/common'
 
 - content_for :javascript do
   :javascript
 
     $(function() {
-      // TODO group by ordered / not-ordered
-      $('#supplier_select, #order_article_select').select2();
-
-      // XXX supplier change doesn't work (yet) using ajax - redirect instead
-      $('#supplier_select').on('change', function() {
-        window.location = '#{j current_orders_articles_path}?order_id='+$(this).val()+'&id='+$('#order_article_select').val();
-      });
 
       // update number of received items - would prefer to do this server-side to
       // keep working when showing a partial list, but this avoids an extra ajax call

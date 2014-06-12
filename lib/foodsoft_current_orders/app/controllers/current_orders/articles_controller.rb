@@ -34,7 +34,9 @@ class CurrentOrders::ArticlesController < ApplicationController
     else
       @order_articles = OrderArticle.where(order_id: @current_orders.all.map(&:id))
     end
-    @order_articles = @order_articles.includes(:article, :article_price)
+    params[:q] ||= params[:search] # for meta_search instead of ransack
+    @q = OrderArticle.search(params[:q])
+    @order_articles = @order_articles.ordered.merge(@q.relation).includes(:article, :article_price)
     @order_article = @order_articles.where(id: params[:id]).first
   end
 

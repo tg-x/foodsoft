@@ -113,6 +113,11 @@ $(function() {
         }, 500));
     });
 
+    // Button to clear (search) form
+    $(document).on('click', '.reset-search', function() {
+      $('input.resettable', $(this).parentsUntil('form')).val('').trigger('changed');
+    });
+
     $('[data-redirect-to]').bind('change', function() {
         var newLocation = $(this).children(':selected').val();
         if (newLocation != "") {

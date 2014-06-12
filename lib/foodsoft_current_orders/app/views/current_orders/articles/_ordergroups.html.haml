@@ -17,7 +17,7 @@
           = f.hidden_field :order_article_id, value: order_article.id
           = f.select :ordergroup_id,
               options_for_select(Ordergroup.undeleted.order(:name).all.map { |g| [ g.name, g.id ] }),
-              {include_blank: true}, {style: 'width: 500px', 'data-placeholder' => t('.add_new')}
+              {include_blank: true}, {style: 'width: 100%', 'data-placeholder' => t('.add_new')}
       %td{colspan: 3}
     %tr#single_order_article_total
       %th= t 'shared.articles_by.price_sum'

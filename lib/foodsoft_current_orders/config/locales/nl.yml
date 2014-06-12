@@ -1,16 +1,19 @@
 nl:
   current_orders:
     articles:
+      article_info:
+        from: van %{supplier}
+        unit: per %{unit}
       form:
-        article_placeholder: Kies een artikel...
+        article_placeholder: Zoek artikelen...
         current_orders: Alle huidige bestellingen
         no_selection: Kies een artikel om te zien wie het besteld heeft.
       index:
-        title: Artikelen in huidige bestellingen
+        title: Artikelen verdelen
       ordergroups:
         add_new: Huishouden toevoegen...
       show:
-        title: ! 'Artikel: %{name}'
+        title: ! '%{name} verdelen'
     ordergroups:
       articles:
         add_new: Artikel toevoegen...
