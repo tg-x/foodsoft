@@ -466,6 +466,7 @@ nl:
       sum: Som
       title: ! 'Huishoudenslijst van bestelling: %{name}, gesloten op %{date}'
     order_fax:
+      date: verzonden %{date}
       filename: Bestelling %{name}-%{date} - Fax
       rows:
       - Nummer

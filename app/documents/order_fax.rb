@@ -45,7 +45,7 @@ class OrderFax < OrderPdf
     end
 
     move_down 5
-    text Date.today.strftime(I18n.t('date.formats.default')), align: :right
+    text I18n.t('documents.order_fax.date', date: Date.today.strftime(I18n.t('date.formats.default'))), align: :right, size: fontsize(9)
 
     if @options[:delivered_before]
       move_down 10
