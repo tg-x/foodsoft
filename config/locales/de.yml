@@ -853,7 +853,7 @@ de:
       footer_4_help: 'Hilfe: %{url}'
     foodsoft: Foodsoft
     footer:
-      revision: Revision %{rev}
+      revision: Revision %{revision}
     header:
       feedback:
         desc: Fehler gefunden? Vorschlag? Idee? Kritik?

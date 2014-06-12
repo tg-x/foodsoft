@@ -871,7 +871,7 @@ nl:
       footer_4_help: 'Help: %{url}'
     foodsoft: Foodsoft
     footer:
-      revision: revisie %{rev}
+      revision: revisie %{revision}
     header:
       feedback:
         desc: Foutje gevonden? Suggesties? Ideeën? Commentaar?
