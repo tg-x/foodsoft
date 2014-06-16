@@ -23,12 +23,33 @@
 
       // update number of received items - would prefer to do this server-side to
       // keep working when showing a partial list, but this avoids an extra ajax call
-      $(document).on('GroupOrderArticle#update', function(e) {
+      $(document).on('GroupOrderArticle#update #update_articles_summary', function(e) {
         var count_sum = 0;
+        // number of received items
         $('#articles_by_articles input[data-delta]').each(function() {
           count_sum += Number($(this).val());
         });
         $('#single_order_article_total .count_sum').html(count_sum);
+        // delta
+        // @todo partial code-duplication with orders/_edit_amounts
+        var expected = $('#single_order_article_delta .units_delta').data('quantity-expected');
+        var delta = Math.round((count_sum - expected)*100)/100.0;
+        if (isNaN(delta)) {
+          html = '';
+          color = 'inherit';
+        } else if (delta == 0) {
+          html = I18n.t('js.current_orders.articles.equal');
+          color = 'green';
+          //$('#single_order_article_total .count_sum').html(count_sum + ' <i class="icon-ok"></i>');
+        } else if (delta < 0) {
+          html = I18n.t('js.current_orders.articles.below', {count: -delta});
+          color = 'inherit';
+        } else {
+          html = I18n.t('js.current_orders.articles.above', {count: delta});
+          color = 'red';
+        }
+        $('#single_order_article_delta .units_delta').html(html).attr('style', 'color: '+color);
+        $('#single_order_article_total .count_sum').attr('style', 'color: '+color);
       });
 
       // add ordergroup

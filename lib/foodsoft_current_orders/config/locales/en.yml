@@ -1,13 +1,14 @@
 en:
   current_orders:
     articles:
+      article:
+        no_selection: Choose an article to show who ordered it.
       article_info:
         from: from %{supplier}
         unit: per %{unit}
       form:
         article_placeholder: Search articles...
         current_orders: All current orders
-        no_selection: Choose an article to show who ordered it.
       index:
         title: Distribute article
       ordergroups:
@@ -49,5 +50,11 @@ en:
       pay_done: Fully paid
       pay_none: Nothing to pay
       pay_amount: To pay %{amount}
+  js:
+    current_orders:
+      articles:
+        above: '%{count} more than available'
+        below: '%{count} left over'
+        equal: all distributed
   ui:
     back: Back

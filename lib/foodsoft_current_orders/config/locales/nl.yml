@@ -1,13 +1,14 @@
 nl:
   current_orders:
     articles:
+      article:
+        no_selection: Kies een artikel om te zien wie het besteld heeft.
       article_info:
         from: van %{supplier}
         unit: per %{unit}
       form:
         article_placeholder: Zoek artikelen...
         current_orders: Alle huidige bestellingen
-        no_selection: Kies een artikel om te zien wie het besteld heeft.
       index:
         title: Artikelen verdelen
       ordergroups:
@@ -41,6 +42,12 @@ nl:
     multiple_orders_by_groups:
       filename: Huidige bestellingen per huishouden
       title: Huidige bestellingen - per huishouden
+  js:
+    current_orders:
+      articles:
+        above: '%{count} meer dan beschikbaar'
+        below: '%{count} blijft over'
+        equal: alles verdeeld
   helpers:
     current_orders:
       pay_done: Alles betaald

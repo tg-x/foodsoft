@@ -171,6 +171,12 @@ table {
   text-align: center;
 }
 
+tr.no-top-border {
+  td, th {
+    border-top: none;
+  }
+}
+
 .price_markup_note {
   color: @articleUnavailColor;
   font-weight: normal;
@@ -208,6 +214,9 @@ th.price_markup_note {
 }
 .unused {
   color: @articleUnusedColor;
+}
+.dimmed {
+  color: tint(@textColor, @nonessentialDim);
 }
 
 .order-article {
