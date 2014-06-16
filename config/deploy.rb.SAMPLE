@@ -106,6 +106,7 @@ namespace :deploy do
       notifier_prefix = fetch(:suburi).gsub /-/, ''
       execute :sed, '-i', "'s|foodsoft_notifier|#{notifier_prefix}_foodsoft_notifier|'",
         release_path.join('app/workers/*_notifier.rb'),
+        release_path.join('lib/foodsoft_*/app/workers/*_notifier.rb'),
         release_path.join('lib/tasks/resque.rake')
     end
   end
