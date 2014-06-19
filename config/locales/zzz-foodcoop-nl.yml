@@ -75,24 +75,30 @@ nl:
     index:
       to_archive: Bekijk je %{archive_link}.
       to_archive_link: vorige bestellingen
+  layouts:
+    header:
+      ordergroup: Rekeningafschrift
   navigation:
-    current_orders:
-      articles: Artikelen verdelen
-      ordergroups: Ledenbestellingen controleren
-    balancing: Bestellingen afsluiten
-    financial_overview: Financiëel overzicht
-    receive: Levering ontvangen
-    stage:
-      prepare: Voorbereiden
-      distribute: Verdelen
-      pickup: Ophalen
-      post_admin: Afsluiten
-    orders:
-      title: Bestellingen openen & sluiten
-    suppliers: Leveranciers & artikelen
-    membership: Lidmaatschap
-    member_payments: Betalingen invoeren
-    other: Overig
+    prepare:
+      _title: Bestellen
+      suppliers: Assortiment
+      orders: Bestelcyclus
+    distribute:
+      _title: Verdelen
+      receive: Ontvangen
+      articles: Verdelen
+      ordergroups: Ledenbestellingen
+    finances:
+      _title: Financiën
+      balancing: Tegoeden bijwerken
+      accounts: Betalingen
+      invoices: Facturen
+    admin:
+      _title: Lidmaatschap
+      users: Gebruikers
+      ordergroups: Huishoudens
+    config:
+      _title: Configuratie
   orders:
     finish:
       confirm_end: Je staat op het punt de bestelling te sluiten. Hierna kun je niet meer terug.

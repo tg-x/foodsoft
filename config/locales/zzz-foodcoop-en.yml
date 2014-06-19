@@ -75,24 +75,30 @@ en:
     index:
       to_archive: View your %{archive_link}.
       to_archive_link: previous orders
+  layouts:
+    header:
+      ordergroup: Account statement
   navigation:
-    current_orders:
-      articles: Distribute articles
-      ordergroups: Check member orders
-    balancing: Finalize orders
-    financial_overview: Financial overview
-    receive: Receive delivery
-    stage:
-      prepare: Prepare
-      distribute: Distribute
-      pickup: Pick-up
-      post_admin: Finalize
-    orders:
-      title: Open & close orders
-    suppliers: Suppliers & articles
-    membership: Membership
-    member_payments: Member payments
-    other: Other
+    prepare:
+      _title: Order
+      suppliers: Assortment
+      orders: Order cycle
+    distribute:
+      _title: Distribute
+      receive: Receive
+      articles: Distribute
+      ordergroups: Member orders
+    finances:
+      _title: Finances
+      balancing: Update accounts
+      accounts: Payments
+      invoices: Invoices
+    admin:
+      _title: Membership
+      users: Users
+      ordergroups: Ordergroups
+    config:
+      _title: Configuration
   orders:
     finish:
       confirm_end: Do you really want to close the order? There is no going back.
