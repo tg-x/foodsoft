@@ -2,25 +2,25 @@ nl:
   documents:
     order_by_groups:
       multiple:
-        title: Verschillende bestellingen gesorteerd naar huishouden
-        filename: Verschillende bestellingen - naar huishouden
+        filename: Meerdere bestellingen - naar huishouden
+        title: Meerdere bestellingen gesorteerd naar huishouden
   finance:
     balancing:
       orders:
-        invoice_show: rekening tonen
         invoice_new: rekening toevoegen
+        invoice_show: rekening tonen
     financial_transactions:
       account_info:
         available_funds: Beschikbaar tegoed
         balance: Balans van huishouden
         finished_orders: Gesloten bestellingen
-        last_updated_at: (laatst bijgewerkt op %{when})
+        last_updated_at: "(laatst bijgewerkt op %{when})"
         open_orders: Open bestellingen
       new:
         type: Type
-        type_pin: PIN delivery day
         type_cash: cash delivery day
         type_other: other (add note)
+        type_pin: PIN delivery day
     ordergroups:
       ordergroups:
         available_funds: Beschikbaar tegoed
@@ -29,8 +29,8 @@ nl:
       title: Vorige bestellingen van %{group}
       title_open: gesloten
     min_quantity_notice:
-      status_enough_others: Er is voldoende besteld om te kunnen leveren.
       status_enough_affected: Als je jouw bestelling opslaat, is er voldoende besteld om te kunnen leveren. Bedankt!
+      status_enough_others: Er is voldoende besteld om te kunnen leveren.
       status_needed: Er is nog %{amount} nodig aan bestellingen om te kunnen leveren.
       status_needed_approx: Er is nog ca. %{amount} nodig aan bestellingen om te kunnen leveren.
       title_note: Deze leverancier heeft een minimum bestelbedrag van %{amount}.
@@ -39,38 +39,17 @@ nl:
         no_articles: Je hebt geen artikelen in deze bestelling.
       continue: Doorgaan
     switch_order:
-      open_remaining: ! 'nog %{remaining} open'
-      when_finished: ! 'gesloten sinds %{date}'
-      when_closed: ! 'afgerekend sinds %{date}'
+      open_remaining: nog %{remaining} open
+      when_closed: afgerekend sinds %{date}
+      when_finished: gesloten sinds %{date}
   helpers:
     orders:
       order_checks:
-        none_ordered: Er zijn geen artikelen te bestellen.
         min_quantity_check: "%{link} dat je de minimum bestelhoeveelheid hebt gehaald: %{text}"
         min_quantity_check_link: Controleer
         min_quantity_not_reached: Je hebt het minimum bestelbedrag van %{min_quantity} niet gehaald (totaal %{sum}).
         min_quantity_reached: Je hebt het minimum bestelbedrag van %{min_quantity} gehaald (totaal %{sum}).
-  mailer:
-    order_result_supplier:
-      line_delivered_before: 'Leverdatum: %{when}'
-      line_delivered_before_note: '(neem in geval van twijfel contact op met %{name})'
-      line_order_contact: 'Contactpersoon bestelling: %{name}, %{phone}'
-      line_delivery_contact: 'Contactpersoon levering: %{name}, %{phone}'
-      subject: Nieuwe bestelling
-      subject_with_date: Nieuwe bestelling voor %{delivered_before}
-      text: ! 'Foodcoop %{foodcoop} zou graag een bestelling plaatsen.
-
-        Zie de PDF en spreadsheet attachment voor meer informatie.
-
-'
-      footer: '
-
-        Vriendelijke groet,
-
-        %{name}
-
-        %{foodcoop}
-'
+        none_ordered: Er zijn geen artikelen te bestellen.
   home:
     index:
       to_archive: Bekijk je %{archive_link}.
@@ -78,36 +57,48 @@ nl:
   layouts:
     header:
       ordergroup: Rekeningafschrift
+  mailer:
+    order_result_supplier:
+      footer: "\nVriendelijke groet,\n%{name}\n%{foodcoop} "
+      line_delivered_before: 'Leverdatum: %{when}'
+      line_delivered_before_note: "(neem in geval van twijfel contact op met %{name})"
+      line_delivery_contact: 'Contactpersoon levering: %{name}, %{phone}'
+      line_order_contact: 'Contactpersoon bestelling: %{name}, %{phone}'
+      subject: Nieuwe bestelling
+      subject_with_date: Nieuwe bestelling voor %{delivered_before}
+      text: |
+        Foodcoop %{foodcoop} zou graag een bestelling plaatsen.
+        Zie de PDF en spreadsheet attachment voor meer informatie.
   navigation:
-    prepare:
-      _title: Bestellen
-      suppliers: Assortiment
-      orders: Bestelcyclus
-    distribute:
-      _title: Verdelen
-      receive: Ontvangen
-      articles: Verdelen
-      ordergroups: Ledenbestellingen
-    finances:
-      _title: Financiën
-      balancing: Tegoeden bijwerken
-      accounts: Betalingen
-      invoices: Facturen
     admin:
       _title: Lidmaatschap
-      users: Gebruikers
       ordergroups: Huishoudens
+      users: Gebruikers
     config:
       _title: Configuratie
+    distribute:
+      _title: Verdelen
+      articles: Verdelen
+      ordergroups: Ledenbestellingen
+      receive: Ontvangen
+    finances:
+      _title: Financiën
+      accounts: Betalingen
+      balancing: Tegoeden bijwerken
+      invoices: Facturen
+    prepare:
+      _title: Bestellen
+      orders: Bestelcyclus
+      suppliers: Assortiment
   orders:
     finish:
       confirm_end: Je staat op het punt de bestelling te sluiten. Hierna kun je niet meer terug.
       confirm_end_send: De bestelling wordt naar de leverancier verstuurd.
+      confirm_end_send_manual: 'Om de bestelling te plaatsen: download de Fax in het volgende scherm en stuur het naar de leverancier.'
       confirm_end_send_not: De bestelling wordt gesloten. Zij wordt niet naar de leverancier verstuurd.
       confirm_end_send_not_manual: De bestelling wordt gesloten. Zij hoeft niet naar de leverancier verstuurd te worden.
-      confirm_end_send_manual: 'Om de bestelling te plaatsen: download de Fax in het volgende scherm en stuur het naar de leverancier.'
-      contact_order: Contactpersoon bestelling
       contact_delivery: Contactpersoon levering
+      contact_order: Contactpersoon bestelling
       delivered_before: Leveren vóór
       delivered_before_note: Bij twijfel over de leverdatum kan de leverancier contact opnemen met de contactpersoon bestelling.
       edit_message: bericht bewerken

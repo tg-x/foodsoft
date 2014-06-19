@@ -14,7 +14,7 @@ done
 # get foodcoopnl-specific translations
 for locale in en nl; do
 	echo -n "foodcoopnl-${locale} - "
-	curl -# -o "$ROOT/config/locales/foodcoopnl-${locale}.yml" "http://www.localeapp.com/projects/6121/downloads/${locale}"
+	curl -# -o "$ROOT/config/locales/zzz-foodcoopnl-${locale}.yml" "http://www.localeapp.com/projects/6121/downloads/${locale}"
 	echo
 done
 

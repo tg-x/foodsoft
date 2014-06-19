@@ -2,25 +2,25 @@ en:
   documents:
     order_by_groups:
       multiple:
-        title: Multiple orders sorted by group
         filename: Multiple orders - by group
+        title: Multiple orders sorted by group
   finance:
     balancing:
       orders:
-        invoice_show: show invoice
         invoice_new: enter invoice
+        invoice_show: show invoice
     financial_transactions:
       account_info:
         available_funds: Available funds
         balance: Balance of account
         finished_orders: Value of finished orders
-        last_updated_at: (the account balance was last updated at %{when})
+        last_updated_at: "(the account balance was last updated at %{when})"
         open_orders: Value of open orders
       new:
         type: Type
-        type_pin: PIN delivery day
         type_cash: cash delivery day
         type_other: other (add note)
+        type_pin: PIN delivery day
     ordergroups:
       ordergroups:
         available_funds: Available funds
@@ -29,8 +29,8 @@ en:
       title: Previous orders of %{group}
       title_open: closed
     min_quantity_notice:
-      status_enough_others: The order is large enough to be delivered.
       status_enough_affected: After saving your order, the order will be large enough for delivery. Thank you!
+      status_enough_others: The order is large enough to be delivered.
       status_needed: Still %{amount} needs to be ordered so that delivery is possible.
       status_needed_approx: About %{amount} still needs to be ordered so that delivery is possible.
       title_note: This supplier has a minimum order quantity of %{amount}.
@@ -39,38 +39,17 @@ en:
         no_articles: You have no articles in this order.
       continue: Continue
     switch_order:
-      open_remaining: ! '%{remaining} remaining'
-      when_finished: ! 'closed since %{date}'
-      when_closed: ! 'settled since %{date}'
+      open_remaining: "%{remaining} remaining"
+      when_closed: settled since %{date}
+      when_finished: closed since %{date}
   helpers:
     orders:
       order_checks:
-        none_ordered: There are no articles to be ordered.
         min_quantity_check: "%{link} that you've reached the minimum order quantity: %{text}"
         min_quantity_check_link: Please check
         min_quantity_not_reached: You have not reached the minimum order quantity of %{min_quantity} with a total of %{sum}.
         min_quantity_reached: You've reached the minimum order quantity of %{min_quantity} with a total of %{sum}.
-  mailer:
-    order_result_supplier:
-      line_delivered_before: 'Deliver before: %{when}'
-      line_delivered_before_note: '(in case of doubt, please contact %{name})'
-      line_order_contact: 'Contact person for order: %{name}, %{phone}'
-      line_delivery_contact: 'Contact person for delivery: %{name}, %{phone}'
-      subject: New order
-      subject_with_date: New order for %{delivered_before}
-      text: ! 'Foodcoop %{foodcoop} would like to place an order.
-
-        Please find a PDF and spreadsheet attached.
-
-'
-      footer: '
-
-        Kind regards,
-
-        %{name}
-
-        %{foodcoop}
-'
+        none_ordered: There are no articles to be ordered.
   home:
     index:
       to_archive: View your %{archive_link}.
@@ -78,36 +57,48 @@ en:
   layouts:
     header:
       ordergroup: Account statement
+  mailer:
+    order_result_supplier:
+      footer: "\nKind regards,\n%{name}\n%{foodcoop} "
+      line_delivered_before: 'Deliver before: %{when}'
+      line_delivered_before_note: "(in case of doubt, please contact %{name})"
+      line_delivery_contact: 'Contact person for delivery: %{name}, %{phone}'
+      line_order_contact: 'Contact person for order: %{name}, %{phone}'
+      subject: New order
+      subject_with_date: New order for %{delivered_before}
+      text: |
+        Foodcoop %{foodcoop} would like to place an order.
+        Please find a PDF and spreadsheet attached.
   navigation:
-    prepare:
-      _title: Order
-      suppliers: Assortment
-      orders: Order cycle
-    distribute:
-      _title: Distribute
-      receive: Receive
-      articles: Distribute
-      ordergroups: Member orders
-    finances:
-      _title: Finances
-      balancing: Update accounts
-      accounts: Payments
-      invoices: Invoices
     admin:
       _title: Membership
-      users: Users
       ordergroups: Ordergroups
+      users: Users
     config:
       _title: Configuration
+    distribute:
+      _title: Distribute
+      articles: Distribute
+      ordergroups: Member orders
+      receive: Receive
+    finances:
+      _title: Finances
+      accounts: Payments
+      balancing: Update accounts
+      invoices: Invoices
+    prepare:
+      _title: Order
+      orders: Order cycle
+      suppliers: Assortment
   orders:
     finish:
       confirm_end: Do you really want to close the order? There is no going back.
       confirm_end_send: The order will be sent to the supplier.
+      confirm_end_send_manual: To place the order, download the Fax in the following screen and send it to the supplier.
       confirm_end_send_not: The order will be closed. It will not be sent to the supplier.
       confirm_end_send_not_manual: The order will be closed. You do not need to send it to the supplier.
-      confirm_end_send_manual: To place the order, download the Fax in the following screen and send it to the supplier.
-      contact_order: Order contact
       contact_delivery: Delivery contact
+      contact_order: Order contact
       delivered_before: Deliver before
       delivered_before_note: In case of doubt about the delivery date, the supplier may approach the order contact.
       edit_message: edit message
