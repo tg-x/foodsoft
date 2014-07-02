@@ -136,26 +136,15 @@ $(function() {
         return false;
     });
 
-    // Show and hide loader on ajax callbacks
-    //   and run newElementsReady() afterwards for new dom elements
-    $(document).on('ajax:beforeSend', '[data-remote]', function(evt, xhr, settings) {
-        $('#loader').show();
-        // One idea was $(document).on('ajax:complete', '[data-remote'], ...)
-        // but that doesn't work for a modal dialog that replaces itself.
-        //   https://github.com/rails/jquery-ujs/issues/223
-        if (!settings.complete)
-          settings.complete = [];
-        else if (!$.isArray(settings.complete))
-          settings.complete = [settings.complete];
-        settings.complete.push(function() {
-            newElementsReady();
-            $('#loader').hide();
-        });
-    });
-
-    // Disable submit button on ajax forms
-    $(document).on('ajax:beforeSend', 'form[data-remote]', function() {
-        $(this).children('input[type="submit"]').attr('disabled', 'disabled');
+    // Handle ajax errors
+    //     render json: {error: "can't except this!"}, status: :unprocessable_entity
+    $(document).ajaxError(function(ev, xhr, settings, exception) {
+        try {
+            msg = xhr.responseJSON.error;
+        } catch(err) {
+            msg = I18n.t('errors.general');
+        }
+        alert(msg);
     });
 
     // The autocomplete attribute is used for both autocompletion and storing
@@ -166,9 +155,6 @@ $(function() {
         $(this).removeAttr('autocomplete');
       });
     });
-
-    // Use bootstrap datepicker for dateinput
-    $('.datepicker').datepicker({format: 'yyyy-mm-dd', language: I18n.locale, todayHighlight: true});
 
     // bootstrap tooltips (for price)
     //   Extra options don't work when using selector, so override defaults
@@ -187,6 +173,9 @@ $(function() {
     // See stupidtable.js for initialization of local table sorting
 
     newElementsReady();
+    $(document).ajaxComplete(function() {
+      newElementsReady();
+    });
 });
 
 // classic document ready functions not supporting jQuery.on()
@@ -195,7 +184,7 @@ $(function() {
 //   other modifications need to call this function by themselves.
 function newElementsReady() {
     // Use bootstrap datepicker for dateinput
-    $('.datepicker').datepicker({format: 'yyyy-mm-dd', language: I18n.locale});
+    $('.datepicker').datepicker({format: 'yyyy-mm-dd', language: I18n.locale, todayHighlight: true});
 
     // Use select2 for selects, except those with css class 'plain'
     $('select:not(.plain)').select2({dropdownAutoWidth: true, width: 'off'});
