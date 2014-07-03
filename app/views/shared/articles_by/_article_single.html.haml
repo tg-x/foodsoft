@@ -3,7 +3,7 @@
     %tr.list-heading
       %th.name{:colspan => "4"}>
         = order_article.article.name + ' '
-        = "(#{order_article.article.unit}, #{number_to_currency order_article.price.fc_price}"
+        = "(#{order_article.article.unit}"
         - pkg_info = pkg_helper(order_article.price)
         = ", #{pkg_info}".html_safe unless pkg_info.blank?
         )

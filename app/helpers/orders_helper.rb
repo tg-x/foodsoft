@@ -121,7 +121,8 @@ module OrdersHelper
     if order_or_supplier.kind_of?(Order) and order_or_supplier.stockit?
       link_to(order_or_supplier.name, stock_articles_path).html_safe
     else
-      link_to(@order.supplier.name, supplier_path(@order.supplier)).html_safe
+      order_or_supplier = order_or_supplier.supplier if order_or_supplier.kind_of?(Order)
+      link_to(order_or_supplier.name, supplier_path(order_or_supplier)).html_safe
     end
   end
 
