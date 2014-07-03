@@ -2,6 +2,7 @@ class GroupOrderArticlesController < ApplicationController
 
   before_filter :authenticate_finance
   before_filter :find_group_order_article, except: [:new, :create]
+  before_filter :handle_multiplier, only: [:create, :update]
 
   layout false  # We only use this controller to server js snippets, no need for layout rendering
 
@@ -71,5 +72,18 @@ class GroupOrderArticlesController < ApplicationController
 
   def find_group_order_article
     @group_order_article = GroupOrderArticle.find(params[:id])
+  end
+
+  # process +group_order_article[multiplier]+ parameter
+  def handle_multiplier
+    if goap = params[:group_order_article] and multiplier = goap[:multiplier]
+      multiplier = multiplier.to_f
+      %w(quantity tolerance result).each do |p|
+        if goap[p].present?
+          goap[p] = goap[p].to_f * multiplier
+        end
+      end
+      goap.delete :multiplier
+    end
   end
 end

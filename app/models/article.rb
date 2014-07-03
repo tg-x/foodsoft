@@ -43,6 +43,12 @@ class Article < ActiveRecord::Base
   def fc_price(group=nil)
     ArticlePrice.fc_price(self, group)
   end
+
+  # @return [Unit] Unit class for article unit, or +nil+ when unparsable.
+  # @todo check caching this value during a request doesn't give problems
+  def unit_unit
+    @unit_unit ||= (::Unit.new(self[:unit]) rescue nil)
+  end
   
   # Returns true if article has been updated at least 2 days ago
   def recently_updated

@@ -12,6 +12,7 @@ nl:
       index:
         title: Artikelen verdelen
       ordergroups:
+        piece: st
         add_new: Huishouden toevoegen...
       show:
         title: ! '%{name} verdelen'

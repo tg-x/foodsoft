@@ -12,6 +12,7 @@ en:
       index:
         title: Distribute article
       ordergroups:
+        piece: pc
         add_new: Add an ordergroup...
       show:
         title: ! 'Distribute %{name}'
