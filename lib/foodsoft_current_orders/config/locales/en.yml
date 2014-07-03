@@ -53,7 +53,7 @@ en:
   js:
     current_orders:
       articles:
-        above: '%{count} more than available'
+        above: '%{count} more<br>than available'
         below: '%{count} left over'
         equal: all distributed
   ui:

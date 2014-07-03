@@ -45,7 +45,7 @@ nl:
   js:
     current_orders:
       articles:
-        above: '%{count} meer dan beschikbaar'
+        above: '%{count} meer dan<br>beschikbaar'
         below: '%{count} blijft over'
         equal: alles verdeeld
   helpers:
